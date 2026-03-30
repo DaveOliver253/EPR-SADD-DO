@@ -635,7 +635,7 @@ System integrations use APIs or other interfaces:
   enrolment, accessed securely via Azure API Management (APIM).
 - **FSS (ServiceNow SaaS)** receives producer master data daily and invoice files periodically from
   RPD, sent via APIM.
-- **LAP CAP** (another Defra application) supplies RPD's PayCal with local authority collection and
+- **LAPCAP** (Defra application) supplies RPD's PayCal with local authority collection and
   disposal cost rates.
 - **NPWD** (legacy) and **RE/EX** (its replacement) both receive daily producer registration
   data from RPD, and send back Packaging Recovery Notes (PRNs/PERNs) addressed to producers.
@@ -1297,7 +1297,7 @@ The three objectives for the NPWD integration (RPD can send data to NPWD; RPD ca
 
 ### PayCal interfaces
 The PayCal interfaces are:
-- Input parameters from LAP CAP to PayCal that is collection & disposal cost per tonne per Packaging Material per Nation.
+- Input parameters from LAPCAP to PayCal that is collection & disposal cost per tonne per Packaging Material per Nation.
 - Producer master data daily from RPD Synapse via PayCal to the FSS system.
 - Periodic billing data from PayCal to the FSS system via APIM.
 
@@ -1557,7 +1557,7 @@ All the below sequences are manually spaced apart in time. There is no event-tri
 
 ### PayCal
 - Producer master data interface must run daily.
-- Input parameters must first be received from LAP CAP to PayCal.
+- Input parameters must first be received from LAPCAP to PayCal.
 - Only then would it be correct to run PayCal and then transfer the billing data from PayCal to the FSS system.
 
 ### RPD PRN
