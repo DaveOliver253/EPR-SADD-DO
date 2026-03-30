@@ -680,7 +680,7 @@ Using the same diagram from the previous section, here is how RPD and its extern
 This completes the RPD journey within EPR.
 
 ## 5.3 Application architecture – internal structure view
-This section looks inside the system to describe how its internal components are structured and how they relate to each other. It identifies which components belong to this system and which belong to other systems that this system depends on.
+*Opens up the “black box” from the system context to describe the internal architecture of the system and internal model/patterns utilised.  Subsystems, and subcomponents should be shown and component dependencies captured. Identifies in principle those things for which a low-level design or build document should also exist and for which an “assembly” is required either at run time or before.  It is important that this model differentiates “owned” functional components that map to functions of this system, from those that map to functions of other systems (use those other systems).  Options to visualise this could be C4 Model L3, or ArchiMate Component Model. Annotate line with useful labels to make sure the reason for the structural relationship is evident.*
 
 The internal structure of the pEPR application is straightforward. It provides a shared platform for hosting web portals, each backed by APIs that handle data exchange with four backend data services: Azure Blob Storage, Azure SQL Server, Cosmos DB, and Redis cache. Each portal follows the same three-tier architecture pattern. Data from the backend services is periodically extracted into Azure Synapse, which powers the reporting dashboards. This consistent pattern is reused across all parts of the RPD system.
 
@@ -697,7 +697,7 @@ Payments
 Illustrates the different triggers for system activity and any chaining/fundamental logic that is required (e.g. if a user creates an account, this triggers x and y, then if successful z). Ideally is a view for each use case variant/scenario/event type – of the journey a request takes through the components of the system, and allows an understanding of how a systems components co-operate to deliver a service, process a request etc. C4 Model L4 diagram or UML sequence may be appropriate for this (or potential BPMN using system service tasks as this conveys timing and events also).
 
 ### Context diagram
-The following diagram shows a high-level view of the EPR system together with the associated EPR Reporting system, together with the relevant actors and dependant external systems.
+This diagram shows a high-level view of the EPR system together with the associated EPR reporting system, along with the relevant actors and dependant external systems.
 
 <br>
 
