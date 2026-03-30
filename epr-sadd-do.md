@@ -501,7 +501,7 @@ Figure 4.1 RPD and PayCal technology - [original illo file](./illos)
 The information system (blue boxes in the diagram) is supported by the technology (green boxes), like this:
 
 - RPD front end for producers and compliance schemes is supported by the **Accounts database** during enrolment.
-- The **Anti-virus** service verifies submissions that, if successful, then go on to the **BLOb storage**. Metadata in those submission files changes their status from uploaded, to submitted, to approved/rejected etc and is also recorded on the **Cosmos NoSQL** database.
+- The **Anti-virus** service verifies submissions that, if successful, then go on to the **Blob Storage**. Metadata in those submission files changes their status from uploaded, to submitted, to approved/rejected etc and is also recorded on the **Cosmos NoSQL** database.
 - Fee payables and payments are captured in the **Fee Payments** database.
 - Finally, the RPD front end gives the window to direct registrant producers and compliance schemes to receive and accept or reject PRNs/PERNs via the **PRN database**. 
 
@@ -874,7 +874,7 @@ The journey of data is sequentially integrated from the upstream front-end creat
 - Azure SQL RDBMS is used to capture immutable Producer enrolment data, PayCal billing outputs, Fee payment rates, and PRN/PERNs.
 - Azure Synapse data warehouse is used for reporting to Regulators and for extracting input data to downstream applications PayCal, and Direct Registrant and Compliance Scheme data, even to NPWD.
 - Cosmos No-SQL database to capture metadata and file data related to Producer submissions.
-- Azure BLOb storage to hold submission files
+- Azure Blob storage to hold submission files
 - Redis cache for front-end interaction with users.
 
 #### Data management
@@ -1045,7 +1045,7 @@ The pEPR system contains five data stores
 
 ### Characteristics
 All data store types are secure and have data integrity. All persistent portal data services are configured to be geo-resilient with the primary region being UK South and the secondary region being UK West.
-Azure BLOb is used to store registration and packaging files. This is inexpensive storage used to store files for a long time. This is cold storage. It may take some time to retrieve.
+Azure Blob is used to store registration and packaging files. This is inexpensive storage used to store files for a long time. This is cold storage. It may take some time to retrieve.
 SQL RDBMS is used to capture data populated by users using the front-end screens. Being an RDBMS, the table enforces relationships giving referential integrity.
 Cosmos DB is NoSQL which holds file meta data, submission event and submission data using key value pairs. It is highly flexible in its schema, highly scalable and highly available.
 The Redis cache is transitory and non-persistent used primarily for user-session data.
@@ -1063,7 +1063,7 @@ The information in the below table has been collected from the respective archit
 | Redis cache | | | Could be critical because it is customer facing. | Some inconvenience, but customer could be requested to re-create the session. Transient DB. | |
 | Cosmos NoSQL DB | | | Critical because it is recording events. | No data loss acceptable because of primary data capture. | |
 | Azure Synapse Data warehouse | 225,000 MB For PRD; Other environments 450,000 MB. Ref: SN presentation. | Y1 - 100% due to inclusion of small producers. Y2 onwards – less than 5%pa | Possibly less critical. | May not be an issue because there is no primary data capture. | |
-| Azure BLOb storage | 210,000 MB For PRD | Y1 - 100% due to inclusion of small producers. Y2 onwards – less than 5%pa | Could be critical because it is customer facing. | No data loss is acceptable, because of primary data capture. | |
+| Azure Blob Storage | 210,000 MB For PRD | Y1 - 100% due to inclusion of small producers. Y2 onwards – less than 5%pa | Could be critical because it is customer facing. | No data loss is acceptable, because of primary data capture. | |
 
 
 
@@ -1071,13 +1071,13 @@ The information in the below table has been collected from the respective archit
 Show from a data perspective, data objects being exchanged by the application (as differentiated from data sync which is done by the platform or human actors). Can be a reuse of the component collaboration diagram if this conveys enough information about what is being exchanged, when, in what form, using what method (file message etc).
 
 Enrolment information is held in the Accounts DB.
-Registration and Packaging file submissions are held in BLOb storage. Information about these and the statuses through all the way from Uploaded to Accepted are captured in the Cosmos DB.
-There is an hourly Spark pipeline run that copies across the incremental transactions from the Accounts and Cosmos DBs and the submitted files from BLOb into the Azure Synapse data warehouse.
+Registration and Packaging file submissions are held in Blob Storage. Information about these and the statuses through all the way from Uploaded to Accepted are captured in the Cosmos DB.
+There is an hourly Spark pipeline run that copies across the incremental transactions from the Accounts and Cosmos DBs and the submitted files from Blob Storage into the Azure Synapse data warehouse.
 These objects are in the silver layer of Synapse (if one were to use the medallion structure).
 
 ### Datasets managed and integrated
 Enrolment information includes Organisation details, Producer-Compliance Scheme relationships and their authorised EPR user details. This is stored in the Accounts DB.
-Updates to organisation data (registration submission) including changes to company and/or trading names or address or company offer details. From a legal regulation perspective, registration superseded enrolment. Submitted by producers via file upload called organisation_details_table.csv stored on Azure BLOb.
+Updates to organisation data (registration submission) including changes to company and/or trading names or address or company offer details. From a legal regulation perspective, registration superseded enrolment. Submitted by producers via file upload called organisation_details_table.csv stored on Azure Blob.
 Periodic packaging submissions. Submitted by producers via CSV file upload stored on Azure BLOb. The last submission for a period supersedes earlier ones.
 Submission data and metadata are created in the Cosmos No-SQL DB.
 
@@ -1109,7 +1109,7 @@ Figure 18.0 Data flows and integrations
 Explains any requirements to maintain data “in sync” with other systems and allowed/desired latency. For example there may be a master “list of allowed values” that needs to be synchronised manually thru change control. At the other extreme there may be distributed data stores that need to be aligned automatically by the platform within seconds.
 
 The following are the instances where data needs to be in sync across the EPR systems:
-As we have seen the upstream of data capture in the Accounts DB RDBMS, Azure BLOb storage and Cosmos NoSQL DB on the one hand, and its transfer to the mid-stream Azure Synapse data warehouse takes up to one hour. This is dependent on the Spark pipeline running once an hour on a temporal trigger. This one-hour time lag is acceptable. This is delta data sync normally. The only exception to delta is during pre-release when there is a schema change, where there is a full refresh sync.
+As we have seen the upstream of data capture in the Accounts DB RDBMS, Azure Blob Storage and Cosmos NoSQL DB on the one hand, and its transfer to the mid-stream Azure Synapse data warehouse takes up to one hour. This is dependent on the Spark pipeline running once an hour on a temporal trigger. This one-hour time lag is acceptable. This is delta data sync normally. The only exception to delta is during pre-release when there is a schema change, where there is a full refresh sync.
 In the context of PRN Management, there is a delta data sync of direct registrant (DR) and compliance scheme (CS) master data from EPR to NPWD every day outside working hours. The DR and CS in turn trigger a daily transfer of newly created PRN/PERN from NPWD to EPR to specific DR or CS parties. After acceptance or rejection by that DR/CS, the PRN/PERN is synced at day’s end from EPR to their natural home in NPWD.
 
 **ADR-137 Update (from 1 February 2026):** The same organisation-data sync and PRN/PERN exchange pattern now also applies to **RE/EX (RREPW)** on CDP for the 2026 compliance year. Three new timer-triggered Azure Functions handle: (1) daily DR/CS organisation data sync from EPR to RE/EX; (2) daily retrieval of newly-issued 2026 PRNs/PERNs from RE/EX into the RPD PRN DB; and (3) real-time return of accept/reject decisions from RPD to RE/EX. The existing NPWD sync runs continue in parallel for 2025-year PRNs/PERNs.
@@ -1122,7 +1122,7 @@ Since recently there has come about another need to actively sync across systems
 Explains how data is protected from loss whether by system failure or otherwise, and how data can be restored (and with what impacts) in the event of actual data loss.
 
 As stated in section Localised Availability and Recoverability Features further down this document and at the time of writing (July 2025), the pEPR solution is only resilient to the failure of a single availability zone in the UK South region. No OAT has currently been conducted so empirical validation has not yet been proven. The current proposal for a DR strategy is to provision all the infrastructure components to the UK West region via Azure DevOps pipelines, similarly the containerised web apps and APIs will be provisioned to the UK West region via Azure DevOps pipelines. All persistent data stored will be restored from geo-resilient backups to the UK West Region, but this has not yet happened. The second availability zone in UK West is yet to be implemented.
-The table in Section 6.6 above details the real organisational requirements to downtime (RTO) and data loss (RPO) for each of the data stores. The stringent ones are the Account DB, BLOb storage and Cosmos NoSQL for RPO because these are primary capture stores, and again for RTO the Account DB, Payment DB, BLOb storage, Cosmos No SQL and PRN DB because these are customer facing.
+The table in Section 6.6 above details the real organisational requirements to downtime (RTO) and data loss (RPO) for each of the data stores. The stringent ones are the Account DB, Blob Storage and Cosmos NoSQL for RPO because these are primary capture stores, and again for RTO the Account DB, Payment DB, Blob Storage, Cosmos No SQL and PRN DB because these are customer facing.
 
 ### RTO
 From a data perspective as a Platform-as-a-service (PaaS), the Azure SQL Database service provides availability as an off-the-shelf feature with an industry-leading availability SLA of 99.99%. The Azure SQL RDBMS has an even higher SLA.
@@ -1493,7 +1493,7 @@ Detailed internal APIs within RPD & PayCal are detailed in the below table as we
 | IF-064 | | /api/v1/regulatorAccreditationTaskStatus | Updates a accreditation task status |
 | IF-065 | | /api/v1/accreditations/offlinePayment | Saves a new offline payment |
 | IF-066 | | /api/v1/accreditations/{id}/businessPlan | get business plan for a given accreditation |
-| IF-067 | | /api/v1/accreditations/file-download | Downloads a file from Azure blob storage |
+| IF-067 | | /api/v1/accreditations/file-download | Downloads a file from Azure Blob Storage |
 | IF-068 | | /api/regulators/accounts/govNotification | |
 | IF-069 | | /api/downloads/file-download | File Download |
 | IF-070 | | /api/accounts-management/invite-regulator-user | invite-regulator-user |
@@ -1707,7 +1707,7 @@ All RPD and PayCal components are instrumented using Azure-native observability 
 ### Failure handling
 - **Buffered Logging:** SDKs buffer telemetry locally if ingestion endpoints are temporarily unavailable.
 - **Sampling:** Adaptive sampling is used to manage telemetry volume; critical events are excluded from sampling.
-- **Fallback Mechanisms:** In case of persistent failures, logs can be redirected to blob storage or Event Hubs.
+- **Fallback Mechanisms:** In case of persistent failures, logs can be redirected to Blob Storage or Event Hubs.
 - **Monitoring Logging Health:** Alerts are configured to detect drops in telemetry volume or ingestion anomalies.
 
 # 9. Technology architecture
@@ -2006,7 +2006,7 @@ Cosmos DB supports multi-region writes and automatic failover, enabling high ava
 - **Controlled change:** Failover priorities and consistency levels can be configured [209].
 
 ### 5. Azure storage accounts
-Storage Accounts configured with Geo-Redundant Storage (GRS) or Zone-Redundant Storage (ZRS) allow for high availability and replication. Updates to blob containers or file shares can be done without service interruption [209].
+Storage Accounts configured with Geo-Redundant Storage (GRS) or Zone-Redundant Storage (ZRS) allow for high availability and replication. Updates to Blob Storage containers or file shares can be done without service interruption [209].
 - **Hot-swappable:** Yes, for most operations [210].
 - **Controlled change:** Replication and versioning support safe updates [210].
 
