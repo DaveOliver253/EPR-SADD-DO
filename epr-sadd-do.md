@@ -635,7 +635,7 @@ System integrations use APIs or other interfaces:
   enrolment, accessed securely via Azure API Management (APIM).
 - **FSS (ServiceNow SaaS)** receives producer master data daily and invoice files periodically from
   RPD, sent via APIM.
-- **LAPCAP** (Defra application) supplies RPD's PayCal with local authority collection and
+- **LAP CAP** (another Defra application) supplies RPD's PayCal with local authority collection and
   disposal cost rates.
 - **NPWD** (legacy) and **RE/EX** (its replacement) both receive daily producer registration
   data from RPD, and send back Packaging Recovery Notes (PRNs/PERNs) addressed to producers.
@@ -645,39 +645,39 @@ System integrations use APIs or other interfaces:
 ## 5.2 Application Architecture – External Cooperation View
 (Conversation /Collaboration) Develops the system context view to describe processing flow triggers/sequence/responses – only normally focusses on the system-to-system flows. HOWEVER, if a system-to-system flow is handled manually/semi-manually via a human actor (“swivel chair ware”) then this should be shown. ArchiMate application cooperation view could be used – but use line numbering/naming scheme to show order/sequence. Should this be complex then a forward reference to the Integration Architecture should be provided where one or more sequence diagrams maybe used, and a sketch/overview provided here.
 
-Using the same SCDD diagram from the previous section, we will step through RPD and its external actors cooperating to perform the EPR journey as below:
+Using the same diagram from the previous section, here is how RPD and its external systems work together to deliver the EPR journey:
 
-1. At the beginning, a (potential) Producer checks with the RPD service (system) to confirm whether they are obligated. If they are not obligated, then their journey stops there.
-2. If they are indeed obligated, then they enrol with RPD appropriately as a small or a large Producer. They may wish to indicate whether they are part of a CS who will represent them going forwards.
-3. As part of enrolment, RPD verifies their address with the Postcodes external service.
-4. If the Producer is a company, then RPD also verifies their company details via the external Companies House Public Data API.
-5. Both these external calls are securely made via the Azure API Manager (APIM).
-6. The Regulator checks with RPD and approves/rejects the Producer enrolment.
-7. Communication of Regulator acceptance or rejection is sent from RPD to the Producer via the Gov.Notify e-mail service. If rejected, then reasons are given by the Regulator for rejection, and the Producer is allowed to re-try.
-8. Successful enrolment includes creating the necessary Producer records in AD B2C for future authentication of the Producer every time they access RPD.
-9. Upon successful enrolment, the Producer (or CS acting on their behalf) make a periodic registration to RPD by submitting the Company Details File.csv. The file is stored in Blob Storage and metadata and file statis is stored in the NoSQL Cosmos DB.
-10. Regulator indicates to the Producer/CS via RPD their registration fee.
-11. Producer/CS access the RPD Fees and Payments DB and via this pay the fee to the payment handler service gov.pay.
-12. The Regulator checks with RPD and approves/rejects the Producer registration.
-13. Communication of Regulator acceptance or rejection is sent from RPD to the Producer via the Gov.Notify e-mail service. If rejected, then reasons are given by the Regulator for rejection, and the Producer is allowed to re-try.
-14. The public list of Producers is updated daily and available as a report in csv file format to be downloaded by the General Public accessing RPD anonymously.
-15. An independent extract of producer registration is sent daily from RPD simultaneously to the legacy NPWD and its replacement RE/EX system.
-16. Another independent extract of producer registration is sent daily from RPD to the FSS system, via the secure APIM.
-17. Upon successful registration, the Producer (or CS acting on their behalf) make a periodic packaging submission to RPD by submitting a Packaging Details File.csv (PoM). The file is stored in Blob Storage and metadata and file statis is stored in the NoSQL Cosmos DB.
-18. Regulator indicates to the Producer/CS via RPD their packaging file submission fee.
-19. Producer/CS access the RPD Fees and Payments DB and via this pay the fee to the payment handler service gov.pay.
-20. The Regulator checks with RPD and approves/rejects the Producer submission.
-21. Regulators also view RPD reports.
-22. Communication of Regulator acceptance or rejection is sent from RPD to the Producer via the Gov.Notify e-mail service. If rejected, then reasons are given by the Regulator for rejection, and the Producer is allowed to re-try.
-23. The RPD PayCal Database periodically receives the LA collection and disposal cost weighted averaged per Nation per Packaging Material per tonne. This is also called as a PayCal input parameter.
-24. The RPD Package Recovery Note Database receives from the legacy NPWD (in future from the replacement RE/EX system) PRN/PERN addressed to producers as DR/CS.
-25. The DR/CS accept or reject the PRN/PERN. This status is conveyed by RPD to NPWD/RE/EX.
-26. If accepted, then the PRN/PERN tonnage off sets (lowers) the Producer’s PoM tonnage.
-27. In RPD PayCal, the input parameter rate is applied to the Producer’s offset tonnage to calculate their liability for packaging as a run. This output invoice file is periodically sent via the secure APIM to the FSS SaaS system, ServiceNow.
-28. Producers who wish to make a payment against this invoice are redirected from AD B2C to the FSS system.
-29. Similarly, FSS call centre (CC) staff and the EPR scheme administrator (SA), PackUK persons are also redirected to the FSS system upon successful RPD AD B2C authentication.
+1. A potential producer checks with RPD to find out whether they have a legal obligation to report. If they don’t, their journey ends here.
+2. If they are obligated, they register with RPD as either a small or large producer. They can also indicate if they belong to a compliance scheme (CS) that will manage reporting on their behalf.
+3. During registration, RPD checks their address using the Postcodes service.
+4. If the producer is a company, RPD also verifies their company details with Companies House.
+5. Both of these external checks are made securely through the Azure API Manager (APIM).
+6. A regulator reviews the registration in RPD and either approves or rejects it.
+7. The producer is notified of the outcome by email via GOV.UK Notify. If rejected, the regulator provides reasons and the producer can try again.
+8. Once approved, a user account is created in Azure AD B2C so the producer can log in to RPD going forward.
+9. The producer (or their CS) submits a Company Details File (CSV) to RPD. The file is held in Blob Storage and its details are recorded in the Cosmos DB database.
+10. The regulator uses RPD to tell the producer or CS what registration fee they owe.
+11. The producer or CS pays the fee through GOV.UK Pay, accessed via the RPD Fees and Payments database.
+12. The regulator reviews and approves or rejects the registration in RPD.
+13. The producer is notified of the outcome by email. If rejected, reasons are given and they can resubmit.
+14. A public list of registered producers is updated daily and available to download as a CSV file by anyone accessing RPD without logging in.
+15. A daily extract of producer registration data is sent from RPD to both the legacy NPWD system and its replacement, RE/EX.
+16. A separate daily extract of producer registration data is sent from RPD to the FSS system via APIM.
+17. The producer (or their CS) submits a Packaging Details File (PoM CSV) to RPD. As with the company details file, it is stored in Blob Storage with metadata recorded in Cosmos DB.
+18. The regulator uses RPD to tell the producer or CS what fee is owed for their packaging submission.
+19. The producer or CS pays this fee through GOV.UK Pay.
+20. The regulator reviews and approves or rejects the packaging submission.
+21. Regulators can also view reports within RPD.
+22. The producer is notified of the outcome by email. If rejected, reasons are given and they can resubmit.
+23. The PayCal database periodically receives waste collection and disposal cost data from local authorities (via LAPCAP), broken down by nation and packaging material type. These are used as inputs to the fee calculation.
+24. The PRN database receives Packaging Recovery Notes (PRNs) or Packaging Export Recovery Notes (PERNs) from NPWD (or RE/EX for 2026 onwards), addressed to specific producers or compliance schemes.
+25. The producer or CS accepts or rejects each PRN/PERN in RPD, and the decision is sent back to NPWD or RE/EX.
+26. Accepted PRNs/PERNs reduce the producer’s reported packaging tonnage, lowering their fee liability.
+27. PayCal applies the relevant cost rates to the producer’s adjusted tonnage to calculate what they owe. The resulting billing file is sent periodically via APIM to the FSS system (ServiceNow).
+28. Producers making a payment against their invoice are redirected from AD B2C to the FSS system to complete payment.
+29. FSS call centre staff and PackUK scheme administrator staff are also directed to the FSS system after logging in through AD B2C.
 
-The above completes the RPD journey within EPR.
+This completes the RPD journey within EPR.
 
 ## 5.3 Application Architecture – internal structure view
 Opens up the “black box” from the system context to describe the internal architecture of the system and internal model/patterns utilised. Subsystems, and subcomponents should be shown and component dependencies captured. Identifies in principle those things for which a low-level design or build document should also exist and for which an “assembly” is required either at run time or before. It is important that this model differentiates “owned” functional components that map to functions of this system, from those that map to functions of other systems (use those other systems). Options to visualise this could be C4 Model L3, or ArchiMate Component Model. Annotate line with useful labels to make sure the reason for the structural relationship is evident.
@@ -1297,7 +1297,7 @@ The three objectives for the NPWD integration (RPD can send data to NPWD; RPD ca
 
 ### PayCal interfaces
 The PayCal interfaces are:
-- Input parameters from LAPCAP to PayCal that is collection & disposal cost per tonne per Packaging Material per Nation.
+- Input parameters from LAP CAP to PayCal that is collection & disposal cost per tonne per Packaging Material per Nation.
 - Producer master data daily from RPD Synapse via PayCal to the FSS system.
 - Periodic billing data from PayCal to the FSS system via APIM.
 
@@ -1557,7 +1557,7 @@ All the below sequences are manually spaced apart in time. There is no event-tri
 
 ### PayCal
 - Producer master data interface must run daily.
-- Input parameters must first be received from LAPCAP to PayCal.
+- Input parameters must first be received from LAP CAP to PayCal.
 - Only then would it be correct to run PayCal and then transfer the billing data from PayCal to the FSS system.
 
 ### RPD PRN
