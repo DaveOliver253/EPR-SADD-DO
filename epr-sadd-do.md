@@ -186,6 +186,9 @@ Please note that the SADD is a high-level document bringing together everything 
 | 0.2 | 31/07/2025 | Updated draft, to reflect release 12, with additional information on PayCal and FSS | David Thompson |
 | 1.0 | 26/11/2025 | Updates to reflect R16 | Saunder Narayan (et al) |
 | 1.1 | 23/03/2026 | Updates to reflect ADRs up to 143 | Dave Oliver (et al) |
+| 1.2 | 30/03/2026 | Updates to reflect ADR-141 (PRN & Waste Balance Immutability — For Review) and ADR-146 (Certificates and Statements of Compliance — In Review) | Dave Oliver |
+
+> **[v1.2 change]** Version 1.2 adds coverage of two ADRs currently under review: ADR-141 governing PRN and waste balance immutability in the RE/EX service, and ADR-146 introducing Certificates and Statements of Compliance (CSoC) as a new business function. Neither ADR has a formal signed-off decision at the time of writing — sections updated below are marked accordingly.
 
 ### References to governance products
 *Project Management Quality products.* 
@@ -281,6 +284,9 @@ The Extended Producer Responsibility (EPR) system introduces a set of interdepen
 | Local authority payments | Local authorities submit data and receive payments. | Quarterly | Scheme admin interface |
 | Regulatory oversight | Regulators review submissions, manage public registers and enforce compliance. | Continuous | Regulator dashboard, public register |
 | Reporting and analytics | Dashboards and reports support transparency and policy evaluation. | Monthly / Ad hoc | Power BI, Azure Monitor |
+| CSoC submission *(pending ADR-146)* | Direct-registrant large producers and compliance schemes submit a Certificate of Compliance (producers) or Statement of Compliance (schemes) confirming whether they have met their recycling obligations for the preceding compliance year. Regulators review and accept, reject or cancel submissions. Accepted submissions are published to the public register. | Annually by 31 January | New CDP Obligations FE, new CDP Regulator FE, new CDP CSoC API (pending ADR-146 decision) |
+
+> **[v1.2 change — ADR-146]** CSoC row added. This is a new business process not previously covered in the SADD. ADR-146 is currently In Review; the recommended option is to build all components on CDP. No formal decision has been signed off at the time of writing.
 | Obligation calculation | PayCal calculates disposal cost fees per producer per material including adjustments and generates result file for review. | Half-yearly for large producers and annually for small producers. | PayCal application associated with RPD. |
 | Review, classification and approval | Scheme administrator reviews result file, runs QA checks and classifies the run. Approved runs are signed off and billing file is produced for downstream system. | Half-yearly for large producers and annually for small producers. | PayCal application associated with RPD. |
 | Invoicing and NoL generation | FSS receives billing and payment files from PayCal, generates invoices and Notice of Liabilities while producers access invoice details via appropriate service and payment management is handled by FSS (details are out of scope for this SADD). | Half-yearly for large producers and annually for small producers. | FSS system is software as a service (SaaS) from ServiceNow. |
@@ -330,13 +336,22 @@ The business rules are aligned with:
 | Timeouts and escalations | Tasks such as registration approval or data validation must be completed within defined SLAs (e.g. 10 working days). Unresolved tasks trigger automated escalations. |
 | Public register publication | Producer and reprocessor details are published to the public register only after successful validation and approval. |
 | Error handling | All user-facing forms and APIs include real-time validation and user-friendly error messages to prevent invalid submissions. |
+| CSoC submission authority *(pending ADR-146)* | Only the Approved Person for a producer or compliance scheme may submit a Certificate or Statement of Compliance. Delegated users may not submit on their behalf. |
+| CSoC versioning *(pending ADR-146)* | Multiple CSoC submissions for the same compliance year are permitted, but only following the cancellation or rejection of the previously submitted CSoC. A history of all submissions for a given year must be retained. |
+| CSoC deadline *(pending ADR-146)* | Certificates and Statements of Compliance must be submitted by 31 January each year, covering the preceding compliance year. |
+| PRN immutability *(pending ADR-141)* | Once a PRN or PERN has been issued, its core fields (tonnage, accreditation reference, issuedToOrganisation) are immutable. Only status and metadata fields may be updated. Every status change is recorded in an append-only status history. |
+| Waste balance integrity *(pending ADR-141)* | All changes to the waste balance are recorded as append-only transactions including opening and closing balances, transaction type (DEBIT/CREDIT), entity reference and the identity of the user making the change. No transaction may be deleted or updated. |
+
+> **[v1.2 change — ADR-141 and ADR-146]** Five new business rules added: two for CSoC (ADR-146) covering submission authority, versioning and deadline; two for PRN/waste balance immutability (ADR-141). Both ADRs are pending formal decision.
 
 ## 2.6 Timing view
 *Describes e.g. any cyclic activity or business events that need to be aligned to or avoided (essential the business calendar).*
 
 | Period | Key activities | Notes |
 | :--- | :--- | :--- |
-| January – March | Finalisation of previous year’s data; compliance reporting; PRN/PERN reconciliation; initial PayCal runs for the previous compliance year. | Producers and compliance schemes submit final data for the previous compliance year; PackUK runs PayCal using finalised data, preliminary billing files are generated for review. |
+| January – March | Finalisation of previous year’s data; compliance reporting including CSoC submission deadline (31 January); PRN/PERN reconciliation; initial PayCal runs for the previous compliance year. | Producers and compliance schemes submit final data for the previous compliance year. Direct-registrant large producers and compliance schemes must submit their Certificate or Statement of Compliance by 31 January. Regulators review and action CSoC submissions. PackUK runs PayCal using finalised data; preliminary billing files are generated for review. |
+
+> **[v1.2 change — ADR-146]** January–March timing row updated to include the CSoC submission deadline of 31 January and regulator review activity.
 | April – June | System enhancements; onboarding of new users; regulator workflow updates | Often includes releases and updates to accreditation workflows. |
 | July – September | Packaging data submission (POM); fee calculation and invoicing | Includes modulation updates, any mid-year recalculations agreed with policy and finance teams. |
 | October – December | Registration window opens in RPD for the next compliance year. | Producers and compliance schemes begin submitting registration data for the upcoming year and concurrent planning for the next cycle of PayCal runs and parameter updates. |
@@ -622,7 +637,7 @@ System integrations use APIs or other interfaces:
   RPD, sent via APIM.
 - **LAP CAP** (another Defra application) supplies RPD's PayCal with local authority collection and
   disposal cost rates.
-- **NPWD** (legacy) and **PRN RE EX** (its replacement) both receive daily producer registration
+- **NPWD** (legacy) and **RE/EX** (its replacement) both receive daily producer registration
   data from RPD, and send back Packaging Recovery Notes (PRNs/PERNs) addressed to producers.
   Producers accept or reject these, and RPD sends the outcome back to both systems.
 
@@ -646,7 +661,7 @@ Using the same SCDD diagram from the previous section, we will step through RPD 
 12. The Regulator checks with RPD and approves/rejects the Producer registration.
 13. Communication of Regulator acceptance or rejection is sent from RPD to the Producer via the Gov.Notify e-mail service. If rejected, then reasons are given by the Regulator for rejection, and the Producer is allowed to re-try.
 14. The public list of Producers is updated daily and available as a report in csv file format to be downloaded by the General Public accessing RPD anonymously.
-15. An independent extract of producer registration is sent daily from RPD simultaneously to the legacy NPWD and its replacement PRN RE EX system.
+15. An independent extract of producer registration is sent daily from RPD simultaneously to the legacy NPWD and its replacement RE/EX system.
 16. Another independent extract of producer registration is sent daily from RPD to the FSS system, via the secure APIM.
 17. Upon successful registration, the Producer (or CS acting on their behalf) make a periodic packaging submission to RPD by submitting a Packaging Details File.csv (PoM). The file is stored in Blob Storage and metadata and file statis is stored in the NoSQL Cosmos DB.
 18. Regulator indicates to the Producer/CS via RPD their packaging file submission fee.
@@ -655,8 +670,8 @@ Using the same SCDD diagram from the previous section, we will step through RPD 
 21. Regulators also view RPD reports.
 22. Communication of Regulator acceptance or rejection is sent from RPD to the Producer via the Gov.Notify e-mail service. If rejected, then reasons are given by the Regulator for rejection, and the Producer is allowed to re-try.
 23. The RPD PayCal Database periodically receives the LA collection and disposal cost weighted averaged per Nation per Packaging Material per tonne. This is also called as a PayCal input parameter.
-24. The RPD Package Recovery Note Database receives from the legacy NPWD (in future from the replacement PRN RE EX system) PRN/PERN addressed to producers as DR/CS.
-25. The DR/CS accept or reject the PRN/PERN. This status is conveyed by RPD to NPWD/PRN RE EX.
+24. The RPD Package Recovery Note Database receives from the legacy NPWD (in future from the replacement RE/EX system) PRN/PERN addressed to producers as DR/CS.
+25. The DR/CS accept or reject the PRN/PERN. This status is conveyed by RPD to NPWD/RE/EX.
 26. If accepted, then the PRN/PERN tonnage off sets (lowers) the Producer’s PoM tonnage.
 27. In RPD PayCal, the input parameter rate is applied to the Producer’s offset tonnage to calculate their liability for packaging as a run. This output invoice file is periodically sent via the secure APIM to the FSS SaaS system, ServiceNow.
 28. Producers who wish to make a payment against this invoice are redirected from AD B2C to the FSS system.
@@ -1139,6 +1154,20 @@ There are a few types of logs that RPD and PayCal has:
 - The below Confluence link used by regulators to carry out their data auditing: Power BI Reporting - Collections & Packaging Reforms - Confluence.
 - More recently in July 2025 we are starting to introduce extension fields to RDBMS tables in the PRN DB to capture in table itself the changed record now marked latest with timestamp, superseding the earlier records also timestamped.
 
+> **[v1.2 change — ADR-141]** ADR-141 (currently For Review) formalises how PRNs/PERNs and the waste balance are kept accurate and tamper-evident in the RE/EX service:
+>
+> **PRNs:** Once a PRN or PERN has been issued, the key details — the tonnage, the accreditation it was issued under, and the organisation it was issued to — cannot be changed. Only the status of the PRN can be updated as it moves through its lifecycle (from created through to accepted or cancelled). Every status change is saved as a new record in a history table, so there is always a full trail of what happened and when.
+>
+> **Waste balance:** Every time the waste balance changes, a new entry is added to a running transaction log. That log is never edited or deleted. Each entry records whether tonnes were added or removed, how many, who made the change, and what the balance was before and after. This gives a complete, auditable record of all movements.
+>
+> **How the balance works:** The waste balance tracks two figures: the total amount available, and the amount currently free to allocate. When a PRN is created, some tonnes are ring-fenced (reserved) against the free amount. When the PRN is actually issued, those tonnes are deducted from the total. If a PRN is cancelled at any point, the relevant amounts are restored. This two-figure approach means the system can hold tonnes in reserve for pending PRNs without permanently removing them until the PRN is confirmed.
+>
+> **Audit trail:** The transaction log is read-only within the system and is also sent to the CDP security audit service, consistent with how RE/EX handles other audit records.
+>
+> **Reconciliation:** A check between PRNs/PERNs recorded in RE/EX and those held in RPD will be introduced as part of implementing ADR-141.
+>
+> A more technically robust approach using cryptographic linking between records (hash chaining) was considered but set aside for now. It would only be revisited if there is a serious legal challenge to the records, or if regulators require a higher standard of proof.
+
 ## 6.12 Data Architecture – Mastership / Ownership View
 Shows in matrix form the role the application plays in relation to each entity. Identifies 3 typical modes: Master, Multi-master and Dependent. For multi-master and dependent, the other actors (systems, people) who have CRUD roles on the entity should be identified.
 
@@ -1263,6 +1292,8 @@ The RE/EX integration uses three new timer-triggered Azure Functions modelled on
 3. **Accept/Reject Status Return (RPD PRN DB → RE/EX):** After a DR or CS accepts or rejects a 2026 PRN/PERN in the RPD portal, this function sends the updated status back to RE/EX via the PRN API in real time, equivalent to the existing NPWD status-return function.
 
 The three objectives for the NPWD integration (RPD can send data to NPWD; RPD can retrieve data from NPWD; both systems can share organisation details) apply equally to the RE/EX integration. Existing NPWD interfaces (processes 1–4 in the Interface Catalogue below) continue to operate in parallel for 2025-year obligations.
+
+> **[v1.2 change — ADR-141]** ADR-141 (currently For Review) governs how PRN/PERN records and the waste balance within RE/EX are kept accurate and auditable. The key rules are that core PRN fields cannot be changed once a PRN is issued, every status change is saved in a history table, and every movement of the waste balance is written to an append-only transaction log. See section 6.11 for the full detail of this pattern.
 
 ### PayCal interfaces
 The PayCal interfaces are:
@@ -2535,6 +2566,9 @@ List those strategic components or approaches that have been used to deliver thi
 
 - **ADR-109:** NPWD PRN Interface – defines the Fetch Issued PRNs, Update PRN Status, and Upsert Producer API contracts between RPD and NPWD. Direct predecessor to ADR-137.
 - **ADR-098 / ADR-098.A / ADR-098.B / ADR-098.C:** Producer PRN Journey – producer-facing PRN acceptance/rejection journey; 098.C covers mid-year changes (MYC) obligation updates.
+- **ADR-141:** RE/EX PRN & Waste Balance Immutability. **For Review — no formal decision at time of writing.** Recommended decision: Audit History Log approach. Core PRN fields (tonnage, accreditation, issuedToOrganisation) are immutable once issued; status changes are recorded in an append-only history table. All waste balance movements are written to an append-only transaction ledger recording type (DEBIT/CREDIT), amount, user, timestamp, and opening/closing balances. Logs are read-only in-system and sent to the CDP security audit service. Reconciliation of PRNs/PERNs between RE/EX and RPD to be introduced. Cryptographic hash chaining was considered but deferred pending any litigation risk or specific regulatory requirement.
+
+> **[v1.2 change — ADR-141]** ADR-141 entry added.
 
 ### Payments
 
@@ -2564,6 +2598,12 @@ List those strategic components or approaches that have been used to deliver thi
 - **ADR-137:** RE/EX 2026 PRN and Producer Integration. Approved 28 October 2025. Implemented in RPD Release 17 (15 January 2026). Decision: Option 6 – three new timer-triggered Azure Functions interfacing with the RE/EX (RREPW) Organisation API and PRN/PERN API on CDP. Security via CDP API Gateway (AWS Cognito client-credentials). NPWD continues for 2025-year PRNs; RE/EX handles all 2026-year PRNs and PERNs from 1 February 2026.
 - **ADR-142:** Azure Environment Reservations and Autoscaling. Approved. 1-year Azure Reserved Instance for Synapse Dedicated SQL Pool (DWU3000), reducing cost from ~£43k/month PAYG to ~£27k/month; CosmosDB switched to autoscaling (10%–100% of max RU/s), saving ~£12k/year; Azure SQL development instances consolidated into Elastic Pool, achieving 40–50% SQL cost reduction.
 - **ADR-143:** Synapse Dedicated SQL Pool Rightsizing. Approved. Production pool upsized DWU1000 → DWU2000 (near-linear pipeline performance improvement); TST pool decommissioned (was DWU1000, zero activity); scheduled weekend downsizing to DWU200 in lower environments (DEV, PRE).
+
+### Obligations / CSoC
+
+- **ADR-146:** Certificates and Statements of Compliance (CSoC). **In Review — no formal decision at time of writing.** Recommended decision: Option 3 (CDP) — build all components on the Core Delivery Platform. This introduces two new frontend applications (an Obligations frontend for producers and compliance schemes, and a Regulator frontend) and a new CSoC API, all on CDP. Authentication continues via Azure B2C, with users redirected between the existing Azure portal and the new CDP components. New CSoC data is stored in the CDP API; a new Synapse pipeline extracts it to the Data Lake to support the public register. Concerns raised at the 26 March 2026 Architect Roundtable include: absence of formal Service Owner sign-off on CDP as the 3R analysis outcome; lack of objective cost/complexity comparison between Option 1 (Azure-only, quickest) and Option 3; and the risk that building in CDP now may not align with the staged migration pattern proposed by the 3R workstream.
+
+> **[v1.2 change — ADR-146]** New Obligations/CSoC subsection added.
 
 ## 15.8 References: Input Products
 Provide references to products used to inform this Solution Architecture Definition Document (NB these should in principle also be baselined).
