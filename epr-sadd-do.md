@@ -451,7 +451,7 @@ Additional information:
 ## 3.2 Solution landscape – business to information system
 *Rich picture/diagram, narrated, that illustrates the aspects of the business model that the solution supports/enhances/changes. In ArchiMate is the application usage viewpoint.*
 
-This diagram focues on RPD and PayCal from an application viewpoint (technology elements obscured).
+This diagram shows RPD and PayCal from an application viewpoint, with the underlying technology hidden.
 
 <br>
 
@@ -460,7 +460,7 @@ Figure 4.0 RPD and PayCal applications - [original illo file](./illos)
 
 <br>
 
-The diagram outlines the workflow and system interactions between key stakeholders in the RPD and PayCal process, including producers, regulators, compliance schemes and the scheme administrator. It also shows how the various front-end systems support these business interactions.
+The diagram shows how producers, regulators, compliance schemes and the scheme administrator interact with RPD and PayCal, and which front-end systems they use.
 
 **Key entities and their interactions**
 
@@ -472,7 +472,7 @@ The diagram outlines the workflow and system interactions between key stakeholde
 - **Regulator:** Verifies submitted data and interacts for compliance and fee payment.
 
 **Compliance scheme**
-- Interfaces with both the producer and the Financial Services Supplier (FSS) and accepts or rejects the Packaging Recovery Note / Packaging Export Recovery Note (PRN/PERN) on their behalf.
+- Works with both the producer and FSS. Accepts or rejects PRNs/PERNs on the producer's behalf.
 
 **Regulator**
 - **Approve/reject submission:** Reviews data via the regulator front end and visualises outcomes as data via Power BI.
@@ -484,12 +484,12 @@ The diagram outlines the workflow and system interactions between key stakeholde
 - **Regulator front end:** Used by regulators to review and manage submissions.
 - **Power BI:** Used for data visualisation (e.g. graphs) and decision support.
 - **Payment front end:** Handles fee transactions.
-- **PRN front end:** Supports the acceptance/rejection by producer from within RPD of PRNs interfaced from RE/EX (outside RPD) where they were created.
+- **PRN front end:** Lets producers and compliance schemes accept or reject PRNs that have been sent from RE/EX (outside RPD) where they were created.
 
 ## 3.3 Solution landscape – information system to technology
 *Rich picture/diagram, narrated, that illustrates the technology services used and how they support the information system view. In ArchiMate is the technology usage viewpoint.*
 
-This diagram focuses on RPD and PayCal from a technology viewpoint (application elements obscured).
+This diagram shows RPD and PayCal from a technology viewpoint, with the application layer hidden.
 
 <br>
 
@@ -516,7 +516,7 @@ The information system (blue boxes in the diagram) is supported by the technolog
 ## 4.1 Non-system IT service impacts
 *Should also identify key requirements for IT process changes (e.g. service/support impacts), to allow service design/transition planning.*
 
-Non-system IT service impacts to EPR are changes that affect the supporting IT services and operational processes, rather than the core system functionalities. These include:
+These are changes that affect supporting IT services and processes rather than the core system. They include:
 - Service desk operations and escalation paths
 - Environment provisioning and migration
 - Data platform integration with third-party services
@@ -531,31 +531,31 @@ EPR environment readiness includes:
 - A standardised environment migration tracker reviewed every two sprints.
 - Non-functional testing (e.g. accessibility) and automated regression testing to ensure stability.
 
-These elements are critical for service transition planning, ensuring that environments are production-ready and support teams are aligned with deployment timelines.
+These steps ensure environments are ready for production and that support teams know what is being deployed and when.
 
 #### 4.1.2. Release planning and support implications
-The EPR Release Plan provides a granular view of upcoming releases and their associated capabilities. It highlights:
-- Persona-based capabilities (e.g. producer, PackUK) that will be impacted by new features.
-- Support implications such as billing file generation, invoicing and customer support integration with FSS.
-- Dependencies on external systems like PayCal and the need for clear rejection handling and support escalation
+The EPR Release Plan shows what is coming in each release and what it affects. It covers:
+- Which user groups (e.g. producers, PackUK) are affected by new features.
+- Support implications such as billing, invoicing and FSS integration.
+- Dependencies on external systems and how rejections and escalations will be handled.
 
-This release cadence demands proactive service desk training, updated knowledge bases and revised SLAs.
+Each release requires the service desk to be trained in advance, with updated guidance and SLAs in place.
 
 #### 4.1.3. Data platform integration and event-driven architecture
-As the EPR data platform has feeds from a rangew of parties including the FSS, local authorities and Defra, there's a shift to a multi-supplier model and the need for:
+The EPR data platform receives data from FSS, local authorities and Defra. This multi-supplier setup requires:
 - Event-based data ingestion using Azure Event Grid, Event Hub, or ServiceBus.
-- Real-time integration with SaaS platforms like ServiceNow (FSS) and CDP-hosted services (LAPS, RE/EX).
-- Storage and access control strategies for raw data from third-party systems.
+- Real-time integration with ServiceNow (FSS) and CDP-hosted services (LAPS, RE/EX).
+- Storage and access controls for raw data from third-party systems.
 
-This architectural evolution requires changes to data governance, monitoring and support processes.
+These changes also affect data governance, monitoring and support processes.
 
 #### 4.1.4. Non-functional requirements (NFRs)
-The Non Functional Requirements contains detailed specifications for performance, availability, and supportability.
+The Non-Functional Requirements document contains detailed specifications for performance, availability and supportability.
 
 ## 4.2 Application changes
 *Application components including integration aspects: New, Amend, Reuse, Replace, Remove together with Notes, Warnings and Guidance.*
 
-This section outlines the application components and integration aspects impacted by the EPR programme with warnings and guidance to support service design and transition planning.
+This section lists the application components affected by the EPR programme, with notes on risks and guidance for each.
 
 | Component | Impact | Notes | Warnings | Guidance |
 | :--- | :--- | :--- | :--- | :--- |
@@ -573,7 +573,7 @@ This section outlines the application components and integration aspects impacte
 ## 4.3 Data changes
 *Data store or flow impacts including database, file, streaming: New, Amend, Reuse, Replace, Remove together with Notes, Warnings and Guidance.*
 
-This section outlines the impacts on data stores and flows – including databases, files, and streaming pipelines – within the EPR programme, with warnings and guidance to support service design and transition planning. 
+This section lists the data stores and flows affected by the EPR programme — including databases, files and streaming pipelines — with notes on risks and guidance for each.
 
 | Component | Impact | Notes | Warnings | Guidance |
 | ------ | ------ | ------ | ------ | ------ |
@@ -587,7 +587,7 @@ This section outlines the impacts on data stores and flows – including databas
 ## 4.4 Technology changes
 *Technology service/platform impacts meaning moth physical assets as well as cloud, and noting that a technology service include PaaS, Networking, Encryption, Malware etc.: New, Amend, Reuse, Replace, Remove together with Notes, Warnings and Guidance.*
 
-This section outlines the technology service and platform impacts across both physical and cloud assets. It includes platform-as-a-service (PaaS), networking, encryption, malware protection and other infrastructure components, with warnings and guidance to support service design and transition planning.
+This section lists the technology and platform changes — covering platform-as-a-service (PaaS), networking, encryption, malware protection and other infrastructure — with notes on risks and guidance for each.
 
 | Service | Impact | Notes | Warnings | Guidance |
 | ------ | ------ | ------ | ------ | ------ |
@@ -670,8 +670,8 @@ Using the same diagram from the previous section, here is how RPD and its extern
 21. Regulators can also view reports within RPD.
 22. The producer is notified of the outcome by email. If rejected, reasons are given and they can resubmit.
 23. The PayCal database periodically receives waste collection and disposal cost data from local authorities (via LAPCAP), broken down by nation and packaging material type. These are used as inputs to the fee calculation.
-24. The PRN database receives Packaging Recovery Notes (PRNs) or Packaging Export Recovery Notes (PERNs) from NPWD (or RE/EX for 2026 onwards), addressed to specific producers or compliance schemes.
-25. The producer or CS accepts or rejects each PRN/PERN in RPD, and the decision is sent back to NPWD or RE/EX.
+24. The PRN database receives Packaging Recovery Notes (PRNs) or Packaging Export Recovery Notes (PERNs) from RE/EX (for 2026 onwards) or NPWD (for 2025-year obligations), addressed to specific producers or compliance schemes.
+25. The producer or CS accepts or rejects each PRN/PERN in RPD, and the decision is sent back to RE/EX or NPWD as appropriate.
 26. Accepted PRNs/PERNs reduce the producer’s reported packaging tonnage, lowering their fee liability.
 27. PayCal applies the relevant cost rates to the producer’s adjusted tonnage to calculate what they owe. The resulting billing file is sent periodically via APIM to the FSS system (ServiceNow).
 28. Producers making a payment against their invoice are redirected from AD B2C to the FSS system to complete payment.
@@ -719,7 +719,7 @@ Figure 8.0 Container diagram
 
 PayCal is covered in ADR-100.
 
-Two pipelines are configured in Synapse to retrieve POM data and organisational data from the Synapse analytical database. Subsequently, the data will be loaded into the PayCal database for further processing in the calculator run process.
+Two Synapse pipelines retrieve POM and organisation data from the Synapse analytical database and load it into the PayCal database for the calculator run process.
 
 <br>
 
@@ -732,9 +732,9 @@ Figure 9.0 Synapse pipelines
 Identifies which software components (if any) require state to be managed/manage state (control the state of data objects being persisted or exchanged), which are idempotent, which control sequence/order, which co-operate as part of a transaction (potentially long running/paused), which are truly atomic/stateless/scalable, which are essentially “helpers” or facades. This could be identified don the internal behaviour view if space allows.
 
 ### Deployment diagram
-The following diagram illustrates the RPD components as deployed to Azure
+This diagram shows the RPD components as deployed to Azure.
 
-The two major areas of functionality that we currently have in RPD are the account management and registration/PoM data upload. The following diagrams provide a more detailed view of those areas:
+The two main functional areas in RPD are account management and registration/POM data upload. The diagrams below show each in more detail:
 
 <br>
 
@@ -763,7 +763,7 @@ Figure 12.0 File upload detail
 
 <br>
 
-ADR-043: PoM file upload performance remediation. Primary change is the addition of a back end Redis cache to coordinate error rate tracking across validation functions. Redis cache in the back end is available for other use cases as required.
+ADR-043: POM file upload performance remediation. The main change is adding a Redis cache to track error rates across validation functions. The cache is also available for other uses.
 
 ### 5.6 Component classification table
 | Component | State Management | Idempotent | Sequence Control | Transactional | Atomic/Stateless | Helper/Facade | Notes |
@@ -779,9 +779,9 @@ ADR-043: PoM file upload performance remediation. Primary change is the addition
 ## 5.7 Application architecture – cloud native design approach
 Identifies the elements of the overall solution design, and the implementation of individual subcomponents, or the patterns of cooperation with other components of the System, which align to “cloud first” reliability principles in how they handle errors gracefully, scale predictably etc. (see also Software Architecture exception handling patterns).
 
-All components of RPD and PayCal are hosted in the UK South Region of the DEFRA Azure estate. All container-based components (web apps and APIs) are deployed to a minimum of two availability zones. All persistent portal data services are configured to be geo-resilient with the primary region being UK South and the secondary region being UK West. All infrastructure components are provisioned using CCoE standard templates via Azure DevOps pipelines. This delivers a solution that is resilient to the loss of one availability zone with the container-based services being arbitrarily scalable horizontally.
+All RPD and PayCal components are hosted in the UK South region of the DEFRA Azure estate. Web apps and APIs are deployed across at least two availability zones. All data services are geo-resilient, with UK South as the primary region and UK West as the secondary. Infrastructure is provisioned using CCoE standard templates via Azure DevOps pipelines. The result is a solution that can survive the loss of one availability zone, with container-based services able to scale horizontally as needed.
 
-Diagrams in Sections 5.5 and 5.4 above amply demonstrate the complete harnessing of the Microsoft Azure cloud at function and component level.
+The diagrams in sections 5.4 and 5.5 show how the Microsoft Azure cloud is used at the function and component level.
 
 
 
@@ -791,15 +791,15 @@ Note that if true microservices are being used and these have private data objec
 ## 6.1 Data architecture – overview
 Explains the key information concepts being processed by the system; their information classification, what datasets will be managed or integrated to. Should also note any data being exchanged via memoranda of understanding with other departments.
 
-The key information concepts processed by the system are the following:
-- Producers start by accessing the obligation checker to verify as to whether they are obliged or not. Access is anonymous and no data persisted at this step.
-- If obliged, they are then expected to enrol as a Producer with the EPR service.
-- The information that they provide at the first instance includes Organisation details, Producer-Compliance Scheme relationships and their authorised EPR user details. This is stored in the Accounts DB.
-- They then submit periodic Registration and Packaging files.
-- Organisation details (Registration) is an update, whereas packaging details list the quantity and type of packaging placed on market.
-- Related to their above submissions, a calculation is performed to determine their share of collection costs that a producer is liable for with overhead uplifts. This is sent to the financial services supplier (FSS).
-- Adjacent to the system, FSS using their own system produce an invoice (notice of liability called NoL) and send to the Producer who must pay for the packaging waste that they create).
-- Using funds collected from Producers, the EPR scheme administrator (SA) then reimburses local authorities (LA) for their disposal costs incurred. This completes the periodic cycle.
+The main information flows through the system are:
+- Producers first use the obligation checker to find out if they need to register. This is anonymous and no data is saved at this stage.
+- If obligated, they enrol with the EPR service.
+- At enrolment they provide organisation details, their relationship to any compliance scheme, and their authorised user details. This is saved in the Accounts database.
+- They then periodically submit registration and packaging files.
+- Registration updates organisation details; packaging submissions list the quantity and type of packaging placed on the market.
+- Based on their submissions, a fee calculation determines each producer's share of collection costs, including overheads. This is sent to FSS.
+- FSS uses its own system to produce an invoice (a notice of liability, or NoL) and sends it to the producer.
+- The scheme administrator (SA) uses the funds collected from producers to reimburse local authorities (LAs) for their disposal costs. This completes the cycle.
 
 This is illustrated by the below system context data diagram (SCDD):
 
@@ -815,23 +815,22 @@ Figure 13.0 System context data
 EPR information could be classified as follows:
 
 #### Secret information
-- Authentication credentials are securely held in active directory business to customer (AD B2C).
-- Once authenticated, AD B2C passes an authentication token to prove the user’s identity that is then used by applications to show only relevant data, e.g. Producer users see only their own records. Regulator users see records pertaining only to their own UK Nation.
-- In the online payment journey, Producer users provide their organisation credit/debit card details to the GOV.PAY payment handler. No card details are held by EPR.
+- Login credentials are held securely in Azure AD B2C.
+- After login, AD B2C provides an authentication token that controls what data each user can see. Producers see only their own records; regulators see only records for their nation.
+- During online payments, producers enter card details directly with GOV.UK Pay. EPR does not hold any card details.
 
 #### Confidential information
 Personally identifiable information (PII)
-- Company officer information during enrolment and registration contains personally identifiable information (PII) of name and contact details. The company officers are Approved users, Delegated users, Basic users and Admin users.
-- Packaging recycling notes and packaging export recycling notes (PRN/PERN) as well as notice of liability (NoL) from the financial services supplier (FSS) system have company officer details.
-- We have identified in the context of the logical data model (LDM) the PII entities and attributes within the entities and listed these on Confluence at: https://eaflood.atlassian.net/wiki/x/TgCUdQE
-- Please note that this list done by a data architect is not as definitive as one done by a Defra data steward.
-- Additionally the raw Registration submission files referred to above as well as the Company Details, User, Person, Organisation, Audit log tables at least in Synapse and the Accounts DB have PII data and need to be appropriately protected.
+- Company officer details captured during enrolment and registration contain personal data (PII) — names and contact details. Officers include Approved users, Delegated users, Basic users and Admin users.
+- PRNs/PERNs and notices of liability (NoLs) from FSS also contain company officer details.
+- PII entities and attributes in the logical data model (LDM) are listed on Confluence at: https://eaflood.atlassian.net/wiki/x/TgCUdQE. Note this list was produced by a data architect and may not be as complete as one produced by a Defra data steward.
+- The raw registration submission files, and the Company Details, User, Person, Organisation and Audit log tables in Synapse and the Accounts database, all contain PII and must be appropriately protected.
 
 #### Commercially sensitive information
 - Packaging information is commercially sensitive, because sales and market share could be derived from packaging waste.
 
 #### Nation information
-- All the above information is related to a single UK Nation. In the spirit of UK devolution, such information is only for that Nation’s regulator and not shared even with Defra. Only two parties can see all information as part of their duties. These are the scheme administrator (SA) and the FSS.
+- All the above information relates to a single UK nation. In line with devolution, it is visible only to that nation’s regulator and is not shared with Defra. Only the scheme administrator (SA) and FSS can see data across all nations, as required by their roles.
 
 #### Internal information
 - Most other information within pEPR would be classified as Internal.
@@ -840,39 +839,38 @@ Personally identifiable information (PII)
 - The public list of producers is available to all members of the UK public from the GOV.UK website.
 
 ### Datasets managed and integrated
-- Enrolment information includes Organisation details, Producer-Compliance Scheme relationships and their authorised EPR user details. This is stored in the Accounts DB.
-- Updates to organisation data (registration submission) including changes to company and/or trading names or address or company offer details. From a legal regulation perspective, registration superseded enrolment. Submitted by producers via file upload called organisation_details_table.csv stored on Azure BLOb.
-- Periodic packaging submissions. Submitted by producers via CSV file upload stored on Azure BLOb. The last submission for a period supersedes earlier ones.
-- Submission & events data and file metadata are created in the Cosmos No-SQL DB.
+- Enrolment data includes organisation details, compliance scheme relationships and authorised user details. This is stored in the Accounts database.
+- Registration submissions update organisation data — including company name, trading name, address and company officer details. Legally, registration supersedes enrolment. Producers submit this as `organisation_details_table.csv`, stored in Azure Blob Storage.
+- Producers submit periodic packaging data as CSV files, also stored in Azure Blob Storage. The most recent submission for a given period replaces any earlier ones.
+- Submission event data and file metadata are stored in the Cosmos NoSQL database.
 
 ### Data stores and entities
 As in Section 9.2.3 further down this document
-- **Azure SQL RDBMS Database:** Stores structured data such as enrolment, payment, PayCal and package recycling note (PRN).
-- **Azure Blob Storage:** Stores unstructured data like packaging documentation, images, and audit files, as well as structured data related to organisation registration and packaging submission files.
-- **Azure Cosmos DB:** Manages globally distributed, schema-less data such as real-time submissions, file meta data or IoT packaging data.
-- **Azure Redis Cache:** Provides fast access to frequently used data, improving performance.
-- **Azure Synapse Analytics:** Enables large-scale data analysis, reporting, and integration with Power BI for dashboards that acts as the repository for enrolment, organisation registration, packaging data now and more in the future.
+- **Azure SQL database:** Stores structured data including enrolment, payment, PayCal outputs and PRNs.
+- **Azure Blob Storage:** Stores files such as packaging documentation, audit files, and organisation registration and packaging submission files.
+- **Azure Cosmos DB:** Stores submission metadata and event data in a schema-less, globally distributed format.
+- **Azure Redis Cache:** Provides fast access to frequently used data to improve performance.
+- **Azure Synapse Analytics:** Used for large-scale reporting and data analysis. Feeds Power BI dashboards and acts as the repository for enrolment, registration and packaging data.
 
 ### Integration
-The journey of data is sequentially integrated from the upstream front-end creation through the mid-stream data warehouse to reports as well as input to downstream systems
-- The front-end information is brought into the Azure Synapse data warehouse via Apache Pyspark that is an implementation of the Azure Data Factory (ADF). Accounts DB tables retain the same names.
-- Exceptions in naming are that Registration is called as Company Details and packaging is called PoM that is the acronym for placed on the market.
-- At the first instance the tables are copied into what one may consider the bronze layer of the medallion data layer architecture pattern with the prefix of app, that is the truncation of front-end application where they originate.
-- Then, they are presently again copied into the silver layer with the prefix of rpd, that is the acronym of report packaging data.
-- Finally, they are transformed to user requests of regulator reports or downstream application input extracts with the prefix of dbo, that is the acronym of data base object.
-- From the Azure Synapse data warehouse, the downstream integration is with:
-  - National packaging waste database (NPWD) for exchange of PRN/PERN via the PRN database.
-  - FSS system for sending billing data via PayCal.
-  - Power BI to produce Regulator reports.
-  - Via APIs for standard services including Companies House, postal address verifications and GOV.PAY for application fee payments.
-  - Common Data API for data exchange with the RPD front ends.
-- Departmental exchange and memoranda of understanding MoUs.
-- This is captured via the business context data diagram (BCDD) in Section Data Architecture – data models.
+Data flows from the front end into the data warehouse, then out to reports and downstream systems:
+- Front-end data is loaded into Azure Synapse using Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse.
+- Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
+- Tables are first copied into the bronze layer of the medallion architecture, prefixed with `app` (short for the originating front-end application).
+- They are then copied into the silver layer, prefixed with `rpd` (Report Packaging Data).
+- Finally, they are transformed into regulator reports or downstream extracts, prefixed with `dbo` (database object).
+- From Synapse, data is sent downstream to:
+  - RE/EX for PRN/PERN exchange via the PRN database (NPWD continues in parallel for 2025-year obligations).
+  - FSS for billing data via PayCal.
+  - Power BI for regulator reports.
+  - External services via APIs, including Companies House, postcode validation and GOV.UK Pay.
+  - The Common Data API for the RPD front ends.
+- Data-sharing agreements with other departments are captured in the business context data diagram (BCDD) in the data models section.
 
 ### Data architecture concepts
 #### Data storage
 - Azure SQL RDBMS is used to capture immutable Producer enrolment data, PayCal billing outputs, Fee payment rates, and PRN/PERNs.
-- Azure Synapse data warehouse is used for reporting to Regulators and for extracting input data to downstream applications PayCal, and Direct Registrant and Compliance Scheme data, even to NPWD.
+- Azure Synapse data warehouse is used for reporting to regulators and for extracting input data to downstream applications including PayCal, Direct Registrant and Compliance Scheme data, and RE/EX.
 - Cosmos No-SQL database to capture metadata and file data related to Producer submissions.
 - Azure Blob storage to hold submission files
 - Redis cache for front-end interaction with users.
@@ -885,23 +883,27 @@ The journey of data is sequentially integrated from the upstream front-end creat
 ## 6.2 Data architecture – integrity and quality view
 The organisation must be able to trust the accuracy and validity of data. This section should explain how data quality, accuracy and trust is maintained by the system – but also explain how “fuzzy” data is accounted for – i.e data whose reliability may be low but nevertheless it must be processed. Should include any caveats or warnings relating to non-owned data from other systems.
 
-The EPR system holds high quality data. We aim to build data quality from capture at source.
-During enrolment, all UK addresses are checked with the postcodes system as well as all limited companies are checked with Companies House database. Person contact details are e-mail verified.
-Organisation registration as well as packaging submission CSV templates have user guidelines to help populate and build in quality data. Where these could fail due to user error, there are high level validation rules, for example, packaging files are accepted only if the corresponding organisation file precedes it. There are Cosmos File Metadata, Submissions and Submissions Events tables that keep track of submissions so that pre-submission mentioned re-submissions are tracked. Validation rules are being improved and tightened up as a continuous improvement process.
-Enrolments and submission contents are manually, and human judgementally verified by Regulators who accept or reject these inputs. Prior to which they also check that the necessary fees have been paid.
-In turn when PRNs and PERNs from the national packaging waste database (NPWD) are presented by Defra to Producers and Compliance Schemes, they examine these documents and can accept or reject this obligation offset document.
-Producer obligation calculation outputs from PayCal are checked for organisation existence as well as packaging data content accuracy by the scheme administrator (SA) on the one hand.
-To counter on the other hand, SAs also manually verify collection cost figures from local authorities (LAs) for accuracy.
-In the future, we expect that there are plans to introduce trend analysis of packaging tonnage and disposal cost figures to pick up anomalies for further investigation by the Regulators or the SA.
-Only authorised persons can create, change, or even read data.
+The EPR system is designed to maintain high data quality from the point of capture.
+
+During enrolment, all UK addresses are checked against the postcodes service and all limited companies are verified with Companies House. Contact email addresses are verified.
+
+Registration and packaging submission templates include guidance to help users enter accurate data. Validation rules catch common errors — for example, a packaging file is only accepted if the corresponding organisation file has been submitted first. The Cosmos database tracks all submissions, including re-submissions, through File Metadata, Submissions and Submission Events tables. Validation rules are continuously improved over time.
+
+Regulators manually review enrolments and submissions and accept or reject them. They also check that the required fees have been paid before approving.
+
+When PRNs and PERNs are presented to producers and compliance schemes, they review and either accept or reject them as evidence of their recycling obligations being met.
+
+The scheme administrator (SA) checks PayCal outputs for accuracy — both the organisation data and the packaging content. SAs also manually verify the collection cost figures submitted by local authorities (LAs).
+
+In future, trend analysis of packaging tonnage and disposal costs is planned to help identify anomalies for regulators and the SA to investigate.
+
+Only authorised users can create, update or read data.
 
 ## 6.3 Data architecture – data models
 Relevant data model(s) showing which elements are involved in the solution in question – but the solutions own internal data model – but also relevant subsets of other system data models. Should differentiate transactional data which is subject to regular change and forms the system of record, from relatively static configuration or reference data.
 
 ### Business context data diagram
-The BCDD illustrates the organisational actors and illustrates the desired information flows between them, once EPR is in its target end state.
-The appropriate level of data-sharing agreement is determined by the group(s) that an organisation falls into. This is one of the purposes of the BCDD. The further one is from Core Defra as in another environment agency, or another government department, or a private company, the more formal and explicit are the data sharing arrangements.
-Details of the groups and the type of agreements between them are detailed in the lower part of the diagram in green.
+The business context data diagram (BCDD) shows the organisations involved in EPR and the information flows between them in the target end state. The level of data-sharing agreement required depends on how far an organisation is from core Defra — the further away (e.g. another environment agency, a government department, or a private company), the more formal the arrangement. The types of agreements are shown in the lower part of the diagram in green.
 
 <br>
 
@@ -913,7 +915,7 @@ Figure 14.0 Group differences
 The full model is available on SharePoint at Business Context Data Diagram - EPR.docx
 
 ### System context data diagram (SCDD)
-This diagram shows the application components and application data components of the extended data responsibility for packaging (EPR) with the information flows between them. As necessary, the diagram also shows some external applications and actors to contextualise data flows.
+This diagram shows the EPR application components, data components and the information flows between them. Where relevant, it also includes external applications and actors to give context.
 
 <br>
 
@@ -925,9 +927,7 @@ Figure 13.0 System context data
 The full model is available for reference or study on SharePoint at this location System Context Data Diagram - EPR.docx
 
 ### Conceptual data model
-A Conceptual Data Model (CDM) is a collection of diagrams displaying Conceptual Data Entities and their relationships followed by a description for each of the data entities used in the diagrams. The key purpose of a Conceptual Data Model is to depict the relationships between critical data entities within an enterprise. Conceptual data models are the most abstract data model, they are developed to address the concerns of key business stakeholders and should be used to communicate with them because of their simplicity.
-The below diagram is one of the views of the CDM on Finance and Documentation. There are two more views, one on Party and the other on Packaging Waste.
-The full model is available for reference or study on SharePoint at this location Conceptual Data Model - EPR.docx
+The conceptual data model (CDM) shows the key data entities and the relationships between them. It is the most abstract of the data models and is intended to help business stakeholders understand how data is structured without technical detail. The diagram below shows the Finance and Documentation view of the CDM. There are two further views covering Party and Packaging Waste. The full model is on SharePoint: Conceptual Data Model - EPR.docx
 
 <br>
 
@@ -937,8 +937,7 @@ Figure 15.0 Conceptual data model
 <br>
 
 ### Logical data model
-The Logical Data Model (LDM) acts as the bridge between the conceptual and physical data models. This is in the third normal form (3NF) that shows the entire data of EPR in the minimum number of tables. This is the ideal representation of data. Normally adopted in the silver layer of data architecture.
-The EPR LDM is shown below. This diagram like the all the other models (except the SCDD) is crosscutting across all EPR.
+The logical data model (LDM) bridges the conceptual and physical models. It is in third normal form (3NF), representing all EPR data in the minimum number of tables. It is used in the silver layer of the data architecture. The EPR LDM is shown below. Like all the other models (except the SCDD), it covers the whole of EPR.
 
 <br>
 
@@ -953,9 +952,7 @@ We have identified in the context of the logical data model (LDM) the PII entiti
 Please note that this list done by a data architect is not as definitive as one done by a Defra data steward.
 
 ### Subject area model
-A Subject Area Model consists of ‘Subject Area’ elements nested into various levels of abstraction. Each level of abstraction is aligned to the activities conducted by the Organisational Data Actors e.g. Defra Core, Rural Payment Agency, Environment Agency etc.
-A Subject Area Model partitions the data landscape of an Organisational Data Actor into various groups of activity related data entities with a manageable scope that can be prioritised and tackled independently, but in a coordinated way.
-Comparable to the CDM there are the subject areas of Packaging Waste, Party & Identity and Finance.
+The subject area model groups data entities into areas of related activity for each organisation (e.g. Defra Core, Rural Payments Agency, Environment Agency). Each group has a manageable scope that can be worked on independently but in a coordinated way. Like the CDM, the subject areas cover Packaging Waste, Party & Identity and Finance.
 
 <br>
 
@@ -969,13 +966,13 @@ The full model is available for reference or study on SharePoint at this locatio
 ## 6.4 Data architecture – data model terminology / glossary
 For each data entity/concept/key attributes, provided a consistent useable definition of the term – noting that a one-word term (e.g. Applicant) is ambiguous and a term should always consist of 2 or more words. Optimally, this term list would form the common language of all other views (Business, Application).
 
-The below table gives the list of all the entities across EPR in the conceptual data model (CDM). The same entities are mapped across the other models too. Some observations:
-- The subject area model (SAM) has in common with the CDM those entities that are to do with subject (things) of interest to EPR including Waste, Finance and their sub-entities.
-- The business context data diagram (BCDD) deals with organisation actors and how they need to handle data with the appropriate agreements in place.
-- The system context data diagram shows all the EPR systems and the handling of data within them and without.
-- The above three models appear to complement each other as in topic, actor and system all of which are captured in the CDM.
-- LDM (yet to be created-waiting the CDM approval just obtained unofficially on 20 June 2025) is expected to have all the CDM entities with more details.
-- Definitions for all the entities are in section 6.5 Conceptual Data Entities of the CDM lined in Section 6.3 above.
+The table below lists all entities in the EPR conceptual data model (CDM) and shows which other models each entity appears in. Key points:
+- The subject area model (SAM) shares the CDM entities related to Waste, Finance and their sub-entities.
+- The business context data diagram (BCDD) focuses on organisational actors and the data-sharing agreements between them.
+- The system context data diagram shows all EPR systems and their internal and external data flows.
+- These three models complement each other, covering topic, actor and system — all of which are captured in the CDM.
+- The LDM is expected to include all CDM entities with additional detail.
+- Definitions for all entities are in section 6.5 of the CDM (linked in section 6.3 above).
 
 | Entity | SAM | BCDD | SCDD | CDM | LDM |
 | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -1026,12 +1023,13 @@ The below table gives the list of all the entities across EPR in the conceptual 
 ## 6.5 Data architecture – data dependency referential integrity view
 A sub-form of data dictionary that identifies “binding” data attributes that form intersystem keys (eg a transaction id, or a customer reference, or a classification code) and attributes that are key to creating facts and dimensional views that would be required by any MI/analytics capabilities, as well as maintaining cross system data integrity.
 
-Entity identifiers that are cross-system within EPR are the six-digit Reference Number that is the natural key for Organisation and Packaging Material that is the natural key for packaging. Other natural packaging keys are Packaging Type and Packaging Class. These are different packaging analysis dimensions.
-Reference Number is used as the natural key in the periodic organisation registration submission.
-Packaging also has the organisation Reference Number (Organisation Id). This is cross validated against the registration submission in reporting and in PayCal for data integrity purposes
-A data dictionary is available and maintained on the content repository Confluence at Data Dictionary - Report Packaging Data (RPD) - Data Warehouse - Collections & Packaging Reforms - Confluence.
-An abstracted version of the key relationships between tables is available within the logical data model (LDM) in Section Data Architecture – data models data models which marks the primary key as the Business Identifier attribute of an entity, and the elsewhere used same attribute in another entity as the Business Key n. Both attributes are connected by a relationship line with cardinality. Such representation is following the Defra data architecture framework (DAF) guidelines. The LDM is an appropriate candidate for creating a silver layer and transform this to a reporting dimensional data model also in the silver layer. The gold layer downstream will have aggregated metrics for specific applications needed by the customer.
-In current RPD Data Platform architecture we do not have clearly defined dimensions and fact tables for Silver Layer, All entities in Silver Layer are logical objects(Views/nested views) created for a specific report or a use-case, these views significantly complex with redundant business transformations and always process entire source data with all the columns.
+The cross-system entity identifiers within EPR are the six-digit Reference Number (the natural key for Organisation) and Packaging Material (the natural key for packaging). Packaging Type and Packaging Class are additional packaging dimensions. The Reference Number is used as the natural key in periodic organisation registration submissions. Packaging data also carries the organisation Reference Number (Organisation ID), which is cross-validated against registration data in reporting and PayCal.
+
+A data dictionary is maintained in Confluence: Data Dictionary - Report Packaging Data (RPD) - Data Warehouse - Collections & Packaging Reforms.
+
+The LDM shows key table relationships in an abstracted form. Primary keys are marked as Business Identifier attributes; where the same attribute appears in another entity it is marked as a Business Key. Relationships are shown with cardinality, following the Defra data architecture framework (DAF) guidelines. The LDM is suitable as the basis for the silver layer, which can then be transformed into a dimensional reporting model. The gold layer will hold aggregated metrics for specific downstream applications.
+
+In the current RPD data platform, the silver layer does not have clearly defined dimensions and fact tables. All silver layer entities are logical views created for specific reports or use cases. These views are complex, contain redundant business logic, and process all source data columns each time they run.
 
 ## 6.6 Data architecture – data stores
 Identifies the characteristics required of data stores, their capacity and growth forecasts, including persistent stores and transit ones. Covers the qualities of service required of each data store (performance, durability) and any approaches to caching that may be required. Don’t forget “external data which occur naturally such as feeds from google analytics.
@@ -1044,12 +1042,17 @@ The pEPR system contains five data stores
 - Azure Synapse (SQL Server)
 
 ### Characteristics
-All data store types are secure and have data integrity. All persistent portal data services are configured to be geo-resilient with the primary region being UK South and the secondary region being UK West.
-Azure Blob is used to store registration and packaging files. This is inexpensive storage used to store files for a long time. This is cold storage. It may take some time to retrieve.
-SQL RDBMS is used to capture data populated by users using the front-end screens. Being an RDBMS, the table enforces relationships giving referential integrity.
-Cosmos DB is NoSQL which holds file meta data, submission event and submission data using key value pairs. It is highly flexible in its schema, highly scalable and highly available.
-The Redis cache is transitory and non-persistent used primarily for user-session data.
-Azure Synapse is the powerful data warehouse used for big data analytics. It has a SQL tabular structure, but no relationships between the tables. It is fed by Spark ETL and is also well integrated with Power BI for reporting.
+All data stores are secure and maintain data integrity. All persistent data services are geo-resilient, with UK South as the primary region and UK West as the secondary.
+
+Azure Blob Storage holds registration and packaging files. It is low-cost, long-term cold storage — retrieval may not be instant.
+
+SQL RDBMS captures data entered by users through the front-end. Referential integrity is enforced through table relationships.
+
+Cosmos DB is a NoSQL store holding file metadata, submission events and submission data as key-value pairs. It is flexible, highly scalable and highly available.
+
+The Redis cache is transient and non-persistent, used mainly for user session data.
+
+Azure Synapse is the data warehouse used for large-scale analytics. It has a SQL tabular structure but no enforced relationships between tables. It is populated via Spark ETL and integrates with Power BI for reporting.
 
 ### Capacity, growth and quality of service (QoS)
 The information in the below table has been collected from the respective architects of each of the data stores.
@@ -1059,7 +1062,7 @@ The information in the below table has been collected from the respective archit
 | Accounts DB (RDBMS) | 258MB for PRD; Other environments 2.5GB | 15-20%pa. Growth expected due to MYC PRN Obligation updates, Public Register RE/EX and obligation logic. Availability and data integrity are critical as it feeds regulatory data/logic. | <=1 hour/month. | Zero data loss. | This is primary capture that cannot be re-run if lost. |
 | PayCal DB RDBMS | 120 MB For PRD; Other environments 240 MB | Y1 - 50% onetime due to inclusion of small producers; Y2 onwards – less than 5%pa | May not be an issue because the system is not transactional. | May not be an issue because there is no primary data capture. | |
 | Payments DB (RDBMS) | | | Could be critical because it is customer facing. | No data loss acceptable because of primary data capture of invoices and payments. | |
-| PRN DB (RDBMS) | 33 MB for PRD; Other environments 100 MB | Y1 – 300% if RE/EX journey is implemented. Y2 onwards – less than 5%pa | Customer facing, but less critical. | Some data loss could be accommodated because we could refresh from NPWD and request re-entry by DR and CS. | |
+| PRN DB (RDBMS) | 33 MB for PRD; Other environments 100 MB | Y1 – 300% now RE/EX is implemented. Y2 onwards – less than 5%pa | Customer facing, but less critical. | Some data loss could be accommodated because data could be refreshed from RE/EX (or NPWD for 2025-year data) and DR and CS asked to re-enter decisions. | |
 | Redis cache | | | Could be critical because it is customer facing. | Some inconvenience, but customer could be requested to re-create the session. Transient DB. | |
 | Cosmos NoSQL DB | | | Critical because it is recording events. | No data loss acceptable because of primary data capture. | |
 | Azure Synapse Data warehouse | 225,000 MB For PRD; Other environments 450,000 MB. Ref: SN presentation. | Y1 - 100% due to inclusion of small producers. Y2 onwards – less than 5%pa | Possibly less critical. | May not be an issue because there is no primary data capture. | |
@@ -1070,32 +1073,24 @@ The information in the below table has been collected from the respective archit
 ## 6.7 Data architecture – data exchanges (flows)
 Show from a data perspective, data objects being exchanged by the application (as differentiated from data sync which is done by the platform or human actors). Can be a reuse of the component collaboration diagram if this conveys enough information about what is being exchanged, when, in what form, using what method (file message etc).
 
-Enrolment information is held in the Accounts DB.
-Registration and Packaging file submissions are held in Blob Storage. Information about these and the statuses through all the way from Uploaded to Accepted are captured in the Cosmos DB.
-There is an hourly Spark pipeline run that copies across the incremental transactions from the Accounts and Cosmos DBs and the submitted files from Blob Storage into the Azure Synapse data warehouse.
-These objects are in the silver layer of Synapse (if one were to use the medallion structure).
+Enrolment data is held in the Accounts database. Registration and packaging file submissions are held in Blob Storage, with status tracking (from Uploaded through to Accepted) recorded in Cosmos DB. An hourly Spark pipeline copies incremental updates from the Accounts database, Cosmos DB and Blob Storage into the Azure Synapse data warehouse. These objects sit in the silver layer of Synapse.
 
 ### Datasets managed and integrated
-Enrolment information includes Organisation details, Producer-Compliance Scheme relationships and their authorised EPR user details. This is stored in the Accounts DB.
-Updates to organisation data (registration submission) including changes to company and/or trading names or address or company offer details. From a legal regulation perspective, registration superseded enrolment. Submitted by producers via file upload called organisation_details_table.csv stored on Azure Blob.
-Periodic packaging submissions. Submitted by producers via CSV file upload stored on Azure BLOb. The last submission for a period supersedes earlier ones.
-Submission data and metadata are created in the Cosmos No-SQL DB.
+Enrolment data includes organisation details, compliance scheme relationships and authorised user details. This is stored in the Accounts database. Registration submissions update organisation data (company name, trading name, address and company officer details); legally, registration supersedes enrolment. Producers submit this as `organisation_details_table.csv`, stored in Azure Blob Storage. Packaging data is also submitted as CSV files stored in Azure Blob Storage — the most recent submission for a period replaces earlier ones. Submission event data and metadata are stored in the Cosmos NoSQL database.
 
 ### Integration
-The journey of data is sequentially integrated from the upstream front-end creation through the mid-stream data warehouse to reports as well as input to downstream systems
-The front-end information is brought into the Azure Synapse data warehouse via Apache Pyspark that is an implementation of the Azure Data Factory (ADF). Accounts DB tables retain the same names.
-Exceptions are Registration is called as Company Details and packaging is called PoM that is the acronym for placed on the market.
-At the first instance the tables are copied into what one may consider the bronze layer of the medallion data layer architecture pattern with the prefix of app, that is the truncation of front-end application where they originate.
-Then, they are presently again copied into the silver layer with the prefix of rpd, that is the acronym of report packaging data.
-Finally, they are transformed to user requests of regulator reports or downstream application input extracts with the prefix of dbo, that is the acronym of data base object.
-From the Azure Synapse data warehouse, the downstream integration is with:
-- National packaging waste database (NPWD) for exchange of PRN/PERN.
-- FSS system for sending billing data (PayCal).
-- Power BI to produce Regulator reports.
-Details of integrations are given in the next level of detail in the dedicated next Section Integration Architecture – Integration Architecture.
-The architecture decision records (ADRs) in Confluence also describe data exchanges https://eaflood.atlassian.net/wiki/x/sIAr8g
-At a higher level the data flows are shown in the system context data diagram (SCDD) in Section Data Architecture – data models Data Models.
-An exercise was done during H2 of 2025 to detail data flows and integrations. The findings of this exercise are in Defra SharePoint at DataFlowsandIntegrations.xlsx
+Data flows from the front end into the data warehouse and then out to reports and downstream systems. Front-end data is loaded into Azure Synapse via Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse. Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
+
+- Tables are first copied into the bronze layer of the medallion architecture, prefixed with `app`.
+- They are then copied into the silver layer, prefixed with `rpd`.
+- Finally, they are transformed into regulator reports or downstream extracts, prefixed with `dbo`.
+
+From Synapse, data is sent downstream to:
+- RE/EX for PRN/PERN exchange.
+- FSS for billing data via PayCal.
+- Power BI for regulator reports.
+
+Full details of each integration are in the Integration architecture section. ADRs describing data exchanges are on Confluence: https://eaflood.atlassian.net/wiki/x/sIAr8g. High-level data flows are shown in the SCDD in the data models section. A detailed data flows and integrations exercise was completed in H2 2025; findings are on Defra SharePoint at DataFlowsandIntegrations.xlsx.
 
 <br>
 
@@ -1108,9 +1103,11 @@ Figure 18.0 Data flows and integrations
 ## 6.8 Data architecture – synchronisation
 Explains any requirements to maintain data “in sync” with other systems and allowed/desired latency. For example there may be a master “list of allowed values” that needs to be synchronised manually thru change control. At the other extreme there may be distributed data stores that need to be aligned automatically by the platform within seconds.
 
-The following are the instances where data needs to be in sync across the EPR systems:
-As we have seen the upstream of data capture in the Accounts DB RDBMS, Azure Blob Storage and Cosmos NoSQL DB on the one hand, and its transfer to the mid-stream Azure Synapse data warehouse takes up to one hour. This is dependent on the Spark pipeline running once an hour on a temporal trigger. This one-hour time lag is acceptable. This is delta data sync normally. The only exception to delta is during pre-release when there is a schema change, where there is a full refresh sync.
-In the context of PRN Management, there is a delta data sync of direct registrant (DR) and compliance scheme (CS) master data from EPR to NPWD every day outside working hours. The DR and CS in turn trigger a daily transfer of newly created PRN/PERN from NPWD to EPR to specific DR or CS parties. After acceptance or rejection by that DR/CS, the PRN/PERN is synced at day’s end from EPR to their natural home in NPWD.
+The following data synchronisation requirements exist across EPR systems:
+
+Data captured in the Accounts database, Azure Blob Storage and Cosmos NoSQL database is transferred to Azure Synapse within one hour via an hourly Spark pipeline. This one-hour lag is acceptable. Normally only changed (delta) data is synced; a full refresh is only done before a release when the schema changes.
+
+For PRN management, DR and CS master data is synced daily from EPR to RE/EX outside working hours. RE/EX then sends newly created PRNs/PERNs back to EPR for the relevant DR or CS to review. After the DR/CS accepts or rejects them, the outcome is synced back to RE/EX at the end of the day. The same pattern continues to run in parallel with NPWD for 2025-year PRNs/PERNs (issued up to 31 January 2026).
 
 **ADR-137 Update (from 1 February 2026):** The same organisation-data sync and PRN/PERN exchange pattern now also applies to **RE/EX (RREPW)** on CDP for the 2026 compliance year. Three new timer-triggered Azure Functions handle: (1) daily DR/CS organisation data sync from EPR to RE/EX; (2) daily retrieval of newly-issued 2026 PRNs/PERNs from RE/EX into the RPD PRN DB; and (3) real-time return of accept/reject decisions from RPD to RE/EX. The existing NPWD sync runs continue in parallel for 2025-year PRNs/PERNs.
 
@@ -1148,7 +1145,7 @@ Finally, to conclude the information lifecycle, in line with good information ma
 Log files form part of the data and operational architectures. They can often contain useful or sensitive data. Ensure any beneficial usage of e.g. PaaS log files or IAM logs is described here especially for things like audit logging or “accidental analytics”.
 
 There are a few types of logs that RPD and PayCal has:
-- There is the standard system log for RDBMS databases that records who altered records and when. Probably used for roll-back and roll-forward with reference to a clean moment in time to recover should there be any unfortunate DB accidents.
+- There is the standard system log for RDBMS databases that records who altered records and when. This is used for roll-back and roll-forward recovery from a known clean point in time.
 - In the Accounts DB there is another Audit Log table that records what, when, who and before & after was changed. This is a simple long table to store. Requires some programming effort to re-construct records as at an earlier moment should the need arise. This was used once in 2024 to report on acceptances of submissions by regulators.
 - Cosmos logs via its Submission Events table the progress of registration or packaging file submissions through their various statuses.
 - The below Confluence link used by regulators to carry out their data auditing: Power BI Reporting - Collections & Packaging Reforms - Confluence.
@@ -1263,11 +1260,11 @@ This section provides the high-level design explain how end to end system integr
 Develops the system context diagram to visualise the method, frequency and exchange pattern for each outward facing interface. Developed application usage view, or C4model can be used for this. Interface timings that are not “adhoc” (triggered on demand) should be identified as such – e.g. “polls every 10 minutes”.
 
 ### PRN interfaces
-Reprocessors and exporters use NPWD to record packaging waste and issue PRNs/PERNs, which producers and compliance schemes rely on to meet recycling obligations. Since January 2025, PRNs and PERNs will continue to be issued via NPWD, their acceptance by producers and compliance schemes will occur exclusively through the RPD platform which will integrate assigned PRN/PERN data from NPWD, calculate producers’ obligations, and update balances upon acceptance of notes. Regulators will maintain visibility of PRN details throughout this process.
+From 1 February 2026, reprocessors and exporters issue PRNs/PERNs via RE/EX, which producers and compliance schemes use to meet their recycling obligations. Producers and compliance schemes accept or reject PRNs/PERNs through RPD, which integrates with RE/EX to retrieve the notes, calculate obligations and update balances. Regulators have visibility of PRN details throughout. NPWD continues to operate in parallel for PRNs/PERNs issued up to 31 January 2026 (2025-year obligations).
 
-To ensure data can flow accurately from NPWD to RPD and vice versa will allow both systems to work in unison, so that updates to PRN records are accurate and timely. As a result, producers will be able to correctly manage their obligations and regulators will be able to achieve the necessary regulatory oversight. To deliver this, the integration work needs to ensure three main objectives are met:
-- RPD can send data to NPWD
-- RPD can retrieve data from NPWD
+To ensure data flows accurately between RE/EX and RPD, the integration must meet three objectives:
+- RPD can send data to RE/EX
+- RPD can retrieve data from RE/EX
 - Both systems can share producer / compliance scheme organisation details
 
 **Component Diagram**
@@ -1279,7 +1276,7 @@ Figure 20.0 Component diagram
 
 <br>
 
-Azure Function – Daily/Weekly Reconciliation Emails: This function is designed to automate reconciliation reporting between the PRN system and NPWD. It runs on a scheduled basis (daily or weekly) and generates email notifications that include a summary of PRNs received, processed, and sent back to NPWD. The email provides key metrics such as transaction counts, status updates, and any discrepancies identified during reconciliation. This ensures stakeholders have timely visibility into data exchange activities, supports compliance monitoring, and helps maintain data integrity across integrated systems.
+Azure Function – Daily/Weekly Reconciliation Emails: This function automates reconciliation reporting between the PRN system and RE/EX. It runs on a scheduled basis (daily or weekly) and sends email notifications summarising PRNs received, processed and returned. The email includes transaction counts, status updates and any discrepancies found. This gives stakeholders timely visibility of data exchange activity and supports compliance monitoring and data integrity.
 
 ### RE/EX integration from 1 February 2026 (ADR-137, implemented)
 
@@ -1362,18 +1359,18 @@ Figure 25.0 Component diagram - regulator enrolment
 
 
 ### PRN
-CS and DP users authenticate via Azure SSO using a single set of credentials to access the RPD portal and view PRNs. All PRN-related data is extracted from POM files, processed, and stored in Synapse DB, while compliance data from NPWD is maintained in the PRN SQL Database. The system consolidates this information and retrieves it from the PRN Database to display on the frontend, ensuring accurate and seamless user access to obligations and reporting.
+CS and DP users log in via Azure SSO to access the RPD portal and view PRNs. PRN-related data is extracted from POM files, processed and stored in Synapse, while compliance data is held in the PRN SQL database. The system consolidates this and retrieves it from the PRN database to display on the front end.
 
 Once CS and DP users register with the RPD system, they will have the option to submit their registration details, upload the POM file, and manage their organization. On the PRD portal, users can manage their PRN by navigating to the PRN Obligation tab, where they can review and update their obligations.
 
 **PRN - Accept or Reject Workflow**
-**Organisation Data Sync (Separate Function)** A separate Azure Function sends organisation data to NPWD when a new organisation is registered or an existing one is updated. NPWD uses this to maintain a mapping between internal orgIds and NPWD orgIds (different format). This function is unchanged by PRN update changes.
+**Organisation data sync (separate function):** A separate Azure Function sends organisation data to RE/EX when a new organisation is registered or updated. RE/EX uses this to maintain a mapping between internal organisation IDs and its own IDs. The equivalent function continues to run against NPWD for 2025-year obligations.
 
-**Data Sync** NPWD system provides PRN data via API. Azure Function (triggered by a Timer) pulls PRN data and stores it in PRN-DB.
+**Data sync:** RE/EX provides PRN data via API. An Azure Function (timer-triggered) pulls PRN data and stores it in the PRN database.
 
-**Customer Interaction** PRNs in PRN-DB are displayed to customers for review. Customers Accept or Reject PRNs based on recycling material.
+**Customer interaction:** PRNs in the PRN database are displayed to customers for review. Customers accept or reject PRNs based on recycling material.
 
-**Update NPWD System** Accept/Reject decisions, along with the obligation year, are sent back to NPWD via API. NPWD reflects updated PRN status and obligation details.
+**Update RE/EX:** Accept/reject decisions, along with the obligation year, are sent back to RE/EX via API. RE/EX reflects the updated PRN status and obligation details.
 
 **Obligation Calculation** Accept/Reject decisions do not directly update compliance obligations. Tonnage and expected values are calculated dynamically when the screen loads. Main obligation calculation data is retrieved from the database, pre-computed by separate functions.
 
@@ -1386,9 +1383,9 @@ Figure 26.0 Component diagram
 
 <br>
 
-The integration architecture defines how the PRD portal, Azure SSO, PRN SQL Database, NPWD, and POM files interact to enable seamless user registration, authentication, and PRN management for CS (Compliance Scheme) and DP (Direct Producer) users.
+This section describes how the RPD portal, Azure SSO, the PRN SQL database, RE/EX and POM files work together to support user registration, authentication and PRN management for compliance schemes (CS) and direct producers (DP).
 
-The objective is to provide secure, unified access to the RPD portal via Azure SSO and ensure accurate synchronization of PRN data from POM files and NPWD into the PRN SQL Database. Users register and submit POM files through the RPD portal, while the PRD portal enables CS and DP users to manage obligations. Data from POM files and NPWD is processed and stored in the PRN SQL Database for compliance reporting. Azure SSO ensures authentication and identity management across platforms. This integration delivers streamlined registration, data handling, and obligation management for compliance.
+The goal is to provide secure access to the RPD portal via Azure SSO and keep PRN data in sync between POM files, RE/EX and the PRN SQL database. Users register and submit POM files through RPD. CS and DP users manage their obligations through the portal. PRN data from POM files and RE/EX is processed and stored in the PRN SQL database for compliance reporting. Azure SSO handles authentication across all platforms.
 
 ### Fees and payments:
 The Fees & Payments service makes a call to the GOV.UK Pay payment handler service via the payment façade. Upon receiving a payment request, GOV.UK Pay creates a payment session and returns the Next URL to the front end. Payment status updates are then retrieved by the Fees & Payments service and written back to the Fees & Payments DB.
@@ -1407,17 +1404,17 @@ Figure 27.0 Component diagram
 Names and tabulates each interface purpose verbally including its behaviour and any n-level-removed dependencies (to protect from unintended cascade of changes); also contains links to any specific schema documents (with a clearly stated example in the appendix if the schemas are not available online). Should correlate to the data architecture section (e.g. an attribute name should have the same meaning as a minimum) if used in the interface catalogue.
 
 ### External interfaces
-**PRN DB and NPWD**
-All transactions between the RPD PRN database and NPWD occur via APIs, as defined in the API contract below, covering full loads and delta updates for Direct Registrants and Compliance Schemes using the Upsert Producer functionality. The API interfaces manage PRN/PERN document exchanges, with NPWD sending newly created documents to RPD and RPD returning accepted or rejected statuses back to NPWD. Periodic reconciliation emails are triggered using the Gov.Notify and NuGet package by calling the SendEmail method, based on API-driven confirmations of PRN documents received or sent between the two systems.
+**PRN database and RE/EX (replaced NPWD from 1 February 2026)**
+All transactions between the RPD PRN database and RE/EX use APIs, as defined in the API contract below. This covers full loads and delta updates for direct registrants and compliance schemes via the Upsert Producer function. RE/EX sends newly created PRN/PERN documents to RPD; RPD returns accepted or rejected statuses back to RE/EX. Periodic reconciliation emails are triggered via GOV.UK Notify. The same interfaces continue to run against NPWD in parallel for 2025-year PRNs/PERNs.
 
 The data contracts detail the schema of the data exchange. The Method name in the contract forms part of the process in the table below.
 
 | Process | Direction | Frequency | Description |
 | :--- | :--- | :--- | :--- |
-| DR and CS full loads & delta updates (Upsert Producer) | RPD PRN DB → NPWD | Daily around midnight. | Handles Upsert Producer functionality for Direct Registrant and Compliance Scheme data. |
-| Newly created PRN/PERN document interface (GET PRNs) | NPWD → RPD PRN DB | Daily around midnight. | Transfers newly created PRN/PERN documents from NPWD to RPD PRN database. |
-| Accepted or rejected PRN/PERN document interface (PRN Update) | RPD PRN DB → NPWD | Returned in real time. | Sends status updates (accepted/rejected) for PRN/PERN documents back to NPWD. |
-| Reconciliation Emails (PRN received/sent) | NPWD ↔ RPD PRN DB | Periodically. | Email notifications for reconciliation of PRN documents between NPWD and RPD PRN database. |
+| DR and CS full loads & delta updates (Upsert Producer) | RPD PRN database → RE/EX (and NPWD for 2025-year) | Daily around midnight. | Handles Upsert Producer functionality for Direct Registrant and Compliance Scheme data. |
+| Newly created PRN/PERN document interface (GET PRNs) | RE/EX (and NPWD for 2025-year) → RPD PRN database | Daily around midnight. | Transfers newly created PRN/PERN documents to the RPD PRN database. |
+| Accepted or rejected PRN/PERN document interface (PRN Update) | RPD PRN database → RE/EX (and NPWD for 2025-year) | Returned in real time. | Sends accept/reject status updates for PRN/PERN documents back to RE/EX. |
+| Reconciliation emails (PRN received/sent) | RE/EX ↔ RPD PRN database | Periodically. | Email notifications for reconciliation of PRN documents between RE/EX and the RPD PRN database. |
 
 ### PayCal
 - PayCal Organisation Data ICD: This is the data contract file that got agreed with FSS to fetch the organisation details
@@ -1561,14 +1558,14 @@ All the below sequences are manually spaced apart in time. There is no event-tri
 - Only then would it be correct to run PayCal and then transfer the billing data from PayCal to the FSS system.
 
 ### RPD PRN
-- Firstly, the DR/CS update from RPD to NPWD runs daily.
-- PRN/PERN created by Reprocessors/Exporters respectively run daily from NPWD to RPD. These are in the specific name of a direct registrant producer (DR) or a compliance scheme (CS).
-- After the DR or CS accept/reject their assigned PRN/PERN, the return interface runs from RPD to NPWD carrying the accepted or rejected PRN/PERN.
+- The DR/CS update from RPD to RE/EX runs daily (and in parallel to NPWD for 2025-year obligations).
+- PRNs/PERNs created by reprocessors/exporters in RE/EX are sent daily to RPD, addressed to the specific DR or CS.
+- After the DR or CS accepts or rejects a PRN/PERN, the decision is sent back to RE/EX (or NPWD for 2025-year) in real time.
 
 ## 7.4 Reliability / recovery view
 Explains any “cross system” referential integrity approaches, in support of understanding approaches to recovery if there is a system-to-system dependency at the data tier. [Cannot assume every interface is RESTful/stateless, cannot assume system to system interfaces are all within DEFRA etc.] Explores options for recovery if systems need to be brought “back in sync”.
 
-Both the external applications NWPD and FSS leverage REST-based APIs for data exchange with RPD and PayCal respectively. The two endpoints provided for FSS are simple fetch ‘GET’ calls from FSS to PayCal, in the event of any recovery or re-synchronisation, FSS may call either endpoint (for billing data or organisational data) at any time.
+Both RE/EX and FSS use REST-based APIs to exchange data with RPD and PayCal respectively. The two endpoints provided for FSS are simple fetch ‘GET’ calls from FSS to PayCal, in the event of any recovery or re-synchronisation, FSS may call either endpoint (for billing data or organisational data) at any time.
 
 Notwithstanding the above, if a sequential running of interfaces is necessary, then the sequence sets in the previous sub-section could be used.
 
@@ -2539,7 +2536,7 @@ List those strategic components or approaches that have been used to deliver thi
 - **ADR-106:** Producer Registration and Fee Payment Journey.
 - **ADR-106.A:** Producer Registration and Fee Payment Journey – Regulator view.
 - **ADR-108:** Subsidiaries – one-off migration to fix subsidiary IDs.
-- **ADR-113:** Subsidiaries – DB changes for looser parent/child coupling; deployed in releases 9/10.
+- **ADR-113:** Subsidiaries – database changes for looser parent/child coupling; deployed in releases 9/10.
 
 ### POM file submission
 
