@@ -856,7 +856,7 @@ As in Section 9.2.3 further down this document
 Data flows from the front end into the data warehouse, then out to reports and downstream systems:
 - Front-end data is loaded into Azure Synapse using Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse.
 - Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
-- Tables are first copied into the bronze layer of the medallion architecture, prefixed with `app` (short for the originating front-end application).
+- Tables are first copied into the bronze layer of the Medallion architecture, prefixed with `app` (short for the originating front-end application).
 - They are then copied into the silver layer, prefixed with `rpd` (Report Packaging Data).
 - Finally, they are transformed into regulator reports or downstream extracts, prefixed with `dbo` (database object).
 - From Synapse, data is sent downstream to:
@@ -1081,7 +1081,7 @@ Enrolment data includes organisation details, compliance scheme relationships an
 ### Integration
 Data flows from the front end into the data warehouse and then out to reports and downstream systems. Front-end data is loaded into Azure Synapse via Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse. Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
 
-- Tables are first copied into the bronze layer of the medallion architecture, prefixed with `app`.
+- Tables are first copied into the bronze layer of the Medallion architecture, prefixed with `app`.
 - They are then copied into the silver layer, prefixed with `rpd`.
 - Finally, they are transformed into regulator reports or downstream extracts, prefixed with `dbo`.
 
@@ -1111,45 +1111,50 @@ For PRN management, DR and CS master data is synced daily from EPR to RE/EX outs
 
 **ADR-137 Update (from 1 February 2026):** The same organisation-data sync and PRN/PERN exchange pattern now also applies to **RE/EX (RREPW)** on CDP for the 2026 compliance year. Three new timer-triggered Azure Functions handle: (1) daily DR/CS organisation data sync from EPR to RE/EX; (2) daily retrieval of newly-issued 2026 PRNs/PERNs from RE/EX into the RPD PRN DB; and (3) real-time return of accept/reject decisions from RPD to RE/EX. The existing NPWD sync runs continue in parallel for 2025-year PRNs/PERNs.
 
-In the context of PayCal, upon a run event trigger, the latest Producer master data and current period Packaging data is extracted by PayCal from Azure Synapse. The payment calculation is made for all Producers validating against their synced master and this output as a billing file is sent to the financial services supplier (FSS) system SNow for them to create a notice of liability (NoL) on a Producer.
-There is another daily after-hours delta run of organisation details from Synapse via PayCal to FSS. This is for the contact centre staff to be current on Producer details when they call them up with queries on their accounts.
-Since recently there has come about another need to actively sync across systems. Subsidiaries are subject to mid-year changes whereby typically parent 1 sells subsidiary 1 to parent 2. Such movement is immediately recognised in the Accounts DB via the Organisation Relationships table. However, that relationship is can only be manually updated to the Producer master in the rpd.CompanyDetails.sql table within a few weeks as required by regulation for both parents to submit respective registration files. Failing this, only when they submit their half yearly return. There is a small data quality (DQ) risk that for downstream applications that transfer obligations or liability such as PRN obligation (based on packaging or PoM file), or PayCal invoice (based on the registration file), the latest Parent-Subsidiary relationship is unavailable.
+When PayCal is triggered to run, it pulls the latest producer master data and current-period packaging data from Azure Synapse. It calculates the payment due for all producers, validates against the synced master data, and sends the result as a billing file to the financial services supplier (FSS) system ServiceNow (SNow). FSS uses this to create a notice of liability (NoL) for each producer.
+
+A separate daily after-hours run sends a delta (changes only, not the full dataset) of organisation details from Synapse via PayCal to FSS. This keeps contact centre staff up to date with producer details when handling account queries.
+
+There is also a need to keep parent-subsidiary relationships in sync across systems. When a subsidiary is sold from one parent to another mid-year, the change is immediately recorded in the Accounts database via the Organisation Relationships table. However, the Producer master in the `rpd.CompanyDetails` table can only be updated manually, within a few weeks of the transaction — regulation requires both parent organisations to submit revised registration files. If they do not do so promptly, the update does not happen until their half-yearly return. This creates a small data quality (DQ) risk: downstream systems that transfer obligations or calculate liability — such as PRN obligation (based on POM files) or PayCal invoices (based on registration files) — may be working from an out-of-date parent-subsidiary relationship.
 
 ## 6.9 Data architecture – data resilience and recovery
 Explains how data is protected from loss whether by system failure or otherwise, and how data can be restored (and with what impacts) in the event of actual data loss.
 
-As stated in section Localised Availability and Recoverability Features further down this document and at the time of writing (July 2025), the pEPR solution is only resilient to the failure of a single availability zone in the UK South region. No OAT has currently been conducted so empirical validation has not yet been proven. The current proposal for a DR strategy is to provision all the infrastructure components to the UK West region via Azure DevOps pipelines, similarly the containerised web apps and APIs will be provisioned to the UK West region via Azure DevOps pipelines. All persistent data stored will be restored from geo-resilient backups to the UK West Region, but this has not yet happened. The second availability zone in UK West is yet to be implemented.
-The table in Section 6.6 above details the real organisational requirements to downtime (RTO) and data loss (RPO) for each of the data stores. The stringent ones are the Account DB, Blob Storage and Cosmos NoSQL for RPO because these are primary capture stores, and again for RTO the Account DB, Payment DB, Blob Storage, Cosmos No SQL and PRN DB because these are customer facing.
+As of July 2025, the pEPR solution can only tolerate the failure of a single availability zone in the UK South region. No operational acceptance testing (OAT) has been carried out, so this resilience has not been empirically verified. The planned disaster recovery (DR) strategy is to provision all infrastructure, containerised web apps and APIs to the UK West region via Azure DevOps pipelines, with persistent data restored from geo-resilient backups to UK West — but this has not yet been implemented. The second availability zone in UK West is also still to be set up.
+
+The table in section 6.6 sets out the recovery time objective (RTO) and recovery point objective (RPO) targets for each data store. The most stringent RPO requirements apply to the Accounts database, Blob Storage and Cosmos NoSQL, as these are primary capture stores. The most stringent RTO requirements apply to the Accounts database, Payments database, Blob Storage, Cosmos NoSQL and PRN database, as these are customer-facing.
 
 ### RTO
-From a data perspective as a Platform-as-a-service (PaaS), the Azure SQL Database service provides availability as an off-the-shelf feature with an industry-leading availability SLA of 99.99%. The Azure SQL RDBMS has an even higher SLA.
+Azure SQL Database is a platform-as-a-service (PaaS) offering that includes availability as a built-in feature, with an industry-leading SLA of 99.99%. Azure SQL RDBMS offers an even higher SLA.
 
 ### RPO
-Azure SQL RDBMS’ have always on availability groups (AOAG) that provide synchronous replication of the data layer that eliminates data loss of committed transactions due to unforeseen circumstances.
-In addition to the above, all data stores described in Section 6.6 above as non-primary capture can have data restored from their upstream system via a re-run, e.g. full restore to Azure Synapse data warehouse etc.
+Azure SQL RDBMS instances use Always On availability groups (AOAG), which replicate data synchronously. This eliminates data loss for committed transactions in the event of an unexpected failure.
+
+In addition, all data stores identified in section 6.6 as non-primary capture stores can be restored from their upstream systems by re-running the relevant processes — for example, a full restore to Azure Synapse.
 
 ## 6.10 Data architecture – retention, archival and disposal
 Defines the business rules that have been (will be) implemented and connects to the mechanisms used to effect retention, archive and disposal.
 
 ### Retention
-The UK statute of limitations requires most records to be held for 6 years. This is effectively 6 years + 1 years to have 6 full financial years’ worth of records at any point in time during the year.
-Having said the above, we have a more stringent requirement in the PayCal area of 10+1 years’ retention due to the regulations. This translates to holding PayCal billing output, their input the Azure Synapse packaging and registration tables (rpd.CompanyDetails.sql and rpd.PoM.sql) and their respective primary capture files in BLOb, all of these for 10+1 years. Good work in this regard has been done by the PayCal architect documented at: ADR-100.B: Fees & Payment Calculator - Calculator Data Storage - Collections & Packaging Reforms - Confluence. Analysis : Fees & Payment Calculator - Calculator Data Storage - Collections & Packaging Reforms - Confluence
+UK statute of limitations rules require most records to be held for six years. In practice this means six years plus one, to ensure six complete financial years are available at any point during the year.
+
+PayCal has a stricter requirement of 10+1 years under the regulations. This covers PayCal billing output, its inputs from Azure Synapse (the `rpd.CompanyDetails` and `rpd.PoM` tables) and the corresponding primary capture files in Blob Storage. Detailed analysis by the PayCal architect is documented in ADR-100.B on Confluence.
 
 ### Archival
-Because EPR is still evolving and less than 3 years old (at the time of writing in July 2025), we have not yet implemented an archival solution. When that happens, there will be considerations of using Azure native archiving functionality like Azure Archive Storage, retrieval to online or offline etc. Please note that no decisions have been made on these aspects yet. The only decision made is that we will hold data for as long as legally required. It is possible that we may need to act sooner on archiving because of online datastore performance reasons. Too much data online results in slower performance. It is also likely that we will implement archival for PayCal first, then use that approach and roll out for other EPR data.
+No archival solution has been implemented yet. EPR is still evolving and, as of July 2025, is less than three years old. When archival is implemented, the plan is to use Azure native functionality such as Azure Archive Storage, with retrieval options to online or offline tiers. No decisions have been made on these specifics — the only decision taken is that data will be held for as long as legally required. Performance may drive an earlier move to archival, since too much data in online stores slows query performance. PayCal is likely to be the first area to implement archival, and that approach will then be rolled out to other EPR data stores.
 
 ### Disposal
-Finally, to conclude the information lifecycle, in line with good information management practice we will eventually have automation to safely destroy stored data that is older than the retention period to prevent this falling into wrong hands and being misused.
+To complete the information lifecycle, automated processes will eventually be put in place to safely destroy data that has exceeded its retention period, reducing the risk of sensitive data being misused.
 
 ## 6.11 Data architecture – non-core (logging)
 Log files form part of the data and operational architectures. They can often contain useful or sensitive data. Ensure any beneficial usage of e.g. PaaS log files or IAM logs is described here especially for things like audit logging or “accidental analytics”.
 
-There are a few types of logs that RPD and PayCal has:
-- There is the standard system log for RDBMS databases that records who altered records and when. This is used for roll-back and roll-forward recovery from a known clean point in time.
-- In the Accounts DB there is another Audit Log table that records what, when, who and before & after was changed. This is a simple long table to store. Requires some programming effort to re-construct records as at an earlier moment should the need arise. This was used once in 2024 to report on acceptances of submissions by regulators.
-- Cosmos logs via its Submission Events table the progress of registration or packaging file submissions through their various statuses.
-- The below Confluence link used by regulators to carry out their data auditing: Power BI Reporting - Collections & Packaging Reforms - Confluence.
-- More recently in July 2025 we are starting to introduce extension fields to RDBMS tables in the PRN DB to capture in table itself the changed record now marked latest with timestamp, superseding the earlier records also timestamped.
+RPD and PayCal use several types of logs:
+- Standard RDBMS system logs record who changed records and when. These support roll-back and roll-forward recovery from a known clean point in time.
+- The Accounts database has a separate Audit Log table that records what was changed, when, by whom and the before-and-after values. The table is straightforward to store but requires programming effort to reconstruct records as they were at an earlier point in time. It was used in 2024 to report on regulators' acceptances of submissions.
+- Cosmos DB logs submission progress via its Submission Events table, tracking registration and packaging file submissions through their various statuses.
+- Regulators use Power BI for data auditing (see the Power BI Reporting page on Confluence).
+- From July 2025, extension fields are being added to RDBMS tables in the PRN database. These capture each changed record in-table, marked as the latest version with a timestamp, with earlier versions also retained and timestamped.
 
 > **[v1.2 change — ADR-141]** ADR-141 (currently For Review) formalises how PRNs/PERNs and the waste balance are kept accurate and tamper-evident in the RE/EX service:
 >
@@ -1175,19 +1180,22 @@ Shows in matrix form the role the application plays in relation to each entity. 
 - **Operations:** C – create; R – read; U – update; D – delete
 
 **Notes:**
-The table below shows the entities, systems and actors.
-The systems within the scope of this RPD SADD are the first four RPD, PayCal, PRN and Payment (fee) columns on the left.
-The columns on the right are shown for completeness and to illustrate multi-master (MM) across the EPR systems, for example (financial) Account is there as master in the RPD Payment system for paying submission fees, as well as master in FSS for paying obligated packaging costs. Same entity mastered in different systems for different purposes.
-References to PRN and RE, EX on the left columns is now greyed out because of a decision on 11 July 2025 to de-scope RE and EX registrations and accreditations from RPD.
-The editable table is in the embedded MS-Excel sheet just below.
-The tabular form presentation (non-editable) is on the next page.
+The table shows the entities, systems and actors.
+
+The columns in scope for this SADD are the first four on the left: RPD, PayCal, PRN and Payment (fee). The columns on the right are included for completeness and to show how multi-mastering (MM) works across EPR systems. For example, the financial Account entity is mastered in the RPD Payment system for submission fee payments and also in FSS for obligated packaging costs — the same entity mastered in two different systems for different purposes.
+
+References to PRN and RE/EX in the left-hand columns are greyed out following a decision on 11 July 2025 to de-scope RE/EX registrations and accreditations from RPD.
+
+The editable version of the table is in the embedded Excel sheet below. The non-editable tabular view is on the next page.
 
 ## 6.13 Data architecture – business reporting / intelligence and analytics
-Explains how the data (will) support ongoing business management and analytics i.e what Events/Facts are (will be) captured in the data layer, propagated to where, transformed how etc. Should itemise the key business facts (process events) recorded and the additional classification information that is recorded directly or may be derived to allow dimensions to be analysed (likely source from the existing DWH models – eg geography, product type, business policy/rule applied). These facts should by default be assumed to need to be fed to the enterprises DWH or Analytics “hub” and the dimensions may need to be aligned to these as part of the systems core data model. However, if a COTS solution is in use, explain how the COTS solutions own MI and that of the enterprise solution are used together (if this is the case). Include reference to any overviews of the DWH solution/pattern.
+Describes how EPR data supports business management, regulatory compliance and analytics, including what events and facts are captured, where they are propagated and how they are transformed.
 
-The initial ADRs for the Data Platform identified the Medallion Pattern as the basis for the data processing functions. This is a common pattern in modern data warehouses and is considered good practice. The Medallion Pattern defines a sequence of phases or domains, labelled bronze, silver and gold.
+The data platform ADRs identified the Medallion pattern as the basis for data processing. This is a widely used pattern in modern data warehouses, organising data into three progressive layers: bronze, silver and gold.
 
-The Bronze Layer is a basic data ingestion and integration layer where all source data is initially collected. The Silver Layer implements data transformations such as filtering, cleansing, validation and augmentation (e.g. with reference data). The Gold Layer is the source for all data requests by client applications such as interfaces and reports, in this layer the data is commonly de-normalised and aggregated for query performance.
+- **Bronze** is the initial ingestion layer, where all source data lands first.
+- **Silver** applies transformations — filtering, cleansing, validation and enrichment with reference data.
+- **Gold** is the layer consumed by client applications, reports and interfaces. Data here is typically de-normalised and aggregated for query performance.
 
 <br>
 
@@ -1201,63 +1209,54 @@ Figure 19.0 Medallion pattern
 Source code for above high-level architecture diagram:
 
 ### Raw layer
-The Raw Layer serves as a permanent data repository for source data received.
-This layer preserves all data from source files exactly as received, without modifications, overwrites, or deletions. It forms the foundation for all source data on the platform and allows for reprocessing and audit checks. Files within this location are immutable, meaning they cannot be changed or deleted once placed. This is achieved by partitioning received data into structured and incremental folders aligned with the order of receipt.
-This layer acts as a historical record, crucially retaining data according to EPR data retention policies. Data from the source systems is ingested into Raw Layer using hourly micro batches.
+The raw layer is a permanent repository for source data, preserving everything exactly as received — nothing is modified, overwritten or deleted. Files are immutable once written and organised into structured and incremental folders in receipt order. The layer forms the foundation for all source data on the platform, supporting reprocessing and audit checks. Data is retained in line with EPR data retention policies and ingested from source systems in hourly micro-batches.
 
-**Gaps in Current Architecture:**
-- Raw Layer is not fully implemented for all the source systems e.g. Fee Payments DB, it is implemented only for file uploads, Accounts DB and PRN DB as at December 2025.
-- Partitioning strategy is not as per industry best practices, all the files are ingested into a single folder rather partitioning by /source/entity/yyyy/mm/dd/hh.
-- Lack of data retention policies set at storage account level.
+**Gaps in current architecture:**
+- The raw layer is not fully implemented for all source systems. As of December 2025, it covers file uploads, the Accounts database and the PRN database but not the Fee Payments database.
+- The partitioning strategy does not follow industry best practice: all files are ingested into a single folder rather than partitioned by `/source/entity/yyyy/mm/dd/hh`.
+- Data retention policies have not been set at the storage account level.
 
 ### Bronze layer
-The Bronze Layer is the staging area for the Medallion Architecture, storing data in a relational format.
-Data in this layer remains in its original form, maintaining the integrity of the source data. The Bronze Layer can also include logs and records from various sources. Data here is stored in optimised formats like Parquet.
-This layer serves as a historical record and, more importantly, the source for further data processing stages. This layer contains limited history comparing to Raw Layer. Data from the Raw Layer/source systems is ingested into Bronze Layer in hourly batch jobs.
+The bronze layer is the staging area for the Medallion architecture, storing data in a relational format. Data remains in its original form, preserving source integrity, and can include logs and records from various sources. Data is stored in optimised formats such as Parquet and ingested from the raw layer or source systems in hourly batch jobs. This layer holds less history than the raw layer and feeds all further processing stages.
 
-**Gaps in Current Architecture:**
-- Bronze Layer does not keep history for any records, it always Upsert, if you want to rebuild dimensions and fact tables in Silver Layer historical data needs to be sourced from actual source systems.
-- It requires rebuilding of entire table with full data when new metadata introduced in source system e.g. new columns or renaming columns.
-- No schema evaluation.
-- No DQ rules applied during data ingestion.
+**Gaps in current architecture:**
+- The bronze layer does not retain history: it always upserts. Rebuilding silver layer dimensions and fact tables requires going back to the original source systems for historical data.
+- Introducing new metadata in source systems (for example, new or renamed columns) requires a full rebuild of the affected table.
+- No schema validation is in place.
+- No data quality (DQ) rules are applied during ingestion.
 
-### Silver layer - refined and conformed data
-The Silver Layer should contain conformed and cleansed data extracted from the Bronze Layer.
-Data in this stage undergoes cleansing, transformation, enrichment, and deduplication. The Silver Layer is where the platform's fundamental data model is constructed ideally as the LDM described in section Data Architecture – data models, typically organised in dimensions and fact tables. Data in this layer is maintained at the lowest granularity to support various aggregations in the Gold Layer.
-This layer provides the foundation for further analysis and can be referenced for more detailed queries and reports requiring custom joins.
+### Silver layer — refined and conformed data
+The silver layer holds conformed, cleansed data sourced from the bronze layer. Data is cleansed, transformed, enriched and deduplicated here. This is where the platform's core data model is built — ideally following the logical data model (LDM) described in the data architecture section — typically organised into dimensions and fact tables at the lowest granularity to support aggregations in the gold layer. The silver layer is the foundation for detailed queries and reports requiring custom joins.
 
-**Gaps in Current Architecture:**
-- Bronze Layer (Delta Live Tables) are replicated into separate Schema called “rpd” in Synapse Dedicated SQL Pool.
-- Data cleansing, transformations are performed using complex nested views.
-- Pipelines process the data in full (complete history) always as no CDC implemented in views.
-- Most of the views under “dbo” schema considered as Silver Layer object however there is no clear distinction.
-- ETL processes are implemented using T-SQL instead Spark SQL pool.
+**Gaps in current architecture:**
+- Bronze layer Delta Live Tables are replicated into a separate schema (`rpd`) in Synapse Dedicated SQL Pool.
+- Data cleansing and transformations are implemented using complex nested views.
+- Pipelines always process the full history — no change data capture (CDC) is implemented in views.
+- Most views under the `dbo` schema are treated as silver layer objects but there is no clear boundary.
+- ETL processes use T-SQL rather than Spark SQL pool.
 
-### Gold layer - Business-Aggregated data
-The Gold Layer contains the enriched and business-level aggregates of data from the Silver Layer.
-This layer features the most refined data, often structured in a way that directly supports decision-making and automated PowerBI reporting.
-Data in the Gold Layer is ready for use in business analytics, ad-hoc reporting, and regular dashboards.
-Data in this layer is processed using T-SQL/nested views and final curated data is stored in “dbo.t_*” tables and “apps” schemas.
-Dbo.t_tables are used primarity by PwerBI reporting and “apps” schema is used by regulatory front-end and other consumers.
+### Gold layer — business-aggregated data
+The gold layer contains the most refined data, enriched and aggregated from the silver layer for direct use in business analytics, ad-hoc reporting and dashboards. Data is processed using T-SQL and nested views. Final curated data is stored in `dbo.t_*` tables (used primarily by Power BI) and the `apps` schema (used by the regulatory front end and other consumers).
 
-**Gaps in Current Architecture:**
-- dbo.t_* tables are fully refreshed on an hourly basis, which is a resource-intensive and costly operation.
-- We have implemented cache tables to improve front-end workloads as an interim solution. The long-term solution should include properly pre-curated tables in the Silver Layer with Change Data Capture (CDC) enabled, along with an event-based or streaming platform to support real-time use cases, such as regulatory front-end applications.
+**Gaps in current architecture:**
+- `dbo.t_*` tables are fully refreshed every hour, which is resource-intensive and costly.
+- Cache tables have been introduced as an interim measure to reduce front-end load. The longer-term solution should include properly pre-curated silver layer tables with CDC enabled and an event-based or streaming platform to support real-time use cases such as the regulatory front end.
 
-### Data analytics & reporting:
-Power BI is the standard reporting and analytics tool used by regulators. The reports and dashboards are designed to provide insights from curated data in the Gold Layer, supporting business decision-making, regulatory compliance, and operational monitoring.
-To provide a high-level view of how the architecture supports key reports and their source data, underlying datasets, and refresh mechanisms are summarised below.
-For detailed documentation about PowerBI reporting please refer to Power BI Reporting - Collections & Packaging Reforms - Confluence.
-For RPD Data Platform and PowerBI Report entity level mapping please refer to Synapse Tables and PowerBI Report Mapping - Collections & Packaging Reforms - Confluence, PowerBI consumes data from Gold Layer t_tables under “dbo” schema.
-For PowerBI source table metadata please refer to Reporting Table Metadata - Collections & Packaging Reforms - Confluence.
+### Data analytics and reporting
+Power BI is the standard reporting and analytics tool for regulators. Reports and dashboards draw on curated data in the gold layer to support business decision-making, regulatory compliance and operational monitoring. The key reports, their source data, underlying datasets and refresh mechanisms are summarised below.
+
+For full documentation see:
+- Power BI Reporting — Collections & Packaging Reforms — Confluence
+- Synapse Tables and Power BI Report Mapping — Confluence (Power BI consumes data from gold layer `t_tables` under the `dbo` schema)
+- Reporting Table Metadata — Confluence
 
 
 
 # 7. Integration architecture
-This section provides the high-level design explain how end to end system integrations are implemented – be they with other system actors or with human actors (i.e. must not exclude extracts taken off the system).
+This section describes how EPR system integrations are implemented — both with other systems and with human actors (including data extracts).
 
 ## 7.1 Interfaces overview
-Develops the system context diagram to visualise the method, frequency and exchange pattern for each outward facing interface. Developed application usage view, or C4model can be used for this. Interface timings that are not “adhoc” (triggered on demand) should be identified as such – e.g. “polls every 10 minutes”.
+Describes the method, frequency and exchange pattern for each outward-facing interface. Interface timings that are not on-demand are identified explicitly — for example, “polls every 10 minutes”.
 
 ### PRN interfaces
 From 1 February 2026, reprocessors and exporters issue PRNs/PERNs via RE/EX, which producers and compliance schemes use to meet their recycling obligations. Producers and compliance schemes accept or reject PRNs/PERNs through RPD, which integrates with RE/EX to retrieve the notes, calculate obligations and update balances. Regulators have visibility of PRN details throughout. NPWD continues to operate in parallel for PRNs/PERNs issued up to 31 January 2026 (2025-year obligations).
@@ -1293,12 +1292,12 @@ The three objectives for the NPWD integration (RPD can send data to NPWD; RPD ca
 > **[v1.2 change — ADR-141]** ADR-141 (currently For Review) governs how PRN/PERN records and the waste balance within RE/EX are kept accurate and auditable. The key rules are that core PRN fields cannot be changed once a PRN is issued, every status change is saved in a history table, and every movement of the waste balance is written to an append-only transaction log. See section 6.11 for the full detail of this pattern.
 
 ### PayCal interfaces
-The PayCal interfaces are:
-- Input parameters from LAP CAP to PayCal that is collection & disposal cost per tonne per Packaging Material per Nation.
-- Producer master data daily from RPD Synapse via PayCal to the FSS system.
-- Periodic billing data from PayCal to the FSS system via APIM.
+PayCal has three main interfaces:
+- **Input parameters:** LAPCAP sends collection and disposal cost per tonne per packaging material per nation to PayCal.
+- **Organisation data:** A daily export of producer master data from RPD Synapse via PayCal to FSS.
+- **Billing data:** Periodic billing data from PayCal to FSS via APIM.
 
-The calculator run is initiated by Scheme Administrator (SA) internal users from Defra, after which the PayCal calculator is executed using key inputs – latest RPD data, LAPCAP data, and scheme parameter configurations – to generate the required calculation outputs, triggering the Billing File Process Workflow to produce the billing file. Once the billing file becomes available, the FSS system invokes the billingDetails APIM endpoint, which forwards the request, including the mandatory calculatorRunId, to the billingDetail EPR Web API. The API retrieves the corresponding JSON billing data stored in Blob Storage and returns the response to FSS through APIM. FSS then acquires organisation details from RPD via APIM and, upon receiving both the billing information and the associated organisation data, completes the processing of producer invoices.
+A Defra scheme administrator (SA) triggers the calculator run. PayCal executes using the latest RPD data, LAPCAP data and scheme parameter configurations, producing the required outputs and triggering the billing file workflow. Once the billing file is ready, FSS calls the `billingDetails` APIM endpoint, passing the mandatory `calculatorRunId`. APIM forwards the request to the billingDetail EPR Web API, which retrieves the corresponding JSON billing data from Blob Storage and returns it to FSS via APIM. FSS then fetches organisation details from RPD via APIM. Once it has both the billing data and the organisation details, FSS processes the producer invoices.
 
 **High Level Overview:**
 
@@ -1319,15 +1318,14 @@ Figure 22.0 Component diagram
 <br>
 
 ### FSS authentication
-**RPD User Journey with Azure B2C SSO Overview**
-The RPD user journey leverages Azure B2C for Single Sign-On (SSO). Once a user is authenticated, the system enables account creation and enrolment for the RPD service. To provide a seamless experience, the same Azure B2C SSO integration has been extended to the FSS platform. Currently, the supported account types include Direct Producers, Compliance Schema Users, Regulators, and FFS Users.
+RPD uses Azure AD B2C for Single Sign-On (SSO). Once authenticated, users can create accounts and enrol for the RPD service. The same Azure B2C SSO has been extended to the FSS platform so users have a consistent login experience across both. Supported account types are direct producers, compliance scheme users, regulators and FSS users.
 
-During the account creation and enrolment process, the system captures both user and organization details. The individual enrolling an organization becomes the Administrator. Administrators can then invite additional roles such as Approved, Delegate, and Read-Only users. All provided information is validated and securely stored in the SQL Accounts Database.
+During enrolment, the system captures user and organisation details. The person who enrols an organisation becomes its administrator and can then invite additional users in roles such as Approved, Delegate and Read-Only. All information is validated and stored in the SQL Accounts database.
 
 ### Regulator enrolment
-There is an internal process for creating regulator accounts using a SQL script. The detailed procedure is documented in the Defra Confluence at this URL Reference.
+Regulator accounts are created via an internal SQL script. The procedure is documented in Defra Confluence.
 
-The integration architecture leverages Azure B2C Single Sign-On (SSO) as the central authentication layer for RPD, FSS, and regulator platforms, delivering a unified and secure login experience. RPD enables account creation and enrolment for producers, compliance users, and regulators, while FSS uses the same SSO for seamless cross-platform access. Regulator accounts are provisioned internally via SQL scripts documented in Defra Confluence. All systems implement robust security controls, including multi-factor authentication (MFA), conditional access, GDPR compliance, encrypted data storage, and comprehensive audit logging. The enrolment workflow covers authentication, detail capture, administrator assignment, role management with notifications via Gov.Notify, and secure storage in an SQL database with RBAC enforcement. Additionally, the system validates organization details through Companies House API and Postcode API to ensure data accuracy during enrolment.
+Azure B2C SSO acts as the central authentication layer across RPD, FSS and the regulator platform. Security controls include multi-factor authentication (MFA), conditional access, GDPR-compliant data storage and audit logging. During enrolment, organisation details are validated via the Companies House API and Postcode API. Role assignments trigger notifications via GOV.UK Notify and all data is stored in an SQL database with role-based access control (RBAC).
 
 **Component Diagram**
 - RPD Users
@@ -1359,20 +1357,21 @@ Figure 25.0 Component diagram - regulator enrolment
 
 
 ### PRN
-CS and DP users log in via Azure SSO to access the RPD portal and view PRNs. PRN-related data is extracted from POM files, processed and stored in Synapse, while compliance data is held in the PRN SQL database. The system consolidates this and retrieves it from the PRN database to display on the front end.
+Compliance scheme (CS) and direct producer (DP) users log in to the RPD portal via Azure SSO to view and manage PRNs. PRN-related data is extracted from POM files, processed and stored in Synapse, and compliance data is held in the PRN SQL database. The portal retrieves and displays this data from the PRN database.
 
-Once CS and DP users register with the RPD system, they will have the option to submit their registration details, upload the POM file, and manage their organization. On the PRD portal, users can manage their PRN by navigating to the PRN Obligation tab, where they can review and update their obligations.
+After registering, CS and DP users can submit registration details, upload POM files and manage their organisation. PRN obligations are managed via the PRN Obligation tab.
 
-**PRN - Accept or Reject Workflow**
-**Organisation data sync (separate function):** A separate Azure Function sends organisation data to RE/EX when a new organisation is registered or updated. RE/EX uses this to maintain a mapping between internal organisation IDs and its own IDs. The equivalent function continues to run against NPWD for 2025-year obligations.
+**PRN accept/reject workflow**
 
-**Data sync:** RE/EX provides PRN data via API. An Azure Function (timer-triggered) pulls PRN data and stores it in the PRN database.
+**Organisation data sync:** A separate Azure Function sends organisation data to RE/EX whenever a new organisation is registered or updated. RE/EX uses this to map its own organisation IDs to RPD's internal IDs. The equivalent function continues to run against NPWD for 2025-year obligations.
 
-**Customer interaction:** PRNs in the PRN database are displayed to customers for review. Customers accept or reject PRNs based on recycling material.
+**Data sync:** RE/EX exposes PRN data via API. A timer-triggered Azure Function pulls this data and stores it in the PRN database.
 
-**Update RE/EX:** Accept/reject decisions, along with the obligation year, are sent back to RE/EX via API. RE/EX reflects the updated PRN status and obligation details.
+**Customer interaction:** PRNs held in the PRN database are shown to customers for review. Customers accept or reject PRNs based on the recycling material.
 
-**Obligation Calculation** Accept/Reject decisions do not directly update compliance obligations. Tonnage and expected values are calculated dynamically when the screen loads. Main obligation calculation data is retrieved from the database, pre-computed by separate functions.
+**Update RE/EX:** Accept/reject decisions and the obligation year are sent back to RE/EX via API. RE/EX updates the PRN status and obligation details accordingly.
+
+**Obligation calculation:** Accept/reject decisions do not directly update compliance obligations. Tonnage and expected values are calculated dynamically when the screen loads, using data pre-computed by separate functions and retrieved from the database.
 
 **Component Diagram**
 
@@ -1383,12 +1382,10 @@ Figure 26.0 Component diagram
 
 <br>
 
-This section describes how the RPD portal, Azure SSO, the PRN SQL database, RE/EX and POM files work together to support user registration, authentication and PRN management for compliance schemes (CS) and direct producers (DP).
+Azure SSO handles authentication across all platforms. The objective is secure portal access and accurate PRN data kept in sync between POM files, RE/EX and the PRN SQL database. Users register and submit POM files through RPD. CS and DP users manage their obligations through the portal. PRN data from POM files and RE/EX is processed and stored in the PRN SQL database for compliance reporting.
 
-The goal is to provide secure access to the RPD portal via Azure SSO and keep PRN data in sync between POM files, RE/EX and the PRN SQL database. Users register and submit POM files through RPD. CS and DP users manage their obligations through the portal. PRN data from POM files and RE/EX is processed and stored in the PRN SQL database for compliance reporting. Azure SSO handles authentication across all platforms.
-
-### Fees and payments:
-The Fees & Payments service makes a call to the GOV.UK Pay payment handler service via the payment façade. Upon receiving a payment request, GOV.UK Pay creates a payment session and returns the Next URL to the front end. Payment status updates are then retrieved by the Fees & Payments service and written back to the Fees & Payments DB.
+### Fees and payments
+The Fees and Payments service calls GOV.UK Pay via the payment façade. GOV.UK Pay creates a payment session and returns a redirect URL to the front end. The Fees and Payments service then retrieves payment status updates and writes them back to the Fees and Payments database.
 
 **Component Diagram**
 
@@ -1401,7 +1398,7 @@ Figure 27.0 Component diagram
 
 
 ## 7.2 Interface catalogue
-Names and tabulates each interface purpose verbally including its behaviour and any n-level-removed dependencies (to protect from unintended cascade of changes); also contains links to any specific schema documents (with a clearly stated example in the appendix if the schemas are not available online). Should correlate to the data architecture section (e.g. an attribute name should have the same meaning as a minimum) if used in the interface catalogue.
+Lists each interface, its purpose, behaviour and any indirect dependencies (to guard against unintended knock-on changes). Includes links to schema documents where available, with examples in the appendix if schemas are not online. Attribute names align with the data architecture section.
 
 ### External interfaces
 **PRN database and RE/EX (replaced NPWD from 1 February 2026)**
@@ -1417,11 +1414,11 @@ The data contracts detail the schema of the data exchange. The Method name in th
 | Reconciliation emails (PRN received/sent) | RE/EX ↔ RPD PRN database | Periodically. | Email notifications for reconciliation of PRN documents between RE/EX and the RPD PRN database. |
 
 ### PayCal
-- PayCal Organisation Data ICD: This is the data contract file that got agreed with FSS to fetch the organisation details
-- PayCal Billing File ICD: This is the data contract file that got agreed with FSS to fetch the Billing file details
+- **PayCal Organisation Data ICD:** The agreed data contract with FSS for fetching organisation details.
+- **PayCal Billing File ICD:** The agreed data contract with FSS for fetching billing file details.
 
 ### Internal interfaces
-Detailed internal APIs within RPD & PayCal are detailed in the below table as well as recorded on SharePoint at EPR API Catalogue.xlsx.
+Internal APIs within RPD and PayCal are listed in the table below and also recorded in the EPR API Catalogue on SharePoint.
 
 | Interface ref | Generic API Name | API Endpoint Name | Description |
 | :--- | :--- | :--- | :--- |
@@ -1544,13 +1541,9 @@ Detailed internal APIs within RPD & PayCal are detailed in the below table as we
 | | | /v1/billingdetails | API to retrieve billing details based on a calculatorrunid parameter. When the FSS client requests compressed content, it must send the Accept-Encoding header with the request. The EPR API provider will send the compressed content accordingly and include information in the Content-Encoding header on how the compressed response is encoded. Request Header: Accept-Encoding: gzip. Response Header: Content-Encoding: gzip |
 
 ## 7.3 Orchestration view
-If for example activity across multiple interfaces needs to be co-ordinated, explains how this happens, how order is maintained, correlation of responses etc. Also explains any long running processes that require state to be maintained (e.g. saving of draft applications) and how the paused system process is restarted. It is probable that a UML sequence diagram is best for this but only for interfaces where complex behaviour is evident.
+Describes how activity across multiple interfaces is coordinated — including sequencing, state management for long-running processes and how paused processes are restarted.
 
-This sub-section is about the correct sequence of running the interfaces.
-
-As a pre-requisite to all the below, the data warehouse Azure Synapse from where RPD originating data is sourced is no more than 1 hour behind front end capture.
-
-All the below sequences are manually spaced apart in time. There is no event-triggered automated scheduler of interfaces.
+The interfaces must be run in the correct sequence, as described below. As a prerequisite, Azure Synapse (the source of RPD originating data) must be no more than one hour behind front-end capture. All sequences are manually spaced apart in time — there is no event-triggered automated scheduler for these interfaces.
 
 ### PayCal
 - Producer master data interface must run daily.
@@ -1563,16 +1556,16 @@ All the below sequences are manually spaced apart in time. There is no event-tri
 - After the DR or CS accepts or rejects a PRN/PERN, the decision is sent back to RE/EX (or NPWD for 2025-year) in real time.
 
 ## 7.4 Reliability / recovery view
-Explains any “cross system” referential integrity approaches, in support of understanding approaches to recovery if there is a system-to-system dependency at the data tier. [Cannot assume every interface is RESTful/stateless, cannot assume system to system interfaces are all within DEFRA etc.] Explores options for recovery if systems need to be brought “back in sync”.
+Describes cross-system referential integrity approaches and recovery options when systems need to be brought back in sync.
 
 Both RE/EX and FSS use REST-based APIs to exchange data with RPD and PayCal respectively. The two endpoints provided for FSS are simple fetch ‘GET’ calls from FSS to PayCal, in the event of any recovery or re-synchronisation, FSS may call either endpoint (for billing data or organisational data) at any time.
 
 Notwithstanding the above, if a sequential running of interfaces is necessary, then the sequence sets in the previous sub-section could be used.
 
 ## 7.5 Service consumption view
-Explains which “enterprise” common application services and technical services are consumed, and the “contract” their exposed services provide (e.g. anti-virus). Whilst these will be listed in the interface catalogue, a description and a reference to their design patterns should be covered here.
+Identifies the enterprise common application and technical services consumed by the solution, the contracts they provide and the design patterns they follow.
 
-This section outlines the enterprise-level common application and technical services consumed by the solution, along with the contracts and design patterns that govern their use. These services are typically shared across multiple systems and are essential for ensuring consistency, security, and operational efficiency.
+These shared services are used across multiple systems and are essential for consistency, security and operational efficiency.
 
 ### Enterprise common services consumed
 | Service Name | Description | Contract / SLA | Design Pattern Reference | Service usage |
@@ -1595,10 +1588,10 @@ This section outlines the enterprise-level common application and technical serv
 
 
 # 8. Software architecture
-Whether contained in a solution design document or externally stored, the software components of the solution must be documented, dependencies understood, implementation approach captured etc. For a relatively simple system, this section could be merged into the apps architecture section.
+Documents the software components, their dependencies, implementation approach and key design decisions.
 
 ## 8.1 Component “micro designs”
-Unless the apps architecture is relatively simple, it is usually required to provide an internal view of how each component of the architecture is implemented, its dependencies, the data it “owns” and shares, how it can be configured, the patterns it implements, frameworks (to be) used, logging/monitoring hooks etc. This could be a readme, a class diagram etc. So long as it “answers the question”. In general, should be considered a “one page summary” for each software component – with the components themselves having been itemised in the application architecture structural view (in s/w arch the component is the artefact that is assembled to create the working system).
+Provides an internal view of each component: its dependencies, the data it owns and shares, how it is configured, the patterns and frameworks it uses, and its logging and monitoring hooks. Each component is summarised on roughly one page.
 
 The RPD software architecture is essentially simple, following a 3-tier architecture with a frontend web tier, a facade layer and backing API services. The software components are hosted in either Azure web apps or Azure function apps. Although not specifically named, the same pattern is applicable to RPD PRN, Payments as well as PayCal.
 
@@ -1611,7 +1604,7 @@ Figure 28.0 Component micro designs
 
 
 ## 8.2 Exception handling view / pattern
-Should describe how the components in the software architecture respond to unexpected events ranging from timeouts, to overload, to unexpected restart etc. This section allows an understanding of how “brittle” the software architecture is and how much the design can be considered fault tolerant. Concepts such as tiering timeout settings and synchronising retry approaches should be described.
+Describes how components respond to unexpected events such as timeouts, overload and restarts, and how fault-tolerant the design is.
 
 Exception handling is a critical aspect of system reliability, especially in distributed and cloud-native environments.
 
@@ -1621,18 +1614,18 @@ The architecture adopts a fault-tolerant design that emphasizes automatic recove
 ### Monitoring and alerting
 All exceptions are logged centrally using Azure Monitor and Application Insights. Alerts are configured for critical failure patterns, enabling rapid response and root cause analysis.
 
-## 8.3 Component Environment specific behaviours
-Software components may have in their design the ability to behave differently in different scenarios – for example they may be “aware” that they are in production and thus implement different behaviours than if they were in a development environment.
+## 8.3 Component environment-specific behaviours
+Describes any intentional differences in component behaviour between environments — for example, using mock services in development to avoid dependency on external APIs.
 
 The software components have corresponding configuration parameters to manage differences between environments. Environments are initially built using a standard template via IaC ARM/Bicep pipelines. Differences between environments, particularly system behaviour, is minimised so that pre-Prod environments behave ‘as live’ where possible. The key exception to this approach is the use of mock services in Development to minimise impact due to outage or update for external dependent services such as the Trade Antivirus API.
 
 ## 8.4 Component replacement or upgrade capability
-Any specific issues with “swapping” out a component with a new version should be noted. For example, is there a need to disable something whilst this happens or is there an external dependency that means that component must not be changed without wider consultation or is this component dependent on vary specific underlying software versions.
+Notes any constraints on replacing or upgrading a component — for example, dependencies that require wider consultation before a change is made.
 
 The RPD and PayCal application components are provisioned as containers hosted in either Azure Web Apps or Azure Function Apps. This implementation of the microservices pattern allows for simple scaling and replacement/upgrade with a new component. The web portal layer is protected from changes to either APIs or backend data sources by the façade layer.
 
 ## 8.5 Component behaviour tuning / adjustment
-Are there any facilities for the component(s) that allow their performance characteristics to be adjusted or the level of activity beyond which the component can issue “too busy” responses?
+Describes the configurable parameters available for adjusting component performance and the conditions under which components issue “too busy” responses.
 
 ### Performance tuning capabilities
 Most RPD and PayCal components in the architecture are designed with configurable parameters that allow for dynamic adjustment of their behaviour based on workload and performance requirements. These include:
@@ -1674,7 +1667,7 @@ Are there any inherited or known “gotchas” with the component?
 - **Dependency Failures:** External APIs or services may introduce instability. Use circuit breakers, retries, and fallback logic.
 
 ## 8.7 Monitoring and logging hooks / facilities
-How is the component instrumented? Is it just basic audit trail or is it signalling e.g. process state changes? Do logged events correlate? Where are these events flowing to? What happens if the logging itself fails?
+Describes how each component is instrumented, what it signals (basic audit trail, process state changes, etc.), how logged events correlate and what happens if logging itself fails.
 
 ### Instrumentation approach
 All RPD and PayCal components are instrumented using Azure-native observability tooling to ensure consistent, scalable, and secure monitoring across the platform. Instrumentation is applied at both the platform layer (infrastructure, services) and the application layer (business logic, APIs, workflows).
@@ -1708,13 +1701,10 @@ All RPD and PayCal components are instrumented using Azure-native observability 
 - **Monitoring Logging Health:** Alerts are configured to detect drops in telemetry volume or ingestion anomalies.
 
 # 9. Technology architecture
-Should answer the question “what runs on what, and where”. It is expected this would be split into 3 aspects:
-- **Logical view** – showing the classes of infrastructure/platform service being consumed and by what application facets
-- **Physical view** – showing how many/much of each platform service is being consumed (or if elastic the bounds)
-- Various views covering the qualities of service of the technical architecture which wraps application qualities of service and technology qualities of service into one area.
+Answers the question “what runs on what, and where”. Covers three views: logical (what platform services are used and by which application components), physical (how much of each service is provisioned and its bounds) and service quality (the reliability, availability and performance characteristics of the technical architecture).
 
 ## 9.1 Logical platform architecture
-For Prod and Pre-Prod describes how the application architecture and data architecture is mapped to logical platform services (be they servers, storage, SaaS, PaaS etc.).
+Describes how the application and data architecture maps to logical platform services (servers, storage, PaaS, SaaS etc) for production and pre-production.
 
 The EPR system is composed of a number of logical layers:
 
@@ -1750,17 +1740,14 @@ Figure 29.0 Supporting capabilities
 
 <br>
 
-The architecture pattern has been designed on the principles of **Data lake house**. Data lake house is a modern data architecture that combines the concepts of data lakes and data warehouses. It aims to address the limitations and challenges associated with both approaches by integrating them into a unified system.
+The architecture follows a **data lakehouse** pattern. A data lakehouse combines the strengths of data lakes and data warehouses into a single system.
 
-**Data lake house**, data is ingested in its raw format into the data lake, just like in a traditional cloud file storage. However, the data lake house also incorporates a mechanism to apply schema enforcement, data governance, and indexing, time travel, versioning, which are common in data warehouses. This allows for faster query performance, easier data discovery, enhanced data quality and keeping a master copy of data.
-
-**Data warehouse** to store structured and processed data for analytics and reporting purposes. Data warehouses are designed with a predefined schema, optimized for query performance.
-
-**Data lakes** emerged as a solution to store large volumes of raw and unprocessed data in its native format. Data lakes provide a centralized repository for storing structured, semi-structured, and unstructured data, allows to perform advanced analytics, data exploration, and machine learning on diverse data sources.
-
+- **Data lakehouse:** Raw data is ingested into the lake in its native format, as in traditional cloud file storage. On top of this, the lakehouse adds schema enforcement, data governance, indexing, time travel and versioning — features typically associated with data warehouses. The result is faster query performance, easier data discovery, better data quality and a single master copy of data.
+- **Data warehouse:** Stores structured, processed data for analytics and reporting, using a predefined schema optimised for query performance.
+- **Data lake:** A centralised repository for raw, unprocessed data in any format — structured, semi-structured or unstructured — supporting analytics, data exploration and machine learning.
 
 ### Logical
-Logical data platform is the high-level representation and organization of data assets within Defra EPR Project, independent of any specific technology or implementation details. It focuses on the structure, relationships, and flow of data across different systems and applications. It is providing a logical framework that enables effective data management, integration, and analysis.
+The logical data platform is a high-level view of the EPR data assets, independent of any specific technology. It describes the structure, relationships and flow of data across systems and applications, providing a framework for effective data management, integration and analysis.
  
 <br>
 
@@ -1779,7 +1766,7 @@ Figure 31.0 Logical data platform - archimate
 <br>
 
 ## 9.2 Physical platform architecture
-One per environment as this reflects “what must be provisioned”. Develops the logical platform architecture to show how physically the application and data architecture components are distributed onto the physical architecture (in this context a PaaS service represents a logical and physical concept, and the physical view should be used to reflect specific configurations e.g. to show that a PaaS service is distributed across multiple AZs, and how much “capacity” or “reliability” has been specified for the PaaS service and whether it is replicated and with what latency etc.). For non-cloud aspects or IaaS then the physical views will reflect a more traditional network-oriented diagram. For PaaS, SaaS or *potentially IaaS, any known constraints of the platform should be noted as such and considered as potential debt. For example, if the use of Azure SQL means a certain approach to replication could not be employed this should be noted.
+One view per environment, showing what must be provisioned. Builds on the logical platform architecture to show how components are physically distributed — including specific configurations such as availability zone spread, capacity, replication and latency. Any known platform constraints (such as replication limitations in Azure SQL) are noted as potential technical debt.
 
 ### Core design principles
 At the centre of the architecture is Network Segmentation & Security Layers, which include:
@@ -1817,7 +1804,7 @@ At the centre of the architecture is Network Segmentation & Security Layers, whi
 - **TST Pool:** Decommissioned. The TST Dedicated SQL Pool (previously DWU1000) was switched off after analysis showed near-zero activity. Test workloads are now served from the Synapse Serverless SQL pool.
 - **Lower Environments (DEV, PRE):** Scheduled automated downsizing to DWU200 on weekend nights, restoring to working-week levels on Monday mornings. This reduces idle costs in environments that have no weekend workloads.
 
-Following RPD Data Platform technical architecture describes how EPR source systems data is ingested, transformed and made it available for the consumption by the downstream applications such as PowerBI dashboards and regulatory front-end applications.
+The RPD Data Platform technical architecture below describes how data from EPR source systems is ingested, transformed and made available to downstream applications such as Power BI dashboards and the regulatory front end.
 
 <br>
 
@@ -1829,72 +1816,66 @@ Figure 32.0 RPD technical architecture
 Source code for above technical architecture diagram:
 
 ### Data ingestion strategy
-This section describes data ingestion requirements and how data from source system are ingested into the RPD Data Platform in hourly basis using micro batch processing:
-- configuration-driven data ingestion approach used when a large number of source tables need to be ingested regularly, the ingestion process is Spark-based via Synapse Notebooks, this helps minimise development and testing efforts. Additionally, maintaining future changes will be much easier, as there will be no need to develop new data pipelines. To support configuration-driven data ingestion from source systems, the solution requires a configuration data store(Blob Storage) that can hold the data mappings between Source, Raw Layer and the Bronze Layer for each source system and entity.
+Data from source systems is ingested into the RPD Data Platform in hourly micro-batches. A configuration-driven approach is used when a large number of source tables need to be ingested regularly. The ingestion process is Spark-based via Synapse Notebooks, which reduces development and testing effort and makes future changes easier — no new data pipelines need to be built. The configuration is held in a data store (Blob Storage) that maps each source system entity to its raw and bronze layer targets.
 
-### Data curation - silver layer
-The Silver Layer is responsible for transforming ingested source raw data into business-aligned, curated datasets that support regulatory reporting and data analytics. The source data from Bronze Layer is de-normalised into fewer number of tables to improve reporting and data query performance
-- Data is modelled to align with data analytics and reporting requirements.
-- Multiple Bronze Layer tables joined, aggregated, or enriched into a single conformed Silver Layer table.
-- Partitioning and distribution strategies are determined based on data access patterns and performance expectations.
+### Data curation — silver layer
+The silver layer transforms raw source data into business-aligned, curated datasets for regulatory reporting and analytics. Source data from the bronze layer is de-normalised into fewer tables to improve reporting and query performance:
+- Data is modelled to meet analytics and reporting requirements.
+- Multiple bronze layer tables are joined, aggregated or enriched into single conformed silver layer tables.
+- Partitioning and distribution strategies are based on data access patterns and performance expectations.
 
-However, in current solution data is curated/transformed using views, nested views and the Stored procedures which lead to lot of redundant data transformations, objects and inefficient use of Synapse resources.
+In the current implementation, data is curated using views, nested views and stored procedures. This leads to redundant transformations, excessive objects and inefficient use of Synapse resources.
 
-### Data consumption - gold layer
-The Gold Layer provides cleaned, enriched, and business-ready data for reporting and analytics.
-- Power BI Reporting connects to Gold Layer views to generate dashboards and reports.
-- Views in the Gold Layer are designed to:
-    - Include only the required columns and data for reporting and analysis.
-    - Present data in a business-friendly format (use business glossary).
-    - Ensure data accuracy and consistency across all reports.
+### Data consumption — gold layer
+The gold layer provides clean, enriched, business-ready data for reporting and analytics. Power BI connects to gold layer views to generate dashboards and reports. Views are designed to:
+- include only the columns and data needed for reporting and analysis
+- present data in business-friendly terms (following the business glossary)
+- ensure accuracy and consistency across all reports.
 
-These views act as the single source of truth for business users, reducing the need to query raw or intermediate data directly.
+These views are the single source of truth for business users, avoiding the need to query raw or intermediate data directly.
 
 ### Synapse data pipelines
-The following two pipelines are used to copy data . The environment name starts with first 3 letter of connected recourse as per environment.
+Two pipelines are used to copy data. The environment name prefix is derived from the first three letters of the connected resource.
 
 #### Enrolment app
-##### Intro
-This pipeline will process data from apps team SQL database , it connect to following instance ({dev1}_accounts) , as per environment prefix.
+##### Overview
+This pipeline processes data from the apps team SQL database, connecting to the `{dev1}_accounts` instance (with an environment-specific prefix).
 
 ##### Process diagram
-The application flow retrieves credentials from keyvault for two databases (appsdb and datadb) using the functions get_credentials_appsdb() and get_credentials_datadb(). The values are assigned to specific variables.
-The required paths and URLs are constructed based on the obtained credentials. For example, delta_path is a file path for a Delta Lake, ctrl_table_path points to a CSV file, and appsdb_jdbc_url is a connection string for the apps database. The ODBC driver and constructs the URL for the data database.
+The pipeline retrieves credentials from Key Vault for two databases (appsdb and datadb) using `get_credentials_appsdb()` and `get_credentials_datadb()`, then constructs the required paths and connection URLs — including the Delta Lake path (`delta_path`), control table path (`ctrl_table_path`) and JDBC connection string (`appsdb_jdbc_url`).
 
-The CSV file (ctrl_table.csv) contains the list of the tables to be loaded as a spark Dataframe. It prints the first two rows and logs a success message. If an error occurs, it logs an error message and raises the error.
-If Delta Lake path for 'etl_run_ts' not exists, it sets intial_load to True, gets the timestamp (etl_run_ts), and updates the Delta Lake. Otherwise, it loads etl_run_ts from the Delta Lake.
+`ctrl_table.csv` contains the list of tables to load as a Spark DataFrame. The first two rows are logged on success; errors are logged and raised. If no Delta Lake path exists for `etl_run_ts`, an initial load flag is set, the timestamp is captured and the Delta Lake is updated. Otherwise, `etl_run_ts` is loaded from the Delta Lake.
 
-The loop processes each table in ctrl_table_df one by one, extracting data, performing checks, and logging information. At the end of the loop, it logs statistics about the operations performed. If the table counts from source and target does not matched it will do a full load from source to keep it in sync. Finally, it checks if all tables were loaded successfully. If so, it updates etl_run_ts and logs a success message.
+Each table in `ctrl_table_df` is processed in turn: data is extracted, counts are checked and statistics are logged. If source and target counts do not match, a full load is performed to re-sync. Once all tables are processed, `etl_run_ts` is updated and success is logged.
 
 ##### Configuration file
-It is Mandatory to have ctrl_table.csv in conf directory of storage account ending 1401 in all environments. This is a configurable table list containing information about the table , primary key and load type (FULL/INCR).
+`ctrl_table.csv` must be present in the `conf` directory of the storage account ending `1401` in all environments. It lists each table, its primary key and its load type (FULL or INCR).
 
 ##### Process flow
-Here's a textual representation of the application's flow:
 
-###### Initialization and configuration
-- Import necessary libraries and modules.
+###### Initialisation and configuration
+- Import required libraries and modules.
 - Set up logging.
 - Configure Spark and Delta Lake settings.
-- Define and load functions from the functions_lib.
+- Load functions from `functions_lib`.
 
 ###### Data loading and processing
-- Read control table information from a CSV file located in the conf container of a storage account.
-- Determine if it's an initial load or not based on the current day of the week (weekend loads are considered full loads).
-- Load ETL run timestamps from Delta Lake or generate a new one.
+- Read the control table from `ctrl_table.csv` in the storage account `conf` container.
+- Determine whether this is an initial load based on the day of the week (weekend runs are treated as full loads).
+- Load or generate ETL run timestamps from Delta Lake.
 
 ###### Loop over control table
-For each table defined in the control table:
-- Fetch details such as schema, table name, load type, and primary key.
-- Construct a SQL query based on load type and watermark column.
-- Load data from the source SQL Server database using the constructed query.
-- Add a load_ts column to the DataFrame.
+For each table in the control table:
+- Fetch schema, table name, load type and primary key.
+- Build a SQL query based on load type and watermark column.
+- Load data from the source SQL Server database.
+- Add a `load_ts` column to the DataFrame.
 - Write data to a Delta Lake table.
 - Create or update an external Hive table pointing to the Delta Lake table.
 
 ###### Schema comparison
-- Compare the schema of the data loaded from SQL Server with the schema in the destination SQL pool.
-- Determine if schema transformation is required based on the comparison result. If Schema is not matched than It will perform full load as mentioned in next step by dropping the existing table.
+- Compare the schema from SQL Server with the schema in the destination SQL pool.
+- If schemas differ, drop the existing table and perform a full load.
 
 ###### Data loading into SQL pool
 - If a full load is required or determined by schema comparison:
@@ -1916,16 +1897,16 @@ For each table defined in the control table:
 - Stop the Spark session and report any errors.
 
 ##### Pipeline
-The pipeline ‘pip enrolment’ run from synapse pipeline namely 'pip_rpd_apps'
+The `pip_enrolment` pipeline runs from the Synapse pipeline `pip_rpd_apps`.
 
 ##### Notebook
-The pipeline execute the notebook ‘enrolment’.
+The pipeline executes the `enrolment` notebook.
 
 ##### Trigger
-The pipeline executed by 'trg_rpd_apps' trigger.
+The pipeline is triggered by `trg_rpd_apps`.
 
 ##### Schedule
-It is running every 1 hour between 9:00 till 17:00 during weekdays and On Saturday.
+Runs every hour between 09:00 and 17:00 on weekdays and Saturdays.
 
 #### 4. Identity & access management
 - **Azure Active Directory (AAD):** Manages user authentication, role-based access control (RBAC), and single sign-on (SSO).
@@ -1935,9 +1916,9 @@ It is running every 1 hour between 9:00 till 17:00 during weekdays and On Saturd
 - **Azure Log Analytics:** Provides deep insights into system behavior and security events.
 
 ### Data flow and integration
-- All services communicate through secure, segmented networks.
+- All services communicate over secure, segmented networks.
 - APIs expose data endpoints for internal and external use.
-- Data flows from ingestion (via APIs or portals) to processing (Functions, Logic Apps), then to storage and analytics.
+- Data flows from ingestion (via APIs or portals) through processing (Functions, Logic Apps) to storage and analytics.
 
 <br>
 
@@ -1947,17 +1928,17 @@ Figure 33.0 Data flow and integration
 <br>
 
 ## 9.3 Performance / volumetrics / scaling capability
-Explains how the physical platform area provides for these services. After performance testing/implementation this section should contain summaries of test results and any known “pinch points” plus any required narrative on underlying platform limitations (for example use of PaaS may lead to non-deterministic behaviours or variances in latency).
+Describes how the platform supports performance, volume and scaling requirements. After performance testing, this section will contain test result summaries, known bottlenecks and any platform limitations — for example where PaaS introduces latency variance.
 
 Non-functional requirements are defined and maintained by the architecture team. These include performance benchmarks, availability targets, and scalability expectations. The NFRs are reviewed and updated as the system evolves. The current NFRs are stored here: **RPD NFRs.xlsx**.
 
 ## 9.4 Localised availability and recoverability features
-Describes how the system “in itself” delivery high availability and in the circumstances of an unplanned outage how the system supports rapid recovery – or if required because it causes further problems – how the system can be prevented from auto recovering. After OAT or failure testing should capture any observed issues that cannot be resolved.
+Describes how the system delivers high availability and supports rapid recovery from an unplanned outage — including how auto-recovery can be suppressed if it would cause further problems. Any unresolved issues observed during OAT or failure testing are recorded here.
 
-At the time of writing (July 2025), the pEPR solution is only resilient to the failure of a single availability zone in the UK South region [2, 3]. No OAT has currently been conducted so empirical validation of the possible failure modes is not possible [2, 3]. The current proposal for a DR strategy is to provision all the infrastructure components to the UK West region via Azure DevOps pipelines; similarly, the containerised web apps and APIs will be provisioned to the UK West region via Azure DevOps pipelines [2, 3]. All persistent data stored will be restored from geo-resilient backups to the UK West Region [2, 3].
+As of July 2025, the pEPR solution can only tolerate the failure of a single availability zone in the UK South region [2, 3]. No OAT has been conducted, so empirical validation of failure modes is not yet possible [2, 3]. The planned DR strategy is to provision all infrastructure, containerised web apps and APIs to the UK West region via Azure DevOps pipelines, with persistent data restored from geo-resilient backups to UK West [2, 3].
 
-## 9.5 Cross system reliability or recovery considerations
-Explores whether there are there any aspects of the solution which if “stopped” or “failed” would lead to wider problems. An example could be where equivalent data is written to multiple interfaces and one of the writes fails but the target systems are not idempotent. Another example could be where there are transaction sequence numbers in use between systems and on system experiences an outage leading to data loss [6, 203].
+## 9.5 Cross-system reliability or recovery considerations
+Identifies parts of the solution where a failure could cause wider problems — for example, where data is written to multiple interfaces and a failed write leaves target systems out of sync, or where transaction sequence numbers mean an outage causes data loss [6, 203].
 
 Information is principally taken from EPR Report Packaging Data: High level solution architecture - Collections & Packaging Reforms - Confluence [203].
 
@@ -1973,12 +1954,12 @@ The architecture leverages Redis caching to improve performance. In the event of
 - This can introduce latency or temporary inconsistencies [205].
 
 ## 9.6 “Test in live” considerations
-Explains how the system can be tested whilst live (if at all) in order to investigate / diagnose issues 0- for example does it support synthetic “test” transactions.
+Describes how the system can be tested while live — for example, whether it supports synthetic test transactions.
 
-The current RPD and PayCal system does not support ‘test’ transactions and the regulator stakeholders refuse the creations of any test users or dummy customers to support live testing. Live issues are either reproduced in PRE, possibly using a copy of PRD data, or testing is done via some ‘friendly’ end users [205].
+RPD and PayCal do not currently support test transactions, and regulator stakeholders have not permitted test users or dummy customers. Live issues are either reproduced in the PRE environment (using a copy of production data where needed) or investigated via trusted end users [205].
 
 ## 9.7 Serviceability features
-Explains to what extent the solution components can be “hot swapped” or otherwise changed. Does the solution offer the ability to change with zero outage, or if short outages are needed (often nearer the data services) then how does the solution allow for this in a controlled fashion? Which services can be disabled, and which can be left operational because for example they use cached data?
+Describes the extent to which components can be updated or replaced without downtime — including which services can be disabled independently and which can remain operational on cached data while backend services are updated.
 
 Below is a breakdown of how each component supports hot-swapping or controlled change [206]:
 
@@ -2019,9 +2000,9 @@ Azure SQL supports online schema changes, read replicas, and geo-replication, al
 # 10. Security architecture
 
 ## 10.1 Security view
-The Extended Producer Responsibility service is hosted in a Defra Azure tenant. A number of existing security controls provided by CCOE and other platformed services are in place with EPR utilising existing anti-virus solution from the Defra Trade service and adhering to architectural patterns for API Gateway management and API Management (APIM) [6, 211].
+The EPR service is hosted in a Defra Azure tenant. It uses existing security controls from CCOE and other platform services, including the Defra Trade anti-virus solution, and follows established patterns for API gateway management and APIM [6, 211].
 
-The diagram with accompanying descriptions below provides an overview of the layered security approach which has been embedded into the design of the overall EPR solution [212].
+The diagram below gives an overview of the layered security approach built into the EPR solution design [212].
 
 <br>
 
@@ -2033,7 +2014,7 @@ Figure 34.0 Solution security overview
 For ease of viewing the above diagram and descriptions, the following embedded html view has also been included [212]:
 
 ## 10.2 Security roles and responsibilities view
-The security roles and responsibilities have been defined in the following, through project into live, table below in the form of a Secure by Design RACI matrix. The matrix is based on the HMG’s secure by design roles and responsibilities matrix [6, 212].
+Security roles and responsibilities from project through to live are defined in the Secure by Design RACI matrix below, based on the HMG Secure by Design roles and responsibilities framework [6, 212].
 
 <br>
 
@@ -2045,10 +2026,10 @@ Figure 35.0 EPR RACI Matrix
 For ease of viewing the above table and descriptions, the following embedded excel spreadsheet view has also been included [213]:
 
 ## 10.3 Information handling / classification view
-The classification view is OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further details in relation to the data types are provided in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA). Documentation relating the DSA located here: **2024_Data Sharing Agreement** [6, 213].
+Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **2024_Data Sharing Agreement** [6, 213].
 
 ## 10.4 Role, actor and function matrix
-The current view in relation to Role Based Access Control (RBAC) is shown in the table below. This is the current ‘As-Is’ view and further details describing the account management process are located here: [Reference URL] [6, 214].
+The current role-based access control (RBAC) view is shown in the table below. Further detail on the account management process is at [Reference URL] [6, 214].
 
 | Capability | Admin user permissions | Approved | user permissions | Delegated user permissions | Basic user permissions | Regulator permissions |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -2075,51 +2056,52 @@ The current view in relation to Role Based Access Control (RBAC) is shown in the
 
 
 ## 10.5 Leveraged security components
-Azure firewall, as part of the standard CCOE architectural patterns, is deployed across Defra Azure tenants. Further details are shown here: AZR Cloud Service Azure Firewall - Overview. The design follows core design principles, as shown in section 9.2 of this document, including architecture in relation to network segmentation and security layers.
+Azure Firewall is deployed across Defra Azure tenants as part of the standard CCOE architectural pattern. Further detail is at AZR Cloud Service Azure Firewall - Overview. The design follows the core design principles in section 9.2, including network segmentation and security layers.
 
 ### 10.5.1 Web application firewall
-WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is depicted in 10.1 (item 3) above in this section.
+A WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is shown in section 10.1 (item 3).
 
 ### 10.5.2 Protective monitoring
-Protective monitoring is in place for this service. Defra’s SOC monitoring team receive logs into the central SIEM tool (Sentinel). Further details are shown in the following ADR: ADR-028: Protective Monitoring Logging - Collections & Packaging Reforms - Confluence.
+Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). Further detail is in ADR-028: Protective Monitoring Logging on Confluence.
 
 ## 10.6 Bespoke security components
-Security headers have been defined using OWASP best practice to ensure limitations in cross-site scripting attacks as described in the following ADR. ADR-008: Security Headers - Collections & Packaging Reforms - Confluence.
+Security headers follow OWASP best practice to limit cross-site scripting attacks, as described in ADR-008: Security Headers on Confluence.
 
 ## 10.7 Key management
-All keys are stored within Azure key vault (see section 14.4).
+All keys are stored in Azure Key Vault (see section 14.4).
 
 ## 10.8 Malware detection / prevention
-Files uploaded to the EPR service require anti-virus scanning to ensure that no infected files are stored within the system which could (as part of future themes) be downloaded. The EPR service is using the existing DEFRA Trade Anti-Virus Solution and further detail is shown in the following ADR: ADR-023: Anti-Virus Service - Collections & Packaging Reforms - Confluence.
+All files uploaded to the EPR service are anti-virus scanned to prevent infected files from being stored and potentially downloaded. EPR uses the existing Defra Trade anti-virus solution. Further detail is in ADR-023: Anti-Virus Service on Confluence.
 
 ## 10.9 Authentication / authorisation model – human actors
-To access the service users need to authenticate to Azure AD B2C. When users access this application for the first time they are redirected to Azure AD B2C using the OpenId Connect protocol. After successful authentication, they are redirected back to the application together with an authorisation code, which is then used to acquire their ID, access and refresh tokens by standard OpenId Connect authorisation code flow.
+Users authenticate via Azure AD B2C. On first access, they are redirected to Azure AD B2C using OpenID Connect. After successful authentication they are redirected back to the application with an authorisation code, which is exchanged for ID, access and refresh tokens using the standard OpenID Connect authorisation code flow.
 
-Their identity information is then extracted from the ID token and a user session is established by creation of standard ASP.NET Core authentication cookie. Access and refresh tokens are stored for later use in the token cache (Azure Cache for Redis). Stored access tokens are then used to call backend APIs on behalf of the user. Stored refresh tokens are used to refresh access tokens when they expire.
+Identity information is extracted from the ID token and a user session is created via a standard ASP.NET Core authentication cookie. Access and refresh tokens are stored in the token cache (Azure Cache for Redis) for use when calling backend APIs on behalf of the user. Refresh tokens are used to renew access tokens when they expire.
 
-Applications will use the user information retrieved from the account service (either directly or via a facade) to ensure that authenticated users have:
-• restricted access to data, e.g., their access is limited to their own organisations.
-• restricted access to functionality, e.g. only approved or delegated people can submit placed on the market data for a specific organisation.
-ADR-015: Account Creation - Collections & Packaging Reforms - Confluence.
+Applications use user information from the account service (directly or via a façade) to enforce:
+- Restricted data access — users can only see data for their own organisation
+- Restricted functionality — for example, only approved or delegated users can submit placed-on-market data for a specific organisation.
+
+See ADR-015: Account Creation on Confluence.
 
 ## 10.10 Authentication / authorisation model – system actors
-An API endpoint in the account service will provide user information in a timely manner, containing:
-• their enrolment data (enrolment status),
-• their roles within the organisation (account and connection).
-The API will be on Account Façade, which will call to Account Service to get the user information.
-Further details are shown in the following ADRs: ADR-018: Account Service - Collections & Packaging Reforms - Confluence, ADR-022: User Authorisation - Collections & Packaging Reforms - Confluence.
+An API endpoint in the account service provides user information, including:
+- Enrolment data (enrolment status)
+- Roles within the organisation (account and connection).
+
+The API sits on the Account Façade, which calls the Account Service to retrieve user information. See ADR-018: Account Service and ADR-022: User Authorisation on Confluence.
 
 ## 10.11 GitHub and CI/CD pipeline
-Details in relation to GitHub, account set-up and security authentication, using 2FA are shown in the following: GitHub Setup - Collections & Packaging Reforms - Confluence.
+Details on GitHub account setup and security authentication (including 2FA) are in GitHub Setup on Confluence.
 
 # 11. Delivery architecture (or secondary architecture)
-This section should describe how the solution has been developed/configured, tooling used. A useful way to look at would be to consider the standard tools, setups, standards, frameworks, repos etc. that should be in place if we were to set up another dev shop. The RPD application part of EPR is primarily developed code. Development platforms include MS-Visual Studio Professional and Azure Synapse notebooks. Programming languages include C#, SQL, R and Python.
+Describes how the solution is developed and configured, including tooling, standards, frameworks and repositories. The RPD application is primarily developed code. Development platforms include Visual Studio Professional and Azure Synapse notebooks. Programming languages include C#, SQL, R and Python.
 
 ## 11.1 Development platform
-Repos and repo management; Tooling; Version control; Branching; CD/CI method/guide; Pipeline flow/execute and config guide; s/w tech stack per service/component (frameworks, widgets, JVM etc.); Runbooks (deployment scripts); Coding standards.
+Covers repositories and repo management, tooling, version control, branching, CI/CD approach, pipeline configuration, software tech stack per component, runbooks and coding standards.
 
 ### Repositories
-Written code on developer workstations is uploaded by synchronisation, for example, from the workstation or Azure development environments to the GitHub repository listed here: DEFRA repositories. Up until the end of 2023, repos were maintained in Azure DevOps (ADO). During early 2024, almost all the repositories excepting EPR-Data were successfully migrated from ADO to GitHub. The reason that this was not migrated was because there had to be a period of absolute quiet (no changes in any branch) for these to be migrated, which given the busy activity over the 2024-2025 period has not lent itself to such a quiet time window. All code is public-readable, following GDS guidelines.
+Code is synchronised from developer workstations or Azure development environments to GitHub (DEFRA repositories). Repositories were maintained in Azure DevOps (ADO) until the end of 2023, then migrated to GitHub in early 2024. The EPR-Data repository was not migrated because migration requires a period with no active changes across any branch — a window that has not been available given the pace of activity in 2024–2025. All code is publicly readable, following GDS guidelines.
 
 ### Tooling
 The following is the tooling set used for RPD:
@@ -2145,26 +2127,24 @@ The following is the tooling set used for RPD:
 | Visual Studio Professional | Microsoft | Development environment for C#. | Support is provided as part of the Microsoft Enterprise Agreement. |
 
 ### DevOps
-Branching strategy is outlined in this document: Consolidated Release / Branching Strategy - Collections & Packaging Reforms - Confluence. A more specific and detailed version of the above strategy for the more recent (end 2025) releases associated with PayCal are detailed in this document: EPR Branching Strategy - Collections & Packaging Reforms - Confluence. These show the flexible approach to parallel development by teams and even emergency deployment but always maintaining the purity and integrity of the deployed code through strict version control. Additionally, the use of feature flags or toggles is done to enable controlled activation of deployed code. There are DevOps code pipelines that are used as technology to promote successfully tested code from the lower (DEV, TST) to the higher environments (PRE, PRD).
+The branching strategy is documented in the Consolidated Release / Branching Strategy on Confluence. A more detailed version covering the late-2025 PayCal releases is in EPR Branching Strategy on Confluence. Both documents show how teams can develop in parallel and deploy emergency fixes while maintaining code integrity through strict version control. Feature flags are used to control when deployed code is activated. DevOps pipelines promote successfully tested code from lower environments (DEV, TST) to higher ones (PRE, PRD).
 
 ### Runbook
-Every step of every code promotion into the TST, PRE and PRD environments is thought through and documented in the Run Book, located on Confluence at: Release Runbooks & Release Notes - Collections & Packaging Reforms - Confluence. The Runbook is created by the release and goes through review before being executed. The release team is always responsible for the Runbook, although it is executed by the cloud centre of excellence (CCoE) for promoting to the higher environments.
+Every step of every code promotion to TST, PRE and PRD is documented in a runbook, held on Confluence at Release Runbooks & Release Notes. The runbook is written by the release team and reviewed before execution. For promotions to higher environments, the runbook is executed by the Cloud Centre of Excellence (CCoE).
 
-The Runbook includes pre-requisites, the implementation steps and fall back, should the implementation fail. The fall back will take us to a no-worse position should the promotion have not taken place at all, especially into the production environment (PRD). This is assuming that failure is detected during implementation. If a production failure is identified long after implementation (rare and probability likely to be small that errors escape detection), then those needs be managed by fixing forward. There are no known examples of fix-forward yet. All runbooks are available in Confluence at https://eaflood.atlassian.net/wiki/x/J4FqAwE.
+Each runbook includes prerequisites, implementation steps and a rollback plan. The rollback leaves the system in a no-worse position than if the promotion had not taken place — this is especially important for production (PRD). This assumes failure is detected during implementation. If a production failure is discovered after the fact (rare, as errors are unlikely to escape detection), the approach is to fix forward. No fix-forward cases have arisen to date.
 
 ### Coding standards
-There are UK Government requirements about producing high quality code. These are maintained by running all written code through an approved open-source code quality tool called SonarQube.
+UK Government requirements for high-quality code are met by running all written code through SonarQube, an approved open-source code quality tool.
 
 ## 11.2 Testing solution
-It is expected that the solution for testing has its own specialist work product, therefore the list to the right represents a checklist of items that should be summarised here but referenced for the detail: Test Approach (strategy, plan, general method); Tooling; Environment; Plan/Characteristics/Capabilities; Regression approach; Functional approach; Performance approach; Integration test approach – internal; Integration test approach – external.
+The testing strategy is documented in the EPR Test Approach on Confluence, based on the Defra DDTS Test strategy. Functional testing — including regression testing to confirm existing functionality is unaffected by new development — is carried out in all environments by authorised personnel. Progress through environments is described in the Route to Live section below.
 
-The testing strategy is described via the EPR Test Approach document page on Confluence located at: EPR Test Approach - Collections & Packaging Reforms - Confluence. The EPR approach is based on the Defra DDTS Test strategy. Functional testing is done in all environments by the appropriate and authorised persons for each environment. Functional testing includes Regression testing to ensure that nothing from the past (baseline) is broken because of the new development (increment). Functional testing progress through the environments is elaborated in the next section Route to Live.
+Integration testing with FSS (not deployed until late 2025) was simulated by comparing RPD invoice file output against the data contract. Real-time integrations with Companies House and Postcode services are tested from the DEV4 environment via APIM.
 
-Integration testing as with FSS (not deployed till late 2025) was managed simulated via using a RPD invoice file output comparing with the data contract for accuracy of matching the real with the expected result. Real-time integrations with Companies House or Postcodes could occur from the DEV4 integration testing environment via API Manager (APIM) to those respective web services.
+All environments run on Azure and can be rebuilt by restoring a pre-captured image.
 
-The environments being on MS-Azure, rebuild of any of them could be done by restoring an appropriate pre-captured image of the environment. 
-
-Currently test data is created manually via pre-requisite processes e.g. create master data like a producer Organisation prior to performing a transaction using that master data. From a process perspective, this is the purest approach. However, this is time consuming and not scalable to create large volumes of data that may be required. To overcome, we have informally explored AI based techniques to generate meaningful test data in large quantities that is also anonymised. This is possible as tried in a test bed, but EPR has not yet come around to implementing test data generation automation. 
+Test data is currently created manually by running prerequisite processes — for example, creating a producer organisation before executing a transaction against it. This is the most accurate approach but is time-consuming and does not scale to large data volumes. AI-based techniques for generating large quantities of anonymised, meaningful test data have been explored informally and proven feasible in a test bed, but automated test data generation has not yet been implemented in EPR.
 
 <br>
 
@@ -2173,37 +2153,22 @@ Figure 36.0 Testing
 
 <br>
 
-**Performance testing** is carried out by the Defra DDTS testing team using the Apache JMeter tool. 
+**Performance testing** is carried out by the Defra DDTS testing team using Apache JMeter.
 
-**Security testing** as in external IT Health Check or an internal security review is performed in the pre-production environment (PRE) by another partner service vendor or Defra security team as appropriate.
+**Security testing** — external IT health checks or internal security reviews — is performed in the pre-production environment (PRE) by a partner service vendor or the Defra security team as appropriate.
 
 ## 11.3 Route to live
-Summarise tools used to promote aspects of the solution through environment to live.
-Inter environment delivery (particularly into pre-prod).
-Staging for release (in Prod – default activated or “waits for activation”).
-Activation (of staged).
-Reversion / redeployment of prior versions / fix forward capabilities.
-The below figure also shows the route to Production.
-The repository technology used is GitHub to store code and pipelines to transport code from store to the environment.
-Please note that yet (end of 2025) functional testing itself is still manual and does not use automation technologies.
+Code is stored in GitHub and promoted through environments via pipelines. As of end 2025, functional testing remains manual and does not use test automation.
 
-Individual teams do unit, system and integration tests within their sub-environments in DEV, except for DEV4 and DEV8 that are managed by the testing team.
-Please note that there is only one common Synapse analytics as well as Cosmos NoSQL DB data layer in DEV that all the teams share.
+Individual teams carry out unit, system and integration tests in their own DEV sub-environments. DEV4 and DEV8 are managed by the testing team. There is a single shared Synapse Analytics and Cosmos NoSQL data layer in DEV used by all teams.
 
-Once the release management is happy with DEV, then the code is promoted to TST where functional testing is performed by Defra domain experts.
+Once release management is satisfied with DEV, code is promoted to **TST**, where functional testing is performed by Defra domain experts.
 
-Upon successful TST, code is promoted to PRE where user acceptance testing (UAT) is done again by Defra experts.
-This environment may also be used for performance testing by the Defra DDTS team using the automated JMeter tool, as mentioned earlier.
+On successful TST, code is promoted to **PRE**, where UAT is carried out by Defra experts. PRE may also be used for performance testing by the Defra DDTS team using JMeter.
 
-There is a parallel environment here called PRE-2.
-Reason for this is to properly test data reports against all the rich variations that occur in records, we have not yet been able to manually or synthetically generate that large body of data.
-Therefore, we use a tightly access controlled copy of production data in the PRE-2 data layer.
-Incidentally, this data is only available to actual Defra users limited to their actual roles or to UK vetting service security cleared (SC) persons for data reports testing.
-Ideally this environment should be created only if a release contains data reports and should be retired upon successful completion of that release.
-In practice, the same PRE-2 has needed to be there for multiple releases, although strictly access controlled.
-As it is only for data reports testing, PRE-2 is like a railway siding and not a path to production that PRE is.
+A parallel environment, **PRE-2**, exists alongside PRE. It holds a tightly access-controlled copy of production data, needed to test data reports against the full range of record variations that cannot be generated manually or synthetically. Access is restricted to Defra users (within their actual roles) or SC-cleared individuals. PRE-2 should ideally be created only for releases containing data report changes and decommissioned once testing is complete. In practice it has been retained across multiple releases, though always strictly access-controlled. Because it is used solely for data report testing, PRE-2 is a siding rather than a path to production.
 
-Upon successful PRE testing, the code is finally promoted to production (PRD) with the accompanying Go Live and early life support.
+On successful PRE testing, code is promoted to **PRD** with the accompanying go-live and early-life support.
 
 <br>
 
@@ -2225,138 +2190,122 @@ In the higher environments, by the dedicated CCoE team.
 The monitoring and tooling are described in good detail in the dedicated next sections 12.2 and 12.3.
 
 ### Monitoring processes
-Refers to monitoring solution but expands on who does what in response to et.
-Might indicate behavioural aspect to watch for / alert on.
-Monitoring is implemented using a layered approach, combining Azure-native observability tools with operational responsibilities.
-Monitoring Stack:
+Monitoring uses a layered approach combining Azure-native observability tools with defined operational responsibilities.
+
+**Monitoring stack:**
 - Azure Monitor and Log Analytics for telemetry ingestion.
 - Application Insights for distributed tracing and performance metrics.
-- AppInsights Alerting to SMTP distribution Groups for HealthCheckStatus and serverSideErrorAlerts for EPR key resources.
-- Synapse Pipeline Alerts are set up for a PipelineAlertGroup which triggers to SMTP messages to key individuals.
-Operational Responsibilities: [8, 9]
-- First-line monitoring is handled by the Live Service team, who receive alerts via Azure Monitor Action Groups [8, 9].
-- The Live Service Team log key information in SNOW or ADO and then perform an initial triage.
-- Depending on the triage outcome incidents are either resolved by Live Service Team, passed to CCoE Team or escalated to expert areas within the wider EPR Programme Team.
-- Second-line support (e.g. DevOps and platform teams) respond to escalated alerts and perform root cause analysis.
-- 3LS/4LS support for alerts is provided by the wider EPR Programme Team such as the DG6 Data Team, DG5 Platforms Team or Lead Developer’s area.
-- These areas contain SMEs with areas of specialisation who can perform deeper dives into the product then diagnose and provide resolution recommendations.
-- As the Teams providing 3LS/4LS do not have direct production access, then any alert resolutions are passed to CCoE for completion (Depending on the required action an approved Defra Change Control may be necessary to complete any resolution work).
-- Additional Security monitoring is provided by the Defra SOC who utilise the Defra adopted SIEM product suite to monitor EPR network data for suspicious traffic patterns or known threat sources.
-- Any alerted activity auto-creates incidents in the Defra Service Now and assigns them to the EPR Live Service Team for initial triage.
+- Application Insights alerting to SMTP distribution groups for health check status and server-side error alerts on key EPR resources.
+- Synapse Pipeline Alerts configured for a pipeline alert group, triggering SMTP messages to key individuals.
+
+**Operational responsibilities:**
+- **First-line monitoring** is handled by the Live Service team via Azure Monitor Action Groups. They log key information in ServiceNow or ADO and carry out initial triage.
+- Depending on triage outcome, incidents are either resolved by the Live Service team, passed to CCoE or escalated to specialist areas within the EPR Programme Team.
+- **Second-line support** (DevOps and platform teams) responds to escalated alerts and performs root cause analysis.
+- **Third and fourth-line support** is provided by specialist teams within the EPR Programme Team — DG6 Data Team, DG5 Platforms Team or the Lead Developer’s area. These teams carry out deeper investigation and provide resolution recommendations.
+- As third and fourth-line teams do not have direct production access, resolutions are passed to CCoE for completion. An approved Defra Change Control may be required.
+- **Security monitoring** is provided by the Defra SOC, which uses the Defra SIEM product suite to monitor EPR network traffic for suspicious patterns or known threat sources. Alerted activity automatically creates incidents in Defra ServiceNow and assigns them to the EPR Live Service team for triage.
 
 ### Diagnosis features
-Which components support diagnosis, how can events be correlated to assist, who has access to what to assist with diagnosis [9, 11].
-The EPR solution includes several built-in diagnostic capabilities to support rapid fault isolation and resolution: [9, 11]
-- Application Insights: Enables distributed tracing across microservices, capturing request-response flows, dependency calls, and exception telemetry [12, 13].
-- Custom Health Probes: Implemented in Function Apps and APIs to expose readiness and liveness endpoints [12, 13].
-- Diagnostic Logs: Captured via Azure Monitor and routed to Log Analytics for querying and alerting [12, 13].
+Built-in diagnostic capabilities to support fault isolation:
+- **Application Insights:** Distributed tracing across microservices, capturing request-response flows, dependency calls and exception telemetry [9, 11].
+- **Custom health probes:** Implemented in Function Apps and APIs to expose readiness and liveness endpoints [12, 13].
+- **Diagnostic logs:** Captured via Azure Monitor and routed to Log Analytics for querying and alerting [12, 13].
 
 # 12. Operational architecture
-It would be expected that this section generally links off to the “SKMS” or equivalent for the service and that this information is written by ops based on understanding / explanations of the design.
-Sometimes called the “service wrap”.
-This list therefore serves as a prompt for the form of questions that may be asked by service transition and an opportunity to provide some brief descriptions.
-It is *not* intended to be ops procedure manual.
+This section links to the service knowledge management system (SKMS) and provides brief descriptions of operational topics. It is not an operations procedure manual.
 
 ## 12.1 Initialising, controlling, stopping
-How to activate, control usage – blunt instrument or designed in graceful capability.
-Initialisation: Services are deployed via Azure DevOps pipelines using infrastructure-as-code (ARM/Bicep templates).
-Initialisation includes environment-specific configuration, secure key injection via Azure Key Vault, and registration of event-driven components (e.g. Event Grid, Service Bus).
-Control: Runtime control is achieved through Azure-native capabilities such as:
-- Feature flags (via Azure App Configuration) to enable/disable capabilities without redeployment.
-- Role-based access control (RBAC) to restrict administrative operations.
-- API Management policies to throttle or block traffic if needed.
-Stopping: Services can be paused or gracefully shut down using:
+**Initialisation:** Services are deployed via Azure DevOps pipelines using infrastructure-as-code (ARM/Bicep templates), including environment-specific configuration, secure key injection via Azure Key Vault and registration of event-driven components (Event Grid, Service Bus).
+
+**Control:** Runtime control uses Azure-native capabilities:
+- Feature flags (via Azure App Configuration) to enable or disable capabilities without redeployment.
+- RBAC to restrict administrative operations.
+- APIM policies to throttle or block traffic.
+
+**Stopping:** Services can be paused or shut down gracefully using:
 - Azure Function App stop/start controls.
 - Scaling to zero for stateless components.
 - Queue draining and message deferral for in-flight operations.
-Note: All critical services are designed to support graceful degradation and controlled failover, ensuring minimal disruption during planned or unplanned shutdowns.
+
+All critical services are designed to support graceful degradation and controlled failover, minimising disruption during planned or unplanned shutdowns.
 
 
 ## 12.2 Monitoring processes
-Monitoring is implemented using a layered approach, combining Azure-native observability tools with operational responsibilities:
-**Monitoring Stack:**
+See the monitoring stack and operational responsibilities described in section 11.3 (Route to Live). The monitoring and tooling are described in more detail in sections 12.2 and 12.3.
+
+**Monitoring stack:**
 - **Azure Monitor** and **Log Analytics** for telemetry ingestion.
 - **Application Insights** for distributed tracing and performance metrics.
-- **AppInsights Alerting** to SMTP distribution Groups for HealthCheckStatus and serverSideErrorAlerts for EPR key resources.
-- **Synapse Pipeline Alerts** are set up for a PipelineAlertGroup which triggers to SMTP messages to key individuals.
+- **Application Insights alerting** to SMTP distribution groups for health check status and server-side error alerts on key EPR resources.
+- **Synapse Pipeline Alerts** configured for a pipeline alert group, triggering SMTP messages to key individuals.
 
-**Operational Responsibilities:**
-- **First-line monitoring** is handled by the Live Service team, who receive alerts via Azure Monitor Action Groups.
-- The Live Service Team log key information in SNOW or ADO and then perform an initial triage.
-- Depending on the triage outcome incidents are either resolved by Live Service Team, passed to CCoE Team or escalated to expert areas within the wider EPR Programme Team.
-- **Second-line support** (e.g. DevOps and platform teams) respond to escalated alerts and perform root cause analysis.
-- **3LS/4LS support** for alerts is provided by the wider EPR Programme Team such as the DG6 Data Team, DG5 Platforms Team or Lead Developer’s area.
-- These areas contain SMEs with areas of specialisation who can perform deeper dives into the product then diagnose and provide resolution recommendations.
-- As the Teams providing 3LS/4LS do not have direct production access, then any alert resolutions are passed to CCoE for completion (Depending on the required action an approved Defra Change Control may be necessary to complete any resolution work).
-- **Additional Security monitoring** is provided by the Defra SOC who utilise the Defra adopted SIEM product suite to monitor EPR network data for suspicious traffic patterns or known threat sources.
-- Any alerted activity auto-creates incidents in the Defra Service Now and assigns them to the EPR Live Service Team for initial triage.
+**Operational responsibilities:**
+- **First-line monitoring** is handled by the Live Service team via Azure Monitor Action Groups. They log key information in ServiceNow or ADO and carry out initial triage.
+- Depending on triage outcome, incidents are either resolved by the Live Service team, passed to CCoE or escalated to specialist areas within the EPR Programme Team.
+- **Second-line support** (DevOps and platform teams) responds to escalated alerts and performs root cause analysis.
+- **Third and fourth-line support** is provided by specialist teams in the EPR Programme Team — DG6 Data Team, DG5 Platforms Team or the Lead Developer’s area. These teams carry out deeper investigation and provide resolution recommendations.
+- As third and fourth-line teams do not have direct production access, resolutions are passed to CCoE for completion. An approved Defra Change Control may be required.
+- **Security monitoring** is provided by the Defra SOC using the Defra SIEM product suite to monitor EPR network traffic for suspicious patterns or known threat sources. Alerted activity automatically creates incidents in Defra ServiceNow and assigns them to the EPR Live Service team for triage.
 
 ## 12.3 Diagnosis features
-Which components support diagnosis, how can events be correlated to assist, who has access to what to assist with diagnosis.
-The EPR solution includes several built-in diagnostic capabilities to support rapid fault isolation and resolution:
-- **Application Insights:** Enables distributed tracing across microservices, capturing request-response flows, dependency calls, and exception telemetry.
-- **Custom Health Probes:** Implemented in Function Apps and APIs to expose readiness and liveness endpoints.
-- **Diagnostic Logs:** Captured via Azure Monitor and routed to Log Analytics for querying and alerting.
+Built-in diagnostic capabilities to support fault isolation:
+- **Application Insights:** Distributed tracing across microservices, capturing request-response flows, dependency calls and exception telemetry.
+- **Custom health probes:** Implemented in Function Apps and APIs to expose readiness and liveness endpoints.
+- **Diagnostic logs:** Captured via Azure Monitor and routed to Log Analytics for querying and alerting.
 
 ## 12.4 Capacity reporting
-What are the general maximum capacity thresholds of the system (as experienced during performance testing), how are we doing etc.
-Capacity planning and utilisation monitoring are handled through a combination of Azure-native tools and operational dashboards:
-- **Azure Metrics Explorer:** Tracks CPU, memory, and throughput for compute resources (Function Apps, App Services, Event Hub).
-- **Log Analytics Dashboards:** Visualise ingestion rates, queue lengths, and storage consumption.
-- **Scaling Rules:** Defined for auto scale-enabled services based on message volume and latency thresholds.
-- CCoE has done the above during 2025 in the context of problem resolution, Azure Synapse Health Check etc.
-- These are currently not done as BAU activity. It would be a good thing to start doing after configuring the tooling to do so on a regular basis.
+Capacity planning and utilisation monitoring use Azure-native tools and operational dashboards:
+- **Azure Metrics Explorer:** Tracks CPU, memory and throughput for compute resources (Function Apps, App Services, Event Hub).
+- **Log Analytics dashboards:** Visualise ingestion rates, queue lengths and storage consumption.
+- **Scaling rules:** Defined for auto-scale-enabled services based on message volume and latency thresholds.
+
+CCoE carried out capacity reviews in 2025 as part of problem resolution and the Azure Synapse health check. These are not yet done as a BAU activity — it would be beneficial to configure regular reporting and make it routine.
 
 ## 12.5 Rebuild, recovery and reinstatement
-Scenario based “how to” guide – not just the “tech stack” ensure understanding in particular of any cross-system RI issues - link to DR approach, Hours of Operation.
-The EPR architecture supports resilience and recovery through a combination of platform features and operational procedures:
-- **Infrastructure-as-Code:** All environments can be rebuilt using version-controlled ARM/Bicep templates.
-- **Geo-Redundant Storage:** Used for critical data assets to support regional failover.
-- **Backup Policies:** Applied to databases and configuration stores (e.g. Key Vault, App Configuration).
+The EPR architecture supports resilience and recovery through:
+- **Infrastructure-as-code:** All environments can be rebuilt using version-controlled ARM/Bicep templates.
+- **Geo-redundant storage:** Used for critical data assets to support regional failover.
+- **Backup policies:** Applied to databases and configuration stores (Key Vault, App Configuration).
 
-When Transitioned into a Defra Support Application, EPR will be a Tier 3 System and the underpinning design and infrastructure of EPR has been built to support the capability required to meet that.
-The key parameters of a Defra Tier 3 Service are:
-- Service hours of Mon-Fri 08:00-18:00 (excl Statutory Holidays).
-- An Availability Target of >=98.50%.
-- 3 hours of permitted unscheduled unavailability in a 28-day period.
-- Recovery time objective (following complete service outage): 4 - 48 hours.
-- Recovery point objective (extent of data loss): 8 - 48 hours.
-- May have single Points of failure.
-- Should be locally resilient and may be globally resilient.
+When transitioned to Defra supported service, EPR will be a Tier 3 system. The Tier 3 service parameters are:
+- Service hours: Monday–Friday 08:00–18:00 (excluding statutory holidays).
+- Availability target: ≥98.50%.
+- Permitted unscheduled unavailability: 3 hours in any 28-day period.
+- Recovery time objective (following complete outage): 4–48 hours.
+- Recovery point objective (extent of data loss): 8–48 hours.
+- May have single points of failure.
+- Should be locally resilient; may be globally resilient.
 
-When considering the above requirements of a Tier 3 Service, then the underlying design and infrastructure of EPR with its Azure geo-redundant replication means that EPR can more than satisfy them as its data is synchronously replicated in the primary region across the three Azure Southern UK datacentres.
-In the highly unlikely event of the entire Azure Southern region becoming unavailable, it would be possible to recreate and reinstate EPR for Azure backups in a different Azure region.
-Queries regarding the availability and DR approaches of other services providing interfaces to EPR such as PRN, FSS and core APIs such as Postcode Checker, Companies House, Antivirus, Gov Notify should be addressed to the relevant Service Providers.
-As of December 2025, periodic DR testing is not done on a regular basis. It would be a good thing to start doing so.
-Again, we do not have a Playbook as of December 2025 that could re-create environments, re-route data pipelines and restore data from geo resilient backups. A start was made during June 2025, but paused soon after probably because of the anticipated exit of the Atos Group.
+EPR's Azure geo-redundant replication — with data synchronously replicated across the three Azure UK South datacentres — comfortably meets these Tier 3 requirements. In the highly unlikely event of the entire UK South region becoming unavailable, EPR could be recreated in a different Azure region from backups.
+
+For availability and DR approaches of other services that interface with EPR — such as PRN, FSS, Postcode Checker, Companies House, antivirus and GOV.UK Notify — queries should be directed to the relevant service providers.
+
+As of December 2025, periodic DR testing is not carried out. This should be addressed. There is also no DR playbook covering environment recreation, data pipeline rerouting and backup restoration. Work was started in June 2025 but paused, likely due to the anticipated exit of the Atos Group.
 
 ## 12.6 Scheduled capabilities
-What batch processes run, when (calendar view of the solution) – daily, hourly, yearly etc.
-Operational support is integrated with the enterprise ITSM platform (e.g. ServiceNow):
-- **Incident Routing:** Alerts from Azure Monitor are routed to the appropriate resolver groups based on severity and service tags.
-- **Knowledge Articles:** Linked to common issues and recovery steps, maintained in the SKMS.
-- **Change Management:** All deployments and configuration changes are logged and approved via CAB processes.
+Describes the batch processes that run and when (daily, hourly, annually etc). Operational support is integrated with ServiceNow:
+- **Incident routing:** Alerts from Azure Monitor are routed to the appropriate resolver groups based on severity and service tags.
+- **Knowledge articles:** Linked to common issues and recovery steps, maintained in the SKMS.
+- **Change management:** All deployments and configuration changes are logged and approved via CAB processes.
 
 ## 12.7 Calendar constraints
-What periods of the year for example must the system operation be protected (e.g. via change freezes)?
-The EPR platform operates under defined calendar constraints to ensure service continuity and minimise risk during critical operational periods. These constraints are particularly relevant for planning change windows, deployments, and maintenance activities.
+The EPR platform has defined periods when changes must be restricted to protect service continuity.
 
 ### Change freeze periods
-To protect system stability and ensure uninterrupted service during high-risk or high-demand periods, the following **change freeze windows** are enforced:
-- **Financial Year-End (March–April):** No non-essential changes are permitted during the final two weeks of March and the first week of April. This aligns with statutory reporting deadlines and peak producer activity.
-- **Holiday Periods (Mid-December to Early January):** A freeze is typically enforced from the second week of December through the first week of January to accommodate reduced staffing and ensure operational stability during the holiday season.
+- **Financial year-end (March–April):** No non-essential changes during the final two weeks of March and the first week of April, to align with statutory reporting deadlines and peak producer activity.
+- **Holiday period (mid-December to early January):** A freeze runs from the second week of December through the first week of January to account for reduced staffing and maintain stability over the holiday season.
 
 ### Key submission periods
-System stability is essential in the periods running up the deadlines for EPR Customer POM submissions which is normally around the start of April and the start of October.
+System stability must be maintained in the weeks before EPR customer POM submission deadlines, which fall around the start of April and the start of October.
 
 ### Additional considerations
-- **Emergency Changes:** May be permitted during freeze periods but require elevated approval via the GIO Change Management process.
-- **Scheduled Capabilities:** Batch processes and data synchronisation jobs are scheduled to avoid peak periods and freeze windows. These are documented in the SKMS and reviewed quarterly.
-- Business define the change freeze timings for things like year-end, holiday periods and key submission deadlines.
+- **Emergency changes:** May be permitted during freeze periods but require elevated approval via the GIO change management process.
+- **Scheduled jobs:** Batch processes and data synchronisation jobs are scheduled to avoid peak periods and freeze windows. These are documented in the SKMS and reviewed quarterly.
+- Business stakeholders define the change freeze timings for year-end, holiday periods and key submission deadlines.
 
 ## 12.8 Required cyclic activities (required forward schedule of changes)
-For example, of crypto keys require to be change annually in co-ordination with other parties this would be covered here.
-This section outlines recurring operational activities that must be scheduled and coordinated across the EPR platform to ensure compliance, security, and service continuity. These activities are typically included in the Forward Schedule of Changes (FSC) and reviewed during CAB meetings.
+Recurring operational activities that must be scheduled and coordinated to maintain compliance, security and service continuity. These are included in the Forward Schedule of Changes (FSC) and reviewed at CAB.
 
 ### Key cyclic activities
 | Activity | Frequency | Description | Coordination Required |
@@ -2371,7 +2320,7 @@ This section outlines recurring operational activities that must be scheduled an
 All of the above are set Defra requirements which EPR adheres to.
 
 ## 12.9 Incident or problem management
-This section outlines how the EPR platform supports incident and problem management, with a focus on identifying self-healing behaviours and potential masking patterns that may obscure underlying issues.
+Describes how the EPR platform supports incident and problem management, including self-healing behaviours and patterns that could mask underlying issues.
 
 ### Incident management
 - **Emergency Change Handling:** Emergency changes are governed by strict protocols. A P1 or P2 incident must be logged and accepted in ServiceNow before an emergency change can be initiated. The EPR Runbook provides detailed steps for executing emergency changes, including rollback procedures and verification steps. [16, 17]
@@ -2387,27 +2336,25 @@ The EPR Live Support Teams use the Defra processes for Incident, Major Incident,
 
 
 # 13. Commercial perspectives *
-The architect may have some understanding of the initial licencing model etc. (particularly if cots is used) and summarise here. All info needs to be caveated as being “point in time”. Only summaries: capture any information that emerged during delivery, but caveat as a “point in time” view.
+Point-in-time summary of licensing and cost information. All details should be treated as indicative and verified at the time of use.
 
 ## 13.1 Licencing
-What aspects of the solution require licence management? What are the models in use (user, volume etc.)? What are the “tipping” or “break” points?
+Identifies which aspects of the solution require licence management, the licensing models in use (per user, per volume etc) and any thresholds or break points.
 
 ## 13.2 Recurring costs
-Are there known future cyclical costs? Do these link to volume, time or a combination?
+Identifies known cyclical costs and whether they are driven by volume, time or a combination.
 
 ## 13.3 Costs to scale
-Roughly what would the impact be of scaling either elastically or traditionally? A key consideration is the “tipping” point – is their tiering to be concerned about for example? Cap / collar regimes?
+Describes the approximate cost impact of elastic or traditional scaling, including any pricing tiers or cap and collar regimes to be aware of.
 
 ## 13.4 Current information
-The information above should be taken over by service transition; link to the location of their information – or link in the Solution Architecture Definition Document page.
+This information should be handed over to service transition. Link to their documentation or to the SADD page.
 
 # 14. Inventory view *
-Data required for loading into CMDB or service desk tools (aka bill of materials). Each of the headings should have been covered in the SA elsewhere so it should be that this is really an Index with hyperlinks. If the solution was being “bid” it would also represent the shopping list of solution components to be procured/licenced/built. The information above should be taken over by service transition; link to the location of their information – or link in the Solution Architecture Definition Document page.
+Data for loading into the CMDB or service desk (bill of materials). Each heading maps to material covered elsewhere in this document; this section serves as an index. Two sources are used for complete coverage: a Confluence page (List of components in RPD) and a spreadsheet extract from Azure listing components with their identifiers and service levels. The spreadsheet is embedded below, with sub-lists by component type.
 
-For this section, we use two sources for complete coverage of the inventory in a complementary manner. The first source is a Confluence page at List of components in RPD - Collections & Packaging Reforms - Confluence. The second source is a spreadsheet extract from MS-Azure of components from the environments themselves that have identifiers and service level for each component. The spreadsheet is embedded here for complete reference. We shall see below a breakdown sub-list from the spreadsheet, categorised by type.
-
-## 14.1 Data bases / stores / storage services
-The below is an extract from the spreadsheet. 
+## 14.1 Databases / stores / storage services
+Extract from the spreadsheet.
 
 <br>
 
@@ -2416,14 +2363,14 @@ Figure 37.0 Database spreadsheet
 
 <br>
 
-Also the Confluence page at List of components in RPD - Collections & Packaging Reforms - Confluence that lists out this category of components as follows:
-- Block/table 1 – SQL databases. Includes pricing tier information that is also an indicator of service level.
-- Block/table 2 – Cosmos databases.
-- Block/table 3 – Synapse databases.
-- Block/table 4 – Storage Accounts.
+The Confluence page (List of components in RPD) lists this category as:
+- Block/table 1 – SQL databases (includes pricing tier as a service level indicator)
+- Block/table 2 – Cosmos databases
+- Block/table 3 – Synapse databases
+- Block/table 4 – Storage accounts
 
 ## 14.2 Servers / hardware
-The below is an extract from the spreadsheet. 
+Extract from the spreadsheet.
 
 <br>
 
@@ -2432,13 +2379,13 @@ Figure 38.0 Server spreadsheet
 
 <br>
 
-Also the Confluence page at List of components in RPD - Collections & Packaging Reforms - Confluence.
+See also the Confluence page (List of components in RPD).
 
-## 14.3 Services (PaaS etc.)
-The Confluence link in Block/table 5 has a very large number of entries that in this case also includes pricing tier that is an indication of service level. https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5816713361/List+of+components+in+RPD.
+## 14.3 Services (PaaS etc)
+Block/table 5 on the Confluence page (List of components in RPD) contains a large number of entries, including pricing tier as a service level indicator.
 
 ## 14.4 Keys
-The below is an extract from the spreadsheet. 
+Extract from the spreadsheet.
 
 <br>
 
@@ -2447,55 +2394,45 @@ Figure 39.0 Key spreadsheet
 
 <br>
 
-All keys are located within Azure Key Vault. The CCoE pattern is to have all secrets with expiry dates that are rotated on a regular basis. Currently we use key vault to also store app configuration settings some which are not secrets and ideally should not be stored in key vault.
-
-Incidentally there are no secrets in GitHub as ascertained from the environment and code quality specialists in the context of public readability of code in Section Delivery Architecture (or Secondary Architecture).
+All keys are stored in Azure Key Vault. The CCoE pattern requires all secrets to have expiry dates and be rotated regularly. Key Vault is also currently used to store some application configuration settings that are not secrets — ideally these should be stored elsewhere.
 
 ## 14.5 Built software components
-All the built software components are held in the GitHub repository at DEFRA repositories. In addition, there is one more repository called EPR-Data within ADO in Defra.
+All built software components are held in the DEFRA GitHub repositories. One additional repository, EPR-Data, remains in Azure DevOps.
 
-## 14.6 Non “built” software / COTS
-The only closest to COTS in RPD and PayCal is Power BI used for reports and data visualisation. Please note that COTS like ServiceNow, Stripe, Amazon Connect, Sequence Shift etc while being part EPR in FSS are outside of RPD and PayCal.
+## 14.6 Non-built software / COTS
+The closest thing to COTS in RPD and PayCal is Power BI, used for reports and data visualisation. COTS used in FSS — such as ServiceNow, Stripe, Amazon Connect and Sequence Shift — are outside the scope of RPD and PayCal.
 
 ## 14.7 Licences
-Almost all the components are running on the Azure subscription and are paid for through that mechanism. The one notable exception is Power BI that requires licensing for power users in the Defra data strategy team and data analysts from the supplier developer data team. The Microsoft 365 Admin Center shows all licenses available in the tenant including the number assigned and lets you drill into details for individual products. --> https://admin.microsoft.com/Adminportal/Home#/licenses.
+Almost all components run on the Azure subscription and are charged through it. The exception is Power BI, which requires individual licences for power users in the Defra data strategy team and data analysts in the supplier development team. Licences can be managed via the Microsoft 365 Admin Center.
 
 ## 14.8 Scripts
 N/A
 
 ## 14.9 Locations of documentation
 Documentation is stored in:
-- **Confluence:** Extended Producer Responsibility for Packaging - Collections & Packaging Reforms - Confluence
-- **Sharepoint:** Defra Architecture - Home
+- **Confluence:** Extended Producer Responsibility for Packaging — Collections & Packaging Reforms
+- **SharePoint:** Defra Architecture - Home
 
 ## 14.10 Current information
-The information above should be taken over by service transition; link to the location of their information – or link in the Solution Architecture Definition Document page.
+This information should be handed over to service transition. Link to their documentation or to the SADD page.
 
 # 15. Appendices
-Not possible to be too prescriptive with these but some typical ones are shown.
 
 ## 15.1 Glossary
-Not just an acronym buster but an explanation.
+Definitions of terms and acronyms used in this document.
 
 ## 15.2 Index of diagrams
-Use Captions in word – this is then built automatically.
 
 ## 15.3 Index of tables
-Use Captions in word – this is then built automatically.
 
 ## 15.4 Architectural RAID-D
-This of course should be part of the overall project approach but often it is required to record these and the resolutions/outcomes separately. Show dates, status, names as appropriate.
-- **Risks** – e.g. “lack of xxx means that yyy”.
-- **Assumptions** - ensure sensitivity/impact if false noted – all assumptions are risks and assumptions of convenience need to be robustly managed out.
-- **Issues** – something that blocks progress/blocked progress.
-- **Dependencies** – external activity that needs to be coordinated.
-- **Decisions** – with rationale/choices explored – “key design” decisions, potential project / scope decisions that influenced the architecture etc.
+Records risks, assumptions, issues, dependencies and decisions, with dates, status and owners. Includes rationale and options explored for key design decisions.
 
 ## 15.5 Architectural questions / answers
-During delivery various questions will arise (e.g. choice of PaaS options etc.). Most of these should have been converted into decisions. However, there may still be open questions that were never resolved, and it is useful to reflect those here as they may represent a future risk or aspect that a future project may benefit from awareness of. Make sure the question itself is explained – i.e. why the question is important.
+Records open questions that arose during delivery and were not resolved into decisions. These may represent future risks or useful context for later projects.
 
 ## 15.6 Architectural standards and patterns used
-List those strategic components or approaches that have been used to deliver this system. The decision log should record any not used and why.
+Lists the strategic components and approaches used to deliver the system. The decision log records any that were considered but not adopted and the reasons why.
 
 ## 15.7 References: ADR
 
