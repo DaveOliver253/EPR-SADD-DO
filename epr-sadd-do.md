@@ -178,7 +178,7 @@ This document reflects the system as it is at Release 16 for the RPD, PayCal and
 Please note that the SADD is a high-level document bringing together everything related to the design of RPD and PayCal. For lower-level detail, this document signposts via links (URL) to Confluence and Defra SharePoint.
 
 ### History
-*Summarise the major changes to the system implemented by successive projects.*
+<!-- *Summarise the major changes to the system implemented by successive projects.* -->
 
 | Version | Date | Description | Author |
 | :--- | :--- | :--- | :--- |
