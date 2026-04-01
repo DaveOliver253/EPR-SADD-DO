@@ -702,7 +702,7 @@ Figure 8.0 Container diagram
 
 <br>
 
-PayCal is covered in ADR-100.
+PayCal is covered in [ADR-100: Calculator result for the FPC](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4987224491/ADR-100+Calculator+result+for+the+FPC).
 
 Two Synapse pipelines retrieve POM and organisation data from the Synapse analytical database and load it into the PayCal database for the calculator run process.
 
@@ -730,7 +730,7 @@ Figure 10.0 RPD Azure deployment
 
 
 ### User authentication and management
-User authentication and authorisation approach is summarised in ADR-039: Authentication and Authorization consolidation
+User authentication and authorisation approach is summarised in [ADR-039: Authentication and Authorization consolidation](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4415455473)
 
 <br>
 
@@ -748,7 +748,7 @@ Figure 12.0 File upload detail
 
 <br>
 
-ADR-043: POM file upload performance remediation. The main change is adding a Redis cache to track error rates across validation functions. The cache is also available for other uses.
+[ADR-043: POM file upload performance remediation](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4431118598). The main change is adding a Redis cache to track error rates across validation functions. The cache is also available for other uses.
 
 ### 5.6 Component classification table
 | Component | State Management | Idempotent | Sequence Control | Transactional | Atomic/Stateless | Helper/Facade | Notes |
@@ -808,7 +808,7 @@ EPR information could be classified as follows:
 Personally identifiable information (PII)
 - Company officer details captured during enrolment and registration contain personal data (PII) — names and contact details. Officers include Approved users, Delegated users, Basic users and Admin users.
 - PRNs/PERNs and notices of liability (NoLs) from FSS also contain company officer details.
-- PII entities and attributes in the logical data model (LDM) are listed on Confluence at: https://eaflood.atlassian.net/wiki/x/TgCUdQE. Note this list was produced by a data architect and may not be as complete as one produced by a Defra data steward.
+- PII entities and attributes in the logical data model (LDM) are listed on Confluence at: [RPD personally identifiable information (PII data)](https://eaflood.atlassian.net/wiki/x/TgCUdQE). Note this list was produced by a data architect and may not be as complete as one produced by a Defra data steward.
 - The raw registration submission files, and the Company Details, User, Person, Organisation and Audit log tables in Synapse and the Accounts database, all contain PII and must be appropriately protected.
 
 #### Commercially sensitive information
@@ -933,7 +933,7 @@ Figure 16.0 Logical data model
 
 Please open and enlarge the embedded diagram to view the detail.
 The full model is available for study or reference at Logical Data Model - EPR.docx
-We have identified in the context of the logical data model (LDM) the PII entities and attributes within the entities and listed these on Confluence at: https://eaflood.atlassian.net/wiki/x/TgCUdQE
+We have identified in the context of the logical data model (LDM) the PII entities and attributes within the entities and listed these on Confluence at: [RPD personally identifiable information (PII data)](https://eaflood.atlassian.net/wiki/x/TgCUdQE).
 Please note that this list done by a data architect is not as definitive as one done by a Defra data steward.
 
 ### Subject area model
@@ -1010,7 +1010,7 @@ The table below lists all entities in the EPR conceptual data model (CDM) and sh
 
 The cross-system entity identifiers within EPR are the six-digit Reference Number (the natural key for Organisation) and Packaging Material (the natural key for packaging). Packaging Type and Packaging Class are additional packaging dimensions. The Reference Number is used as the natural key in periodic organisation registration submissions. Packaging data also carries the organisation Reference Number (Organisation ID), which is cross-validated against registration data in reporting and PayCal.
 
-A data dictionary is maintained in Confluence: Data Dictionary - Report Packaging Data (RPD) - Data Warehouse - Collections & Packaging Reforms.
+A data dictionary is maintained in Confluence: [Data Dictionary - Report Packaging Data (RPD) - Data Warehouse](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5222236251/Data+Dictionary+-+Report+Packaging+Data+RPD+-+Data+Warehouse).
 
 The LDM shows key table relationships in an abstracted form. Primary keys are marked as Business Identifier attributes; where the same attribute appears in another entity it is marked as a Business Key. Relationships are shown with cardinality, following the Defra data architecture framework (DAF) guidelines. The LDM is suitable as the basis for the silver layer, which can then be transformed into a dimensional reporting model. The gold layer will hold aggregated metrics for specific downstream applications.
 
@@ -1075,7 +1075,7 @@ From Synapse, data is sent downstream to:
 - FSS for billing data via PayCal.
 - Power BI for regulator reports.
 
-Full details of each integration are in the Integration architecture section. ADRs describing data exchanges are on Confluence: https://eaflood.atlassian.net/wiki/x/sIAr8g. High-level data flows are shown in the SCDD in the data models section. A detailed data flows and integrations exercise was completed in H2 2025; findings are on Defra SharePoint at DataFlowsandIntegrations.xlsx.
+Full details of each integration are in the Integration architecture section. ADRs describing data exchanges are on Confluence: [Architectural Decision Records](https://eaflood.atlassian.net/wiki/x/sIAr8g). High-level data flows are shown in the SCDD in the data models section. A detailed data flows and integrations exercise was completed in H2 2025; findings are on Defra SharePoint at DataFlowsandIntegrations.xlsx.
 
 <br>
 
@@ -1123,7 +1123,7 @@ In addition, all data stores identified in section 6.6 as non-primary capture st
 ### Retention
 UK statute of limitations rules require most records to be held for six years. In practice this means six years plus one, to ensure six complete financial years are available at any point during the year.
 
-PayCal has a stricter requirement of 10+1 years under the regulations. This covers PayCal billing output, its inputs from Azure Synapse (the `rpd.CompanyDetails` and `rpd.PoM` tables) and the corresponding primary capture files in Blob Storage. Detailed analysis by the PayCal architect is documented in ADR-100.B on Confluence.
+PayCal has a stricter requirement of 10+1 years under the regulations. This covers PayCal billing output, its inputs from Azure Synapse (the `rpd.CompanyDetails` and `rpd.PoM` tables) and the corresponding primary capture files in Blob Storage. Detailed analysis by the PayCal architect is documented in [ADR-100.B: Fees & Payment Calculator - Calculator Data Storage](https://eaflood.atlassian.net/wiki/spaces/EDIA/pages/5521309715/ADR-100.B+Fees+Payment+Calculator+-+Calculator+Data+Storage) and [Analysis : Fees & Payment Calculator - Calculator Data Storage](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5574656001/Analysis+Fees+Payment+Calculator+-+Calculator+Data+Storage) on Confluence.
 
 ### Archival
 No archival solution has been implemented yet. EPR is still evolving and, as of July 2025, is less than three years old. When archival is implemented, the plan is to use Azure native functionality such as Azure Archive Storage, with retrieval options to online or offline tiers. No decisions have been made on these specifics — the only decision taken is that data will be held for as long as legally required. Performance may drive an earlier move to archival, since too much data in online stores slows query performance. PayCal is likely to be the first area to implement archival, and that approach will then be rolled out to other EPR data stores.
@@ -1138,7 +1138,7 @@ RPD and PayCal use several types of logs:
 - Standard RDBMS system logs record who changed records and when. These support roll-back and roll-forward recovery from a known clean point in time.
 - The Accounts database has a separate Audit Log table that records what was changed, when, by whom and the before-and-after values. The table is straightforward to store but requires programming effort to reconstruct records as they were at an earlier point in time. It was used in 2024 to report on regulators' acceptances of submissions.
 - Cosmos DB logs submission progress via its Submission Events table, tracking registration and packaging file submissions through their various statuses.
-- Regulators use Power BI for data auditing (see the Power BI Reporting page on Confluence).
+- Regulators use Power BI for data auditing (see the [Power BI Reporting](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4858151208/Power+BI+Reporting) page on Confluence).
 - From July 2025, extension fields are being added to RDBMS tables in the PRN database. These capture each changed record in-table, marked as the latest version with a timestamp, with earlier versions also retained and timestamped.
 
 > **[v1.2 change — ADR-141]** ADR-141 (currently For Review) formalises how PRNs/PERNs and the waste balance are kept accurate and tamper-evident in the RE/EX service:
@@ -1232,9 +1232,9 @@ The gold layer contains the most refined data, enriched and aggregated from the 
 Power BI is the standard reporting and analytics tool for regulators. Reports and dashboards draw on curated data in the gold layer to support business decision-making, regulatory compliance and operational monitoring. The key reports, their source data, underlying datasets and refresh mechanisms are summarised below.
 
 For full documentation see:
-- Power BI Reporting — Collections & Packaging Reforms — Confluence
-- Synapse Tables and Power BI Report Mapping — Confluence (Power BI consumes data from gold layer `t_tables` under the `dbo` schema)
-- Reporting Table Metadata — Confluence
+- [Power BI Reporting — Collections & Packaging Reforms](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4858151208/Power+BI+Reporting) — Confluence
+- [Synapse Tables and Power BI Report Mapping](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6272417837/Synapse+Tables+and+PowerBI+Report+Mapping) — Confluence (Power BI consumes data from gold layer `t_tables` under the `dbo` schema)
+- [Reporting Table Metadata](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6273204325/Reporting+Table+Metadata) — Confluence
 
 
 
@@ -1285,7 +1285,7 @@ PayCal has three main interfaces:
 
 A Defra scheme administrator (SA) triggers the calculator run. PayCal executes using the latest RPD data, LAPCAP data and scheme parameter configurations, producing the required outputs and triggering the billing file workflow. Once the billing file is ready, FSS calls the `billingDetails` APIM endpoint, passing the mandatory `calculatorRunId`. APIM forwards the request to the billingDetail EPR Web API, which retrieves the corresponding JSON billing data from Blob Storage and returns it to FSS via APIM. FSS then fetches organisation details from RPD via APIM. Once it has both the billing data and the organisation details, FSS processes the producer invoices.
 
-**High Level Overview:**
+**High-level overview:**
 
 <br>
 
@@ -1294,7 +1294,7 @@ Figure 21.0 High-level overview
 
 <br>
 
-**Component Diagram**
+**Component diagram**
 
 <br>
 
@@ -1309,11 +1309,11 @@ RPD uses Azure AD B2C for Single Sign-On (SSO). Once authenticated, users can cr
 During enrolment, the system captures user and organisation details. The person who enrols an organisation becomes its administrator and can then invite additional users in roles such as Approved, Delegate and Read-Only. All information is validated and stored in the SQL Accounts database.
 
 ### Regulator enrolment
-Regulator accounts are created via an internal SQL script. The procedure is documented in Defra Confluence.
+Regulator accounts are created via an internal SQL script. The procedure is documented in Defra Confluence: [Creating new Regulator](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5487558771/Creating+new+Regulator).
 
 Azure B2C SSO acts as the central authentication layer across RPD, FSS and the regulator platform. Security controls include multi-factor authentication (MFA), conditional access, GDPR-compliant data storage and audit logging. During enrolment, organisation details are validated via the Companies House API and Postcode API. Role assignments trigger notifications via GOV.UK Notify and all data is stored in an SQL database with role-based access control (RBAC).
 
-**Component Diagram**
+**Component diagram**
 - RPD Users
 
 <br>
@@ -1737,7 +1737,7 @@ Figure 29.0 Supporting capabilities
 
 <br>
 
-The architecture follows a **data lakehouse** pattern. A data lakehouse combines the strengths of data lakes and data warehouses into a single system.
+The architecture follows a **[data lakehouse](https://www.databricks.com/glossary/data-lakehouse)** pattern. A data lakehouse combines the strengths of data lakes and data warehouses into a single system.
 
 - **Data lakehouse:** Raw data is ingested into the lake in its native format, as in traditional cloud file storage. On top of this, the lakehouse adds schema enforcement, data governance, indexing, time travel and versioning — features typically associated with data warehouses. The result is faster query performance, easier data discovery, better data quality and a single master copy of data.
 - **Data warehouse:** Stores structured, processed data for analytics and reporting, using a predefined schema optimised for query performance.
@@ -2025,7 +2025,7 @@ Figure 35.0 EPR RACI Matrix
 For ease of viewing the above table and descriptions, the following embedded excel spreadsheet view has also been included:
 
 ## 10.3 Information handling / classification view
-Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **2024_Data Sharing Agreement**.
+Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **[2024_Data Sharing Agreement](https://defra.sharepoint.com/:f:/r/teams/Team1478/Digital/EPR Digital 2022/Sharing with Regulators (External)/Data Sharing_Processing Agreement Working folder/2024_Data Sharing Agreement?csf=1&web=1&e=0VAtGh)**.
 
 ## 10.4 Role, actor and function matrix
 The current role-based access control (RBAC) view is shown in the table below. Further detail on the account management process is in [Account Management theme](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4298506325/Account+Management+theme#Role-permissions).
@@ -2055,7 +2055,7 @@ The current role-based access control (RBAC) view is shown in the table below. F
 
 
 ## 10.5 Leveraged security components
-Azure Firewall is deployed across Defra Azure tenants as part of the standard CCOE architectural pattern. Further detail is at AZR Cloud Service Azure Firewall - Overview. The design follows the core design principles in section 9.2, including network segmentation and security layers.
+Azure Firewall is deployed across Defra Azure tenants as part of the standard CCOE architectural pattern. The design follows the core design principles in section 9.2, including network segmentation and security layers.
 
 ### 10.5.1 Web application firewall
 A WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is shown in section 10.1 (item 3).
