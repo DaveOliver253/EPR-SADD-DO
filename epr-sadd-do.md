@@ -71,20 +71,7 @@
 
 9. [Technology architecture](#9-technology-architecture)  
 9.1 [Logical platform architecture](#91-logical-platform-architecture)  
-[Logical](#logical)  
 9.2 [Physical platform architecture](#92-physical-platform-architecture)  
-[Data curation - silver layer](#data-curation---silver-layer)  
-[Data consumption - gold layer](#data-consumption---gold-layer)  
-[Synapse data pipelines](#synapse-data-pipelines)  
-[Enrolment app](#enrolment-app)  
-[Intro](#intro)  
-[Process diagram](#process-diagram)  
-[Configuration file](#configuration-file)  
-[Process flow](#process-flow)  
-[Pipeline](#pipeline)  
-[Notebook](#notebook)  
-[Trigger](#trigger)  
-[Schedule](#schedule)  
 9.3 [Performance / volumetrics / scaling capability](#93-performance--volumetrics--scaling-capability)  
 9.4 [Localised availability and recoverability features](#94-localised-availability-and-recoverability-features)  
 9.5 [Cross-system reliability or recovery considerations](#95-cross-system-reliability-or-recovery-considerations)  
@@ -111,8 +98,6 @@
 11.2 [Testing solution](#112-testing-solution)  
 11.3 [Route to live](#113-route-to-live)  
 11.4 [Service monitoring solution](#114-service-monitoring-solution)  
-[Monitoring processes](#monitoring-processes)  
-[Diagnosis features](#diagnosis-features)  
 
 12. [Operational architecture](#12-operational-architecture)  
 12.1 [Initialising, controlling, stopping](#121-initialising-controlling-stopping)  
@@ -1720,28 +1705,28 @@ Known component constraints. -->
 
 The EPR system is composed of a number of logical layers:
 
-### 1. Data ingestion layer
+### 9.1.1. Data ingestion layer
 - **Sources:** Stakeholder portals, producer file submissions.
 - **Data Types:** Packaging materials, organisational registrations.
 - **Mechanisms:** Manual entry interfaces and file uploads.
 
-### 2. Data processing & integration layer
+### 9.1.2. Data processing & integration layer
 - **Functions:** 
     - Standardizes and validates incoming data.
     - Integrates data from multiple sources into a unified format.
     - Prepares data for compliance evaluation and reporting.
 
-### 3. Reporting & analytics layer
+### 9.1.3. Reporting & analytics layer
 - **Dashboards:** Visualize compliance status, material usage, and environmental impact.
 - **Reports:** Generate submission-ready reports for national authorities and producer responsibility organizations.
 
-### 4. User interface layer
+### 9.1.4. User interface layer
 - **Portals:** 
     - For producers to manage packaging data and monitor compliance.
     - For regulators to review submissions and audit data.
 - **Features:** Role-based access control; Workflow tools for approvals, corrections, and audits.
 
-### Supporting capabilities
+### 9.1.5. Supporting capabilities
 - **Cloud Infrastructure:** Scalable and secure hosting environment.
 - **Security & Compliance:** Data encryption, access control, audit trails, and compliance with data protection laws.
 
@@ -1758,7 +1743,7 @@ The architecture follows a **data lakehouse** pattern. A data lakehouse combines
 - **Data warehouse:** Stores structured, processed data for analytics and reporting, using a predefined schema optimised for query performance.
 - **Data lake:** A centralised repository for raw, unprocessed data in any format — structured, semi-structured or unstructured — supporting analytics, data exploration and machine learning.
 
-### Logical
+### 9.1.6. Logical
 The logical data platform is a high-level view of the EPR data assets, independent of any specific technology. It describes the structure, relationships and flow of data across systems and applications, providing a framework for effective data management, integration and analysis.
  
 <br>
@@ -1788,15 +1773,15 @@ At the centre of the architecture is Network Segmentation & Security Layers, whi
 - **Azure Firewall / Application Gateway** These components ensure secure communication between services and enforce access control policies.
 
 ### Key Azure components
-#### 1. Application layer
+#### 9.2.1. Application layer
 - **Azure App Services:** Hosts web portals for producers, regulators, and administrators.
 - **Azure API Management:** Manages and secures APIs used for data submission, validation, and reporting.
 
-#### 2. Compute & integration
+#### 9.2.2. Compute and integration
 - **Azure Functions:** Handles event-driven tasks like data validation, transformation, and notifications.
 - **Azure Logic Apps (optional):** For orchestrating workflows between services.
 
-#### 3. Data storage & processing
+#### 9.2.3. Data storage and processing
 - **Azure SQL Database:** Stores structured data such as producer registrations, packaging data, and compliance reports.
 - **Azure Blob Storage:** Stores unstructured data like packaging documentation, images, and audit files.
 - **Azure Cosmos DB:** Manages globally distributed, schema-less data such as real-time submissions or IoT packaging data.
@@ -1921,10 +1906,10 @@ The pipeline is triggered by `trg_rpd_apps`.
 ##### Schedule
 Runs every hour between 09:00 and 17:00 on weekdays and Saturdays.
 
-#### 4. Identity & access management
+#### 9.2.4. Identity and access management
 - **Azure Active Directory (AAD):** Manages user authentication, role-based access control (RBAC), and single sign-on (SSO).
 
-#### 5. Monitoring & observability
+#### 9.2.5. Monitoring and observability
 - **Azure Monitor:** Tracks system health, performance metrics, and logs.
 - **Azure Log Analytics:** Provides deep insights into system behavior and security events.
 
@@ -1944,79 +1929,79 @@ Figure 33.0 Data flow and integration
 <!-- Explains how the physical platform area provides for these services.
 After performance testing/implementation this section should contain summaries of test results and any known “pinch points” plus any required narrative on underlying platform limitations (for example use of PaaS may lead to non-deterministic behaviours or variances in latency). -->
 
-Non-functional requirements are defined and maintained by the architecture team. These include performance benchmarks, availability targets, and scalability expectations. The NFRs are reviewed and updated as the system evolves. The current NFRs are stored here: **RPD NFRs.xlsx**.
+Non-functional requirements are defined and maintained by the architecture team. These include performance benchmarks, availability targets, and scalability expectations. The NFRs are reviewed and updated as the system evolves. The current NFRs are stored here: **[RPD NFRs.xlsx](https://defra.sharepoint.com/:x:/r/teams/Team3221/Soln and App Architecture/Portfolios %26 Projects/Defra Core/3_Projects/EPR/1 Cross-Cutting/Architecture/SADD figures/RPD NFRs.xlsx?d=w049035201fec4a908159dbce861a4346&csf=1&web=1&e=1uO1aM)**.
 
 ## 9.4 Localised availability and recoverability features
 <!-- Describes how the system “in itself” delivery high availability and in the circumstances of an unplanned outage how the system supports rapid recovery – or if required because it causes further problems – how the system can be prevented from auto recovering. After OAT or failure testing should capture any observed issues that cannot be resolved. -->
 
-As of July 2025, the pEPR solution can only tolerate the failure of a single availability zone in the UK South region [2, 3]. No OAT has been conducted, so empirical validation of failure modes is not yet possible [2, 3]. The planned DR strategy is to provision all infrastructure, containerised web apps and APIs to the UK West region via Azure DevOps pipelines, with persistent data restored from geo-resilient backups to UK West [2, 3].
+As of July 2025, the pEPR solution can only tolerate the failure of a single availability zone in the UK South region. No OAT has been conducted, so empirical validation of failure modes is not yet possible. The planned DR strategy is to provision all infrastructure, containerised web apps and APIs to the UK West region via Azure DevOps pipelines, with persistent data restored from geo-resilient backups to UK West.
 
 ## 9.5 Cross-system reliability or recovery considerations
 <!-- Explores whether there are there any aspects of the solution which if “stopped” or “failed” would lead to wider problems. An example could be where equivalent data is written to multiple interfaces and one of the writes fails but the target systems are not idempotent. Another example could be where there are transaction sequence numbers in use between systems and on system experiences an outage leading to data loss. -->
 
-Information is principally taken from EPR Report Packaging Data: High level solution architecture - Collections & Packaging Reforms - Confluence [203].
+Information is principally taken from [EPR Report Packaging Data: High level solution architecture - Collections & Packaging Reforms - Confluence](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4075094235/EPR+Report+Packaging+Data+High+level+solution+architecture).
 
-- Data uploads are based on a stream-based architecture; individual component failure will not cause issues with other components [204].
-- The architecture uses Redis caching; if the cache is stale or unavailable, services may fall back to slower or inconsistent data sources [204].
+- Data uploads are based on a stream-based architecture; individual component failure will not cause issues with other components.
+- The architecture uses Redis caching; if the cache is stale or unavailable, services may fall back to slower or inconsistent data sources.
 
 ### Component isolation and resilience
-The EPR platform is built on a stream-based, loosely coupled architecture, which ensures that the failure of an individual component does not cascade to others. Services are designed to be independently deployable and recoverable, supporting high availability and fault tolerance [204].
+The EPR platform is built on a stream-based, loosely coupled architecture, which ensures that the failure of an individual component does not cascade to others. Services are designed to be independently deployable and recoverable, supporting high availability and fault tolerance.
 
 ### Caching and data consistency
 The architecture leverages Redis caching to improve performance. In the event of cache unavailability or staleness:
 - Services may fall back to slower or less consistent data sources.
-- This can introduce latency or temporary inconsistencies [205].
+- This can introduce latency or temporary inconsistencies.
 
 ## 9.6 “Test in live” considerations
 <!-- Explains how the system can be tested whilst live (if at all) in order to investigate / diagnose issues 0- for example does it support synthetic “test” transactions. -->
 
-RPD and PayCal do not currently support test transactions, and regulator stakeholders have not permitted test users or dummy customers. Live issues are either reproduced in the PRE environment (using a copy of production data where needed) or investigated via trusted end users [205].
+RPD and PayCal do not currently support test transactions, and regulator stakeholders have not permitted test users or dummy customers. Live issues are either reproduced in the PRE environment (using a copy of production data where needed) or investigated via trusted end users.
 
 ## 9.7 Serviceability features
 <!-- Explains to what extent the solution components can be “hot swapped” or otherwise changed. Does the solution offer the ability to change with zero outage, or if short outages are needed (often nearer the data services) then how does the solution allow for this in a controlled fashion? Which services can be disabled, and which can be left operational because for example they use cached data? -->
 
-Below is a breakdown of how each component supports hot-swapping or controlled change [206]:
+Below is a breakdown of how each component supports hot-swapping or controlled change:
 
-### 1. Azure web apps
-Azure Web Apps support zero-downtime deployments through deployment slots. This allows new versions to be staged and tested before being swapped into production. Traffic redirection can be gradual or instant, and rollback is straightforward if issues arise [207].
-- **Hot-swappable:** Yes, via deployment slots [207].
-- **Controlled change:** Slot swap with warm-up ensures seamless transitions [207].
+### 9.7.1. Azure web apps
+Azure Web Apps support zero-downtime deployments through deployment slots. This allows new versions to be staged and tested before being swapped into production. Traffic redirection can be gradual or instant, and rollback is straightforward if issues arise.
+- **Hot-swappable:** Yes, via deployment slots.
+- **Controlled change:** Slot swap with warm-up ensures seamless transitions.
 
-### 2. Azure functions (serverless)
-Azure Functions support versioned deployments and can be updated with minimal disruption. Functions can be deployed in isolated plans or consumption plans, and traffic can be routed using Azure Front Door or API Management [207].
-- **Hot-swappable:** Yes, especially when using deployment slots or blue-green strategies [208].
-- **Controlled change:** Functions can be disabled individually without affecting others [208].
+### 9.7.2. Azure functions (serverless)
+Azure Functions support versioned deployments and can be updated with minimal disruption. Functions can be deployed in isolated plans or consumption plans, and traffic can be routed using Azure Front Door or API Management.
+- **Hot-swappable:** Yes, especially when using deployment slots or blue-green strategies.
+- **Controlled change:** Functions can be disabled individually without affecting others.
 
-### 3. Azure Synapse analytics
-Synapse is less amenable to hot-swapping due to its data warehousing nature. However, Synapse Pipelines and SQL Pools can be updated in a controlled fashion using CI/CD pipelines. Serverless SQL pools allow querying without impacting the underlying data [208].
-- **Hot-swappable:** Limited; short outages may be required for pipeline changes [208].
-- **Controlled change:** Use of staging environments and CI/CD mitigates risk [209].
+### 9.7.3. Azure Synapse analytics
+Synapse is less amenable to hot-swapping due to its data warehousing nature. However, Synapse Pipelines and SQL Pools can be updated in a controlled fashion using CI/CD pipelines. Serverless SQL pools allow querying without impacting the underlying data.
+- **Hot-swappable:** Limited; short outages may be required for pipeline changes.
+- **Controlled change:** Use of staging environments and CI/CD mitigates risk.
 
-### 4. Azure Cosmos DB
-Cosmos DB supports multi-region writes and automatic failover, enabling high availability and minimal downtime during changes. It also supports live indexing and schema-agnostic updates, which reduces the need for downtime during data model changes [209].
-- **Hot-swappable:** Yes, with multi-region and live indexing [209].
-- **Controlled change:** Failover priorities and consistency levels can be configured [209].
+### 9.7.4. Azure Cosmos DB
+Cosmos DB supports multi-region writes and automatic failover, enabling high availability and minimal downtime during changes. It also supports live indexing and schema-agnostic updates, which reduces the need for downtime during data model changes.
+- **Hot-swappable:** Yes, with multi-region and live indexing.
+- **Controlled change:** Failover priorities and consistency levels can be configured.
 
-### 5. Azure storage accounts
-Storage Accounts configured with Geo-Redundant Storage (GRS) or Zone-Redundant Storage (ZRS) allow for high availability and replication. Updates to Blob Storage containers or file shares can be done without service interruption [209].
-- **Hot-swappable:** Yes, for most operations [210].
-- **Controlled change:** Replication and versioning support safe updates [210].
+### 9.7.5. Azure storage accounts
+Storage Accounts configured with Geo-Redundant Storage (GRS) or Zone-Redundant Storage (ZRS) allow for high availability and replication. Updates to Blob Storage containers or file shares can be done without service interruption.
+- **Hot-swappable:** Yes, for most operations.
+- **Controlled change:** Replication and versioning support safe updates.
 
-### 6. Azure SQL database
-Azure SQL supports online schema changes, read replicas, and geo-replication, allowing for updates with minimal impact. Features like Query Store, Intelligent Query Processing, and Accelerated Database Recovery enhance resilience during changes [210].
-- **Hot-swappable:** Yes, with online operations and replicas [211].
-- **Controlled change:** Use of staging databases and failover groups [211].
+### 9.7.6. Azure SQL database
+Azure SQL supports online schema changes, read replicas, and geo-replication, allowing for updates with minimal impact. Features like Query Store, Intelligent Query Processing, and Accelerated Database Recovery enhance resilience during changes.
+- **Hot-swappable:** Yes, with online operations and replicas.
+- **Controlled change:** Use of staging databases and failover groups.
 
 ### Service interdependencies and caching
-- **Services that can be disabled:** Individual Azure Functions or Web Apps can be disabled without affecting the rest of the system [211].
-- **Services that remain operational:** Components like Web Apps and APIs can continue to serve cached or static content via Azure Front Door or CDN while backend services are updated [211].
+- **Services that can be disabled:** Individual Azure Functions or Web Apps can be disabled without affecting the rest of the system.
+- **Services that remain operational:** Components like Web Apps and APIs can continue to serve cached or static content via Azure Front Door or CDN while backend services are updated.
 
 # 10. Security architecture
 
 ## 10.1 Security view
-The EPR service is hosted in a Defra Azure tenant. It uses existing security controls from CCOE and other platform services, including the Defra Trade anti-virus solution, and follows established patterns for API gateway management and APIM [6, 211].
+The EPR service is hosted in a Defra Azure tenant. It uses existing security controls from CCOE and other platform services, including the Defra Trade anti-virus solution, and follows established patterns for API gateway management and APIM.
 
-The diagram below gives an overview of the layered security approach built into the EPR solution design [212].
+The diagram below gives an overview of the layered security approach built into the EPR solution design.
 
 <br>
 
@@ -2025,10 +2010,10 @@ Figure 34.0 Solution security overview
 
 <br>
 
-For ease of viewing the above diagram and descriptions, the following embedded html view has also been included [212]:
+For ease of viewing the above diagram and descriptions, the following embedded html view has also been included:
 
 ## 10.2 Security roles and responsibilities view
-Security roles and responsibilities from project through to live are defined in the Secure by Design RACI matrix below, based on the HMG Secure by Design roles and responsibilities framework [6, 212].
+Security roles and responsibilities from project through to live are defined in the Secure by Design RACI matrix below, based on the HMG Secure by Design roles and responsibilities framework.
 
 <br>
 
@@ -2037,13 +2022,13 @@ Figure 35.0 EPR RACI Matrix
 
 <br>
 
-For ease of viewing the above table and descriptions, the following embedded excel spreadsheet view has also been included [213]:
+For ease of viewing the above table and descriptions, the following embedded excel spreadsheet view has also been included:
 
 ## 10.3 Information handling / classification view
-Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **2024_Data Sharing Agreement** [6, 213].
+Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **2024_Data Sharing Agreement**.
 
 ## 10.4 Role, actor and function matrix
-The current role-based access control (RBAC) view is shown in the table below. Further detail on the account management process is at [Reference URL] [6, 214].
+The current role-based access control (RBAC) view is shown in the table below. Further detail on the account management process is in [Account Management theme](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4298506325/Account+Management+theme#Role-permissions).
 
 | Capability | Admin user permissions | Approved | user permissions | Delegated user permissions | Basic user permissions | Regulator permissions |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -2234,9 +2219,9 @@ The monitoring and tooling are described in good detail in the dedicated next se
 <!-- Which components support diagnosis, how can events be correlated to assist, who has access to what to assist with diagnosis. -->
 
 Built-in diagnostic capabilities to support fault isolation:
-- **Application Insights:** Distributed tracing across microservices, capturing request-response flows, dependency calls and exception telemetry [9, 11].
-- **Custom health probes:** Implemented in Function Apps and APIs to expose readiness and liveness endpoints [12, 13].
-- **Diagnostic logs:** Captured via Azure Monitor and routed to Log Analytics for querying and alerting [12, 13].
+- **Application Insights:** Distributed tracing across microservices, capturing request-response flows, dependency calls and exception telemetry.
+- **Custom health probes:** Implemented in Function Apps and APIs to expose readiness and liveness endpoints.
+- **Diagnostic logs:** Captured via Azure Monitor and routed to Log Analytics for querying and alerting.
 
 # 12. Operational architecture
 <!-- It would be expected that this section generally links off to the “SKMS” or equivalent for the service and that this information is written by ops based on understanding / explanations of the design
@@ -2365,7 +2350,7 @@ All of the above are set Defra requirements which EPR adheres to.
 Describes how the EPR platform supports incident and problem management, including self-healing behaviours and patterns that could mask underlying issues.
 
 ### Incident management
-- **Emergency Change Handling:** Emergency changes are governed by strict protocols. A P1 or P2 incident must be logged and accepted in ServiceNow before an emergency change can be initiated. The EPR Runbook provides detailed steps for executing emergency changes, including rollback procedures and verification steps. [16, 17]
+- **Emergency Change Handling:** Emergency changes are governed by strict protocols. A P1 or P2 incident must be logged and accepted in ServiceNow before an emergency change can be initiated. The EPR Runbook provides detailed steps for executing emergency changes, including rollback procedures and verification steps.
 - **Escalation and Communication:** Escalation contacts and duty managers are clearly defined for each environment (DEV, TST, PRE, PRD). All emergency changes are logged with references to the initiating incident and are subject to post-implementation review.
 - **Monitoring Integration:** Alerts from Azure Monitor and Defender for Cloud are routed to the ITSM platform and trigger incident workflows. These alerts may include performance degradation, failed deployments, or security anomalies.
 
