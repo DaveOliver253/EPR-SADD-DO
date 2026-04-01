@@ -2061,16 +2061,16 @@ Azure Firewall is deployed across Defra Azure tenants as part of the standard CC
 A WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is shown in section 10.1 (item 3).
 
 ### 10.5.2 Protective monitoring
-Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). Further detail is in ADR-028: Protective Monitoring Logging on Confluence.
+Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). Further detail is in [ADR-028: Protective Monitoring Logging(https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4334060015/ADR-028+Protective+Monitoring+Logging) on Confluence.
 
 ## 10.6 Bespoke security components
-Security headers follow OWASP best practice to limit cross-site scripting attacks, as described in ADR-008: Security Headers on Confluence.
+Security headers follow OWASP best practice to limit cross-site scripting attacks, as described in [ADR-008: Security Headers](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4197351701/ADR-008+Security+Headers) on Confluence.
 
 ## 10.7 Key management
 All keys are stored in Azure Key Vault (see section 14.4).
 
 ## 10.8 Malware detection / prevention
-All files uploaded to the EPR service are anti-virus scanned to prevent infected files from being stored and potentially downloaded. EPR uses the existing Defra Trade anti-virus solution. Further detail is in ADR-023: Anti-Virus Service on Confluence.
+All files uploaded to the EPR service are anti-virus scanned to prevent infected files from being stored and potentially downloaded. EPR uses the existing Defra Trade anti-virus solution. Further detail is in [ADR-023: Anti-Virus Service](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4318167185/ADR-023+Anti-Virus+Service) on Confluence.
 
 ## 10.9 Authentication / authorisation model – human actors
 Users authenticate via Azure AD B2C. On first access, they are redirected to Azure AD B2C using OpenID Connect. After successful authentication they are redirected back to the application with an authorisation code, which is exchanged for ID, access and refresh tokens using the standard OpenID Connect authorisation code flow.
@@ -2081,17 +2081,17 @@ Applications use user information from the account service (directly or via a fa
 - Restricted data access — users can only see data for their own organisation
 - Restricted functionality — for example, only approved or delegated users can submit placed-on-market data for a specific organisation.
 
-See ADR-015: Account Creation on Confluence.
+See [ADR-015: Account Creation](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4235755710/ADR-015+Account+Creation) on Confluence.
 
 ## 10.10 Authentication / authorisation model – system actors
 An API endpoint in the account service provides user information, including:
 - Enrolment data (enrolment status)
 - Roles within the organisation (account and connection).
 
-The API sits on the Account Façade, which calls the Account Service to retrieve user information. See ADR-018: Account Service and ADR-022: User Authorisation on Confluence.
+The API sits on the Account Façade, which calls the Account Service to retrieve user information. See [ADR-018: Account Service](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4271014078/ADR-018+Account+Service) and [ADR-022: User Authorisation](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4296671712/ADR-022+User+Authorisation) on Confluence.
 
 ## 10.11 GitHub and CI/CD pipeline
-Details on GitHub account setup and security authentication (including 2FA) are in GitHub Setup on Confluence.
+Details on GitHub account setup and security authentication (including 2FA) are in [GitHub Setup](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4921262123/GitHub+Setup) on Confluence.
 
 # 11. Delivery architecture (or secondary architecture)
 <!-- This section should describe how the solution has been developed/configured, tooling used. A useful way to look at would be to consider the standard tools, setups, standards, frameworks, repos etc. that should be in place if we were to set up another dev shop. -->
@@ -2100,10 +2100,10 @@ Details on GitHub account setup and security authentication (including 2FA) are 
 <!-- Repos and repo management; Tooling; Version control; Branching; CD/CI method/guide; Pipeline flow/execute and config guide; s/w tech stack per service/component (frameworks, widgets, JVM etc.); Runbooks (deployment scripts); Coding standards. -->
 
 ### Repositories
-Code is synchronised from developer workstations or Azure development environments to GitHub (DEFRA repositories). Repositories were maintained in Azure DevOps (ADO) until the end of 2023, then migrated to GitHub in early 2024. The EPR-Data repository was not migrated because migration requires a period with no active changes across any branch — a window that has not been available given the pace of activity in 2024–2025. All code is publicly readable, following GDS guidelines.
+Code is synchronised from developer workstations or Azure development environments to GitHub [Defra repositories](https://github.com/orgs/DEFRA/repositories?q=epr&type=all&language=&sort=). Repositories were maintained in Azure DevOps (ADO) until the end of 2023, then migrated to GitHub in early 2024. The EPR-Data repository was not migrated because migration requires a period with no active changes across any branch — a window that has not been available given the pace of activity in 2024–2025. All code is publicly readable, following GDS guidelines.
 
 ### Tooling
-The following is the tooling set used for RPD:
+This is the tooling set for RPD:
 
 | Tool | Vendor | Purpose | Comment |
 | ------ | ------ | ------ | ------ |
@@ -2126,10 +2126,10 @@ The following is the tooling set used for RPD:
 | Visual Studio Professional | Microsoft | Development environment for C#. | Support is provided as part of the Microsoft Enterprise Agreement. |
 
 ### DevOps
-The branching strategy is documented in the Consolidated Release / Branching Strategy on Confluence. A more detailed version covering the late-2025 PayCal releases is in EPR Branching Strategy on Confluence. Both documents show how teams can develop in parallel and deploy emergency fixes while maintaining code integrity through strict version control. Feature flags are used to control when deployed code is activated. DevOps pipelines promote successfully tested code from lower environments (DEV, TST) to higher ones (PRE, PRD).
+The branching strategy is documented in the [Consolidated Release / Branching Strategy](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4438949946/Consolidated+Release+Branching+Strategy) on Confluence. A more detailed version covering the late-2025 PayCal releases is in [EPR Branching Strategy](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5051220083/EPR+Branching+Strategy) on Confluence. Both documents show how teams can develop in parallel and deploy emergency fixes while maintaining code integrity through strict version control. Feature flags are used to control when deployed code is activated. DevOps pipelines promote successfully tested code from lower environments (DEV, TST) to higher ones (PRE, PRD).
 
 ### Runbook
-Every step of every code promotion to TST, PRE and PRD is documented in a runbook, held on Confluence at Release Runbooks & Release Notes. The runbook is written by the release team and reviewed before execution. For promotions to higher environments, the runbook is executed by the Cloud Centre of Excellence (CCoE).
+Every step of every code promotion to TST, PRE and PRD is documented in a runbook, held on Confluence at [Release Runbooks & Release Notes](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4352278823/Release+Runbooks+Release+Notes). The runbook is written by the release team and reviewed before execution. For promotions to higher environments, the runbook is executed by the Cloud Centre of Excellence (CCoE).
 
 Each runbook includes prerequisites, implementation steps and a rollback plan. The rollback leaves the system in a no-worse position than if the promotion had not taken place — this is especially important for production (PRD). This assumes failure is detected during implementation. If a production failure is discovered after the fact (rare, as errors are unlikely to escape detection), the approach is to fix forward. No fix-forward cases have arisen to date.
 
@@ -2144,7 +2144,11 @@ Pipe clean approach - (How does test team validate it has a working environment?
 Environment Rebuild - How would a vanilla environment be rebuilt form scratch – image file, runbook?)
 Test Data - Where is this obtained? How is the environment “seeded” with data if that is part of its system purpose? Is a test data generation tool in use? What about test data in eternal systems? -->
 
-Integration testing with FSS (not deployed until late 2025) was simulated by comparing RPD invoice file output against the data contract. Real-time integrations with Companies House and Postcode services are tested from the DEV4 environment via APIM.
+The EPR testing strategy is is based on the Defra DDTS Test strategy and described in [EPR Test Approach - Collections & Packaging Reforms](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4893147743/EPR+Test+Approach) in Confluence.
+
+**Functional testing** is done in all environments and includes **Regression testing** to ensure that nothing from the past (baseline) is broken because of the new development (increment). 
+
+**Integration testing** with FSS (deployed in late 2025) was simulated by comparing RPD invoice file output against the data contract. Real-time integrations with Companies House and Postcode services are tested from the DEV4 environment via APIM.
 
 All environments run on Azure and can be rebuilt by restoring a pre-captured image.
 
@@ -2354,11 +2358,11 @@ Describes how the EPR platform supports incident and problem management, includi
 - **Escalation and Communication:** Escalation contacts and duty managers are clearly defined for each environment (DEV, TST, PRE, PRD). All emergency changes are logged with references to the initiating incident and are subject to post-implementation review.
 - **Monitoring Integration:** Alerts from Azure Monitor and Defender for Cloud are routed to the ITSM platform and trigger incident workflows. These alerts may include performance degradation, failed deployments, or security anomalies.
 
-The EPR Live Support Teams use the Defra processes for Incident, Major Incident, Problem and Change Management which are detailed at the links below:
-- Incident Management
-- Major Incident Management
-- Problem Management
-- Change Management
+The EPR Live Support Teams use the Defra processes for Incident, Major Incident, Problem and Change Management:
+- [Incident Management](https://eaflood.atlassian.net/wiki/spaces/EAT/pages/3195404561/Incident+Management)
+- [Major Incident Management](https://eaflood.atlassian.net/wiki/spaces/EAT/pages/3352297677/Major+Incident+Management)
+- [Problem Management](https://eaflood.atlassian.net/wiki/spaces/EAT/pages/4254629929/Problem+Management)
+- [Change Management](https://eaflood.atlassian.net/wiki/spaces/EAT/pages/4186505350/Change+Management)
 
 
 
@@ -2387,67 +2391,41 @@ A key consideration is the “tipping” point – is their tiering to be concer
 Each of the headings should have been covered in the SA elsewhere so it should be that this is really an Index with hyperlinks. If the solution was being “bid” it would also represent the shopping list of solution components to be procured/licenced/built. The information above should be taken over by service transition; link to the location of their information – or link in the Solution Architecture Definition Document page. -->
 
 ## 14.1 Databases / stores / storage services
-Extract from the spreadsheet.
-
-<br>
-
-![Figure 37.0 Database spreadsheet](./epr-sadd-images/01/figure-37.0-database-spreadsheet.png)
-Figure 37.0 Database spreadsheet
-
-<br>
-
-The Confluence page (List of components in RPD) lists this category as:
+The [List of components in RPD](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5816713361/List+of+components+in+RPD) page on Confluence includes a list of databases:
 - Block/table 1 – SQL databases (includes pricing tier as a service level indicator)
 - Block/table 2 – Cosmos databases
 - Block/table 3 – Synapse databases
 - Block/table 4 – Storage accounts
 
 ## 14.2 Servers / hardware
-Extract from the spreadsheet.
-
-<br>
-
-![Figure 38.0 Server spreadsheet](./epr-sadd-images/01/figure-38.0-server-spreadsheet.png)
-Figure 38.0 Server spreadsheet
-
-<br>
-
-See also the Confluence page (List of components in RPD).
+The [List of components in RPD](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5816713361/List+of+components+in+RPD) page on Confluence includes servers.
 
 ## 14.3 Services (PaaS etc)
-Block/table 5 on the Confluence page (List of components in RPD) contains a large number of entries, including pricing tier as a service level indicator.
+Block/table 5 on the [List of components in RPD](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5816713361/List+of+components+in+RPD) page in Confluence contains a large number of entries, including pricing tier as a service level indicator.
 
 ## 14.4 Keys
-Extract from the spreadsheet.
-
-<br>
-
-![Figure 39.0 Key spreadsheet](./epr-sadd-images/01/figure-39.0-key-spreadsheet.png)
-Figure 39.0 Key spreadsheet
-
-<br>
-
 All keys are stored in Azure Key Vault. The CCoE pattern requires all secrets to have expiry dates and be rotated regularly. Key Vault is also currently used to store some application configuration settings that are not secrets — ideally these should be stored elsewhere.
 
 ## 14.5 Built software components
-All built software components are held in the DEFRA GitHub repositories. One additional repository, EPR-Data, remains in Azure DevOps.
+All built software components are held in the [Defra GitHub repositories](https://github.com/orgs/DEFRA/repositories?q=epr&type=all&language=&sort=). One additional repository, EPR-Data, remains in Azure DevOps.
 
 ## 14.6 Non-built software / COTS
 The closest thing to COTS in RPD and PayCal is Power BI, used for reports and data visualisation. COTS used in FSS — such as ServiceNow, Stripe, Amazon Connect and Sequence Shift — are outside the scope of RPD and PayCal.
 
 ## 14.7 Licences
-Almost all components run on the Azure subscription and are charged through it. The exception is Power BI, which requires individual licences for power users in the Defra data strategy team and data analysts in the supplier development team. Licences can be managed via the Microsoft 365 Admin Center.
+Almost all components run on the Azure subscription and are charged through it. The exception is Power BI, which requires individual licences for power users in the Defra data strategy team and data analysts in the supplier development team. Licences can be managed via the [Microsoft 365 Admin Center](https://admin.microsoft.com/Adminportal/Home#/licenses).
 
 ## 14.8 Scripts
 N/A
 
 ## 14.9 Locations of documentation
 Documentation is stored in:
-- **Confluence:** Extended Producer Responsibility for Packaging — Collections & Packaging Reforms
-- **SharePoint:** Defra Architecture - Home
+- **Confluence:** [Extended Producer Responsibility for Packaging — Collections & Packaging Reforms](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/3795812465/Extended+Producer+Responsibility+for+Packaging)
+- **SharePoint:** [Defra Architecture - Home](https://defra.sharepoint.com/teams/Team3221/SitePages/Home.aspx#/)
 
 ## 14.10 Current information
 <!-- The information above should be taken over by service transition; link to the location of their information – or link in the Solution Architecture Definition Document page. -->
+[Solution architecture definition](https://defra.sharepoint.com/:w:/r/teams/Team3221/Soln and App Architecture/Portfolios %26 Projects/Defra Core/3_Projects/EPR/1 Cross-Cutting/Architecture/Solution Architecture Definition - EPR v0.1.docx?d=wb451596e80dd426880ba36ad35e6b0f0&csf=1&web=1&e=28aCSi&xsdata=MDV8MDJ8fDYzZjM0ZWJhMTU0MDQ1MGNhZDQ4MDhkZTNkOTAwZjZhfDc3MGEyNDUwMDIyNzRjNjI5MGM3NGUzODUzN2YxMTAyfDB8MHw2MzkwMTU4ODYwNzY0Mjg0MzN8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2prNU9HSXhOVE5rTFdSaU1Ua3ROR1F4WWkxaVpXRTNMVFkzT1RSbE16aGlNREZpTTE5bE1XWXdNREJqWWkxalpqQTFMVFF5Tm1NdFlUaGxNUzAyTXpRMU5XTTJNemMzWkRCQWRXNXhMbWRpYkM1emNHRmpaWE12YldWemMyRm5aWE12TVRjMk5UazVNVGd3TmprNE13PT18MjVhNTQxNmJjZTIxNGY5MzIzNWIwOGRlM2Q5MDBmNmF8ZmM0ZTg5MzE5OGQ3NGM0OGIwYTEzOWZhNDZkMDJkMzU%3D&sdata=V3ZpSjZ2dFowbGlZVDFkalcxVDdwRmF5eHhUSWhKb2FNRlJiRlFCMkJsVT0%3D&ovuser=770a2450-0227-4c62-90c7-4e38537f1102%2CDennis.Morrison@defra.gov.uk)
 
 # 15. Appendices
 <!-- Not possible to be too prescriptive with these but some typical ones are shown. -->
