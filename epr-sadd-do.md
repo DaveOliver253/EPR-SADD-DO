@@ -172,8 +172,11 @@ Please note that the SADD is a high-level document bringing together everything 
 | 1.0 | 26/11/2025 | Updates to reflect R16 | Saunder Narayan (et al) |
 | 1.1 | 23/03/2026 | Updates to reflect ADRs up to 143 | Dave Oliver (et al) |
 | 1.2 | 30/03/2026 | Updates to reflect ADR-141 (PRN & Waste Balance Immutability — For Review) and ADR-146 (Certificates and Statements of Compliance — In Review) | Dave Oliver |
+| 1.3 | 02/04/2026 | Updates to reflect ADR-136.1, ADR-138, ADR-139, ADR-144, ADR-145 and ADR-147 | Dave Oliver |
 
 > **[v1.2 change]** Version 1.2 adds coverage of two ADRs currently under review: ADR-141 governing PRN and waste balance immutability in the RE/EX service, and ADR-146 introducing Certificates and Statements of Compliance (CSoC) as a new business function. Neither ADR has a formal signed-off decision at the time of writing — sections updated below are marked accordingly.
+
+> **[v1.3 change]** Version 1.3 adds references for six ADRs not previously covered: ADR-136.1 and ADR-147 (LAPs reporting); ADR-138 (WAF replacement, still in DRAFT); ADR-139 and ADR-144 (RE/EX RREPW initial data load and ongoing JSON editor use); and ADR-145 (Analytics Strategic Direction, For Review). Three further TBD ADRs for LAPs are noted in section 15.7.
 
 ### References to governance products
 *Project Management Quality products.* 
@@ -1228,6 +1231,8 @@ The gold layer contains the most refined data, enriched and aggregated from the 
 - `dbo.t_*` *tables are fully refreshed every hour, which is resource-intensive and costly.*
 - *Cache tables have been introduced as an interim measure to reduce front-end load. The longer-term solution should include properly pre-curated silver layer tables with CDC enabled and an event-based or streaming platform to support real-time use cases such as the regulatory front end.*
 
+> **[v1.3 change — ADR-145 For Review]** ADR-145 (Analytics Strategic Direction) has identified significant architectural anti-patterns in the current Synapse-based analytics pipeline that impair reliability, cost-efficiency and maintainability. Key issues include: front-end services reaching into an eventually-consistent analytics pipeline at query time; nested SQL views up to 9 layers deep; daily full-history processing (no CDC); Dedicated SQL Pool stored procedures several thousand rows long; no dimensional model in the gold layer; and insufficient monitoring and alerting. The assessment concluded that fixing the existing pipeline in place (estimated at multiple sprints per major issue) would be less cost-effective than rebuilding alongside the existing solution. The proposed direction is a new analytics pipeline retaining the Azure platform. ADR-145 is **For Review** — no formal decision has been signed off at the time of writing. See [ADR-145](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6458802247) on Confluence.
+
 ### Data analytics and reporting
 Power BI is the standard reporting and analytics tool for regulators. Reports and dashboards draw on curated data in the gold layer to support business decision-making, regulatory compliance and operational monitoring. The key reports, their source data, underlying datasets and refresh mechanisms are summarised below.
 
@@ -2060,6 +2065,8 @@ Azure Firewall is deployed across Defra Azure tenants as part of the standard CC
 ### 10.5.1 Web application firewall
 A WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is shown in section 10.1 (item 3).
 
+> **[v1.3 change — ADR-138 DRAFT]** ADR-138 proposes migrating the pEPR WAF from Silverline F5 to Azure Front Door WAF, in line with a CCoE programme-wide migration away from Silverline F5 licences. During testing, a B2C compatibility issue was identified: the Azure Front Door configuration passes hostname (rather than domain name) in the B2C Return URI, which fails validation because the hostname is not registered in the B2C application config. This behaviour differs from the existing Application Gateway + Silverline F5 chain, which correctly resolves the domain URL. Resolving this for pEPR is complex because the service has multiple frontends, making a simple domain-force workaround insufficient. ADR-138 remains in **DRAFT** status pending a resolution. See [ADR-138](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6009651288) on Confluence.
+
 ### 10.5.2 Protective monitoring
 Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). Further detail is in [ADR-028: Protective Monitoring Logging(https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4334060015/ADR-028+Protective+Monitoring+Logging) on Confluence.
 
@@ -2519,6 +2526,11 @@ Risks – e.g. “lack of xxx means that yyy”; Assumptions - ensure sensitivit
 
 > **[v1.2 change — ADR-141]** ADR-141 entry added.
 
+- **ADR-139:** RE/EX RREPW Initial Data Load. Approved at SDA 16 December 2025. Covers the solution to populate the RREPW operational data store ahead of service launch. Contingency form data (submitted via Defra Forms / Gov.Notify during the pre-launch period) was transformed programmatically into the RREPW operational data model and loaded via a JSON editor in the Admin UI, under controls including dual-control editing, mandatory change logging, full audit trails and daily reconciliation reports. 380 organisations across four regulatory agencies were in scope. See [ADR-139](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6215729153) on Confluence.
+- **ADR-144:** RE/EX RREPW Admin UI JSON Editor — Extended Access for Post-Launch Data Fixes. **In Progress.** Extends the tactical JSON editor (established under ADR-139) beyond the initial data correction window to cover ongoing manual corrections to Organisation and Registration data until a strategic Regulator Portal self-service solution is available. Expected decommission: end of July–September 2026 (high-volume Regulator self-service Q2; low-volume self-service Q3), depending on roadmap prioritisation. See [ADR-144](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6451921655) on Confluence.
+
+> **[v1.3 change]** ADR-139 and ADR-144 entries added.
+
 ### Payments
 
 - **ADR-093 / ADR-093.1:** Gov.UK Pay Payment Journey – payment integration including API reference.
@@ -2547,12 +2559,27 @@ Risks – e.g. “lack of xxx means that yyy”; Assumptions - ensure sensitivit
 - **ADR-137:** RE/EX 2026 PRN and Producer Integration. Approved 28 October 2025. Implemented in RPD Release 17 (15 January 2026). Decision: Option 6 – three new timer-triggered Azure Functions interfacing with the RE/EX (RREPW) Organisation API and PRN/PERN API on CDP. Security via CDP API Gateway (AWS Cognito client-credentials). NPWD continues for 2025-year PRNs; RE/EX handles all 2026-year PRNs and PERNs from 1 February 2026.
 - **ADR-142:** Azure Environment Reservations and Autoscaling. Approved. 1-year Azure Reserved Instance for Synapse Dedicated SQL Pool (DWU3000), reducing cost from ~£43k/month PAYG to ~£27k/month; CosmosDB switched to autoscaling (10%–100% of max RU/s), saving ~£12k/year; Azure SQL development instances consolidated into Elastic Pool, achieving 40–50% SQL cost reduction.
 - **ADR-143:** Synapse Dedicated SQL Pool Rightsizing. Approved. Production pool upsized DWU1000 → DWU2000 (near-linear pipeline performance improvement); TST pool decommissioned (was DWU1000, zero activity); scheduled weekend downsizing to DWU200 in lower environments (DEV, PRE).
+- **ADR-138:** pEPR Silverline F5 WAF Replacement. **DRAFT.** Proposes migrating the pEPR WAF from Silverline F5 to Azure Front Door WAF in line with the CCoE programme-wide migration. A B2C Return URI compatibility issue (hostname vs domain name) was identified during testing; resolution is in progress. See section 10.5.1.
+
+### Analytics / data platform
+
+- **ADR-145:** Analytics Strategic Direction. **For Review.** Proposes replacing the current Azure Synapse-based analytics pipeline to address significant architectural anti-patterns (nested views, full-history daily processing, no CDC, no dimensional model). Assessment concluded a rebuild alongside the existing solution is more cost-effective than fixing in place. No formal decision at time of writing. See section 6.13 and [ADR-145](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6458802247) on Confluence.
 
 ### Obligations / CSoC
 
 - **ADR-146:** Certificates and Statements of Compliance (CSoC). **In Review — no formal decision at time of writing.** Recommended decision: Option 3 (CDP) — build all components on the Core Delivery Platform. This introduces two new frontend applications (an Obligations frontend for producers and compliance schemes, and a Regulator frontend) and a new CSoC API, all on CDP. Authentication continues via Azure B2C, with users redirected between the existing Azure portal and the new CDP components. New CSoC data is stored in the CDP API; a new Synapse pipeline extracts it to the Data Lake to support the public register. Concerns raised at the 26 March 2026 Architect Roundtable include: absence of formal Service Owner sign-off on CDP as the 3R analysis outcome; lack of objective cost/complexity comparison between Option 1 (Azure-only, quickest) and Option 3; and the risk that building in CDP now may not align with the staged migration pattern proposed by the 3R workstream.
 
 > **[v1.2 change — ADR-146]** New Obligations/CSoC subsection added.
+
+### LAPs (Local Authority Packaging Service)
+
+- **ADR-136.1:** LAPs MI & Reporting — Adjustment. Accepted, 18 March 2026. Adjusts the FSS data ingestion approach for LAPs MI reporting: FSS/ServiceNow sends automated weekly emails (6 CSV files) to a shared mailbox; a Scheme Administrator manually uploads these to a SharePoint location; Power BI connects to SharePoint via native connector and refreshes daily. A visual indicator of the FSS file update date is included in the report. This is an intermediate solution pending strategic FSS integration with GIO. See [ADR-136.1](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6465651966) on Confluence.
+- **ADR-147:** LAPs GDS Reporting. Accepted, due 1 April 2026. Covers the technical approach for meeting the four mandatory GDS KPIs (Completion Rate, Cost per Transaction, Digital Uptake, Customer Satisfaction). LAPs audit log data (covering completion rate, digital uptake and cost per transaction) is ingested via GIO in line with ADR-136.1. Customer satisfaction and cost data are collected via Defra Forms, published to CDP queues, consumed by LAPs backend listeners and incorporated into the audit log flow before passing to GIO and Power BI. See [ADR-147](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6466699373) on Confluence.
+- **ADR-TBD (Cost Data Storage for LAPs):** In Progress. Proposes centralised storage of LAPs cost data from multiple heterogeneous sources (cloud infrastructure costs, vendor/supplier reports, internal finance systems) into a single authoritative location to support Power BI reporting, mirroring the FSS data ingestion pattern. Decision pending.
+- **ADR-TBD (Feedback Collection Platform & Data Ingestion):** In Progress. Evaluates four options for LAPs user feedback collection: Qualtrics, GOV.UK standard feedback page, GOV.UK Forms and Defra Forms. Decision pending.
+- **ADR-TBD (Ingesting FSS Reports for LAPs):** In Progress. Supplementary to ADR-136. Evaluates manual vs. automated ingestion of FSS/ServiceNow email attachments for Power BI, including Power Automate, Power BI Exchange connector and direct ServiceNow API. Decision pending, pending FSS-GIO strategic integration timeline.
+
+> **[v1.3 change]** New LAPs subsection added.
 
 ## 15.8 References: input products
 <!-- Provide references to products used to inform this Solution Architecture Definition Document (NB these should in principle also be baselined). -->
