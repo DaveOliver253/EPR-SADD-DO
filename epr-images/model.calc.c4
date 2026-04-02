@@ -1,0 +1,181 @@
+model {
+    domain calc {
+        #DG3
+        title "Calculator"
+        summary "Calculates fees based on packaging data reported by Producers and prices provided by Regulators"
+        description """
+# Calculator (PayCal)
+
+* PayCal is the digital service used by pEPR scheme administrators (PackUK) to calculate the disposal fees for large liable
+producers of packaging— also known as 'the Calculator'.
+* The calculator consumes data provided by scheme administrators on the costs of the scheme and those incurred by
+local authorities to collect and recycle packaging for each assessment year. These costs are then shared across
+producers based on the amount of packaging each producer has reported in the producer-facing service (RPD).
+* The final calculator output is a billing file that contains values for each producer at every stage of the calculation of
+disposal fees, including a final fee that can be shared with the financial service supplier (FSS) to inform notices of liability
+that will be sent to each liable producer.
+* The calculator is an agnostic tool that uses the latest data available to calculate producer disposal fees and can be run
+by the scheme administrators whenever they deem fit. It calculates fees in line with the packaging & waste regulations
+and **always calculates producer fees with respect to all other producers**.
+"""
+
+        api calculatorAPI {
+            #DG3 #R16 #R17_9_EPR_CALCULATOR_SERVICE
+            title "Calculator API (WA 422)"
+            description "Backend to provide functionality to Calculator Frontend"
+            link https://github.com/DEFRA/epr-calculator-api "github"
+            link https://vss-sonarqube-upgrade.azure.defra.cloud/dashboard?id=epr-calculator-api "sonarqube"
+            link https://dev.azure.com/defragovuk/RWD-CPR-EPR4P-ADO/_build?definitionId=7332 "Build"
+            link https://dev.azure.com/defragovuk/RWD-CPR-EPR4P-ADO/_build?definitionId=7333 "Deploy"
+            link https://dev.azure.com/defragovuk/RWD-CPR-EPR4P-ADO/_build?definitionId=9420 "Deploy (Data)"
+
+            metadata {
+                resource "{env}RWDWEBWAx422"
+                name "epr-calculator-api"
+            }
+
+            calculatorAPI .readWrite payCalDB {
+                title "Reads and writes of Calculation runs metadata, Billing file metadata, LapCap data"
+            }
+            calculatorAPI .publishesTo calculatorRunQueue {
+                title "Requests calculation runs and billing"
+            }
+            calculatorAPI .readWrite calculationResultsStorage {
+                title "Downloads full calculation result for review"
+            }
+            calculatorAPI .readWrite billingStorageJson {
+                title "Moves billing files to Calculator Billing Storage FSS when approved "
+            }
+            calculatorAPI .readWrite billingStorageFss {
+                title "Moves billing files from Calculator Billing Storage (json) when approved"
+            }
+            calculatorAPI .readWrite telemetryClient {
+                title "Logs application telemetry"
+            }
+        }
+
+        api calculatorFssApi {
+            #DG3 #R16
+            title "Calculator FSS Api (WA 426)"
+            description "FSS Integration"
+            link https://github.com/DEFRA/epr-calculator-fss-api "github"
+            link https://vss-sonarqube-upgrade.azure.defra.cloud/dashboard?id=epr-calculator-fss-api "sonarqube"
+            link https://dev.azure.com/defragovuk/RWD-CPR-EPR4P-ADO/_build?definitionId=7906 "build"
+            metadata {
+                resource "{env}RWDWEBWAx426"
+                name "epr-calculator-fss-api"
+            }
+            calculatorFssApi .readOnly billingStorageFss {
+                title "Retrieves billing instructions"
+            }
+            calculatorFssApi .readOnly dataReporting.synapse {
+
+                title "Get organisation data"
+            }
+            calculatorFssApi .readWrite telemetryClient {
+                title "Logs application telemetry"
+            }
+        }
+        systemQueue calculatorRunQueue {
+            #DG3
+            title "Calculator Run Queue"
+            description "Service Bus queue for requesting Calculation and Billing runs. Queue name: defra.epr.calculator.run"
+            metadata {
+                resource "{env}RWDINFSBx402"
+                name "defra.epr.calculator.run.{env}x"
+            }
+        }
+        blobStorage billingStorage {
+            #DG3
+            title "Calculator Billing Storage (csv)"
+            description "Blob Storage storing Billing instructions in CSV"
+            metadata {
+                container "paycal-billingfilecsv"
+            }
+        }
+        blobStorage billingStorageJson {
+            #DG3
+            title "Calculator Billing Storage (json)"
+            description "Blob Storage storing Billing instructions in JSON"
+            metadata {
+                container "paycal-billingfilejson"
+            }
+        }
+        blobStorage billingStorageFss {
+            #DG3
+            title "Calculator Billing Storage FSS"
+            description "Blob Storage storing Billing instructions for FSS"
+            metadata {
+                container "paycal-billingfilejsonauthorisedforfss"
+            }
+        }
+        blobStorage calculationResultsStorage {
+            #DG3
+            title "Calculator Results Storage"
+            description "Blob Storage storing full Calculation Results"
+            metadata {
+                container "paycal"
+            }
+        }
+        func calculatorFunction {
+            #DG3 #R16 #R17_EPR_CALCULATOR_SERVICE #R17_1_EPR_CALCULATOR_SERVICE #R17_5_EPR_CALCULATOR_SERVICE #R17_9_EPR_CALCULATOR_SERVICE
+            title "Calculator Function (FA 411)"
+            description "Azure Function which runs Azure Synapse pipelines to collect producer and packaging data, runs fee calculations and generates for "
+            link https://github.com/DEFRA/epr-calculator-service "github"
+            metadata {
+                resource "{env}RWDWEBFAx411"
+                name "epr-calculator-service"
+            }
+
+            calculatorFunction .readOnly dataReporting.commonDataAPI {
+                title "Reads Organisation and POM data"
+            }
+            calculatorFunction  .readWrite payCalDB {
+                title "Reads and writes CalculationRun data. Writes Billing Instructions"
+            }
+            calculatorFunction .readWrite calculationResultsStorage {
+                title "Writes Calculation Results as CSV"
+            }
+            calculatorFunction .subscribesTo calculatorRunQueue  {
+                title "Subscribes for requests to run the calculations and converting those to billing files"
+            }
+            calculatorFunction .readWrite billingStorage {
+                title "Writes billing files as CSV"
+            }
+            calculatorFunction .readWrite billingStorageJson {
+                title "Writes billing files as JSON"
+            }
+            calculatorFssApi .readWrite telemetryClient {
+                title "Logs application telemetry"
+            }
+        }
+        frontend calculatorFrontend {
+            #DG3 #R16 #R17_9_EPR_CALCULATOR_SERVICE
+            title "Calculator Frontend (WA 421)"
+            description "Scheme Administrators can manage calculation parameters, manage local authority disposal costs, run calculations, and issue billing instructions for Producers."
+            link https://github.com/DEFRA/epr-calculator-frontend "github"
+            metadata {
+                auth "Azure Entra"
+                resource "{env}RWDWEBWAx421"
+                name "epr-calculator-frontend"
+            }
+            calculatorFrontend .readWrite calculatorAPI {
+                title "Delegates"
+            }
+            calculatorFssApi .readWrite telemetryClient {
+                title "Logs application telemetry"
+            }
+        }
+        database payCalDB {
+            #DG3 #R17_EPR_CALCULATOR_SERVICE #R17_4_EPR_CALCULATOR_SERVICE #R17_9_EPR_CALCULATOR_SERVICE
+            title "PayCal DB"
+            description "SQL Server. Payment Calculator. Stores LapCap data, and meta data for tracking Billings and Calculation Runs."
+            link https://github.com/DEFRA/epr-calculator-api "github"
+        }
+        system telemetryClient {
+            #EXTERNAL
+            title "Azure Telemetry Client"
+            description "Standard azure telemetry client"
+        }
+    }
+}

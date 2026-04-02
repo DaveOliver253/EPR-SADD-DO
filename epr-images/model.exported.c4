@@ -1,0 +1,27 @@
+model {
+
+    api loggingAPI {
+        #DG1
+        title "Logging API (WA 403)"
+        description "Protective Monitoring Logging Microservice receives events from EPR microservices, adds common metadata to those events and sends them to a Service Bus Queue"
+        link https://github.com/DEFRA/epr-logging-api "github"
+        technology "ASP.Net Web API"
+
+        metadata {
+            resource "{env}RWDWEBWAx403"
+            name "epr-logging-api"
+        }
+
+        loggingAPI .publishesTo loggingMessageQueue {
+            #DG1
+            title "Send LoggingEvent to Logging Message Queue"
+            link https://github.com/DEFRA/epr-logging-api/blob/07864f61bbcc3c8a74c88ec9a949be9ce12051b4/LoggingMicroservice/LoggingMicroservice.API/Services/LoggingEventService.cs#L37 "github"
+        }
+    }
+
+    systemQueue loggingMessageQueue {
+        #DG1
+        title "Logging Message Queue"
+        description "Service Bus queue for storing EPR logging messages. Queue name: defra.epr.protectivemonitoring.events"
+    }
+}

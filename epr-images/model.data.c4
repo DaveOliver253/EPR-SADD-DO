@@ -1,0 +1,119 @@
+model {
+    domain dataReporting {
+        #DG6
+        title "Data and Reporting"
+        description "Data and reporting functionality for producers, regulators and other stakeholders."
+
+        api commonDataAPI {
+            #DG6 #R16_1 #R17_COMMON_DATA_API #R17_1_EPR_CALCULATOR_SERVICE #R17_2_EPR_CALCULATOR_SERVICE #R17_8_EPR_CALCULATOR_SERVICE
+            title "Common Data API (WA 415)"
+            description "Synapse data"
+            link https://github.com/DEFRA/epr-common-data-api "github"
+            metadata {
+                resource "{env}RWDWEBWAx415"
+                name "epr-common-data-api"
+            }
+            commonDataAPI .uses synapse {
+                #TODO
+                title "Retrieve packaging data"
+            }
+        }
+
+        database synapse {
+            #DG6 #R17_EPR_CALCULATOR_SERVICE #R17_1_EPR_CALCULATOR_SERVICE
+            title "Synapse Data Lake"
+            technology "Azure Data Lake Storage"
+            description "Microsoft Synapse, organised in Bronze, Silver and Gold layers. Auditing and analytics data but also serves frontends."
+            link https://github.com/DEFRA/epr-data-sqldb "github"
+            style {
+                icon azure:azure-synapse-analytics
+            }
+
+            blobStorage rawLayer {
+                #DG6
+                title "Raw Layer"
+                description "The raw data layer. This is a landing area for input data"
+                rawLayer .uses pythonNotebooks {
+                    title "Transform"
+                }
+            }
+
+            // TODO: Find a symbol that more accurately reflets this as has SQL, Native Azure Blob Storage and ADLS GEN2 delta lake
+            database bronzeLayer {
+               #DG6 #NO_GIT
+               title "Bronze Layer"
+               technology "SQL, Azure Blob Storage and ADLS GEN2 Delta lake"
+               description "Latest version of consolidated data at source granularity"
+               style {
+                icon: none
+              }
+               bronzeLayer .uses rawLayer {
+                 title "Data Extract Load and Transform (ELT)"
+               }
+               bronzeLayer .uses pythonNotebooks {
+                 title "Data Extract Load and Transform (ELT)"
+              }
+
+            }
+
+            database silverLayer {
+               #DG6 #NO_GIT
+               title "Silver Layer"
+               technology "Delta tables"
+               description "Transformed business data using Views and Stored Procedures"
+
+               silverLayer .uses bronzeLayer {
+                 title "Data Extract Load and Transform (ELT)"
+              }
+            }
+
+            database goldLayer {
+               #DG6 #NO_GIT
+               title "Gold Layer"
+               technology "Synapse SQL / Power BI Datasets"
+               description "RPD report's specific aggregated views/tables"
+               goldLayer .uses silverLayer {
+                   title "Transform"
+               }
+            }
+        }
+
+        system synapsePipelines {
+            #DG6 #R17_EPR_CALCULATOR_SERVICE #R17_1_EPR_CALCULATOR_SERVICE #R17_3_EPR_CALCULATOR_SERVICE #R17_7_EPR_CALCULATOR_SERVICE
+            title "Synapse Pipelines"
+            description "These orchestrate data transformation (ETL)"
+            link https://github.com/DEFRA/epr-data "github"
+
+            style {
+                icon tech:json
+                color primary
+            }
+            synapsePipelines .uses producerRegulator.accountsDB {
+                title "Retriving data from DB"
+            }
+            synapsePipelines .uses producerRegulator.cosmosDB {
+                title "Retriving data from DB"
+            }
+        }
+
+        blobStorage pythonNotebooks {
+            #DG6
+            title "Python Notebooks"
+            description "Notebooks contain the code to tranform the data"
+            style {
+                icon tech:python
+                color primary
+            }
+            pythonNotebooks .uses synapsePipelines {
+                title "Pipelines execute the python notebooks"
+            }
+        }
+
+        system masterScript {
+            #DG6
+            //TODO: Move into synapse pipelines
+            title "Master Script"
+            description "The Masterscript is a script, written in Azure Synapse that outputs organisation and packaging data submissions. The Masterscript was created to give the CCOE team easy access to the RPD data in production. The script is run once daily via an automation job. The outputs are stored in an Azure storage bucket."
+        }
+    }
+}

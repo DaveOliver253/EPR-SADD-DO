@@ -1,0 +1,104 @@
+model {
+    system fss {
+        #EXTERNAL
+        title "Financial Services Supplier"
+        description "External Accenture services providing financial data and calculations"
+        fss .uses calc.calculatorFssApi {
+            title "Retrieves billing instructions"
+            description "The trigger for this is out-of-band - e.g. possibly an email instructing the RunId"
+        }
+    }
+    system powerBI {
+        #TODO #EXTERNAL #R17_EPR_CALCULATOR_SERVICE #R17_3_EPR_CALCULATOR_SERVICE
+        title "PowerBI"
+        description "Generates reports for Regulators and ??? How does it talk to Synapse ???"
+        link https://github.com/DEFRA/epr-data-pbix-files "github"
+
+        powerBI .uses dataReporting.goldLayer {
+            title "Queries data"
+        }
+    }
+    api npwd {
+        #TODO #EXTERNAL
+        title "National Packaging Waste Database"
+        description "NPWD stores how much packaging has entered the UK market and how much packaging waste has been recovered or recycled.  External to EPR but still DEFRA and supported by EE.  ??? API ???"
+    }
+    system rrepw {
+        #TODO #EXTERNAL
+        title "Record reprocessed or exported packaging waste"
+        description "Record reprocessed or exported packaging waste"
+        api frontend {
+            #TODO #EXTERNAL
+            title "RREPW Frontend"
+            description "RREPW Frontend"
+
+            frontend .readOnly producerRegulator.wasteOrganisationsAPI {
+                title 'Fetch all active Producers and Compliance Schemes'
+            }
+        }
+        api backendAPI {
+            #TODO #EXTERNAL
+            title "RREPW Backend API"
+            description "RREPW Backend"
+        }
+    }
+    system govPay {
+        #TODO #EXTERNAL
+        title "GovPay"
+        summary "Interface to GovPay to take payments from Producers."
+        description """
+            Generates a url to which the user should be redirected (on GovPay) so that they can make payment.
+            Expects a returnUrl in requests to which it redirects the user after payment completion.
+        """
+    }
+    system govNotify {
+        #EXTERNAL
+        title "Gov.Notify"
+        description "Provides email, txt and letter sending functionality via an SDK and REST API"
+        link https://www.notifications.service.gov.uk "public website"
+        link https://www.notifications.service.gov.uk/services/51ed5f64-dc90-461b-9130-385bc9c3bcc8 "DEVELOPMENT service"
+        link https://www.notifications.service.gov.uk/services/9faf5afd-714a-4e59-93b6-bf9dc8d26196 "PRODUCTION service"
+        link https://github.com/alphagov/notifications-net-client "github (.net client)"
+    }
+    frontend azureB2C {
+        #TODO #EXTERNAL
+        title "Azure B2C"
+        description "EPR Identity Provider"
+        azureB2C .uses producerRegulator.regulatorFrontend {
+            #TODO
+            title "??? redirects browser after login and registration ??"
+            technology "Http"
+        }
+    }
+    api appInsights {
+        #NO_GIT
+        title "Azure Application Insights"
+        style {
+            icon azure:application-insights
+        }
+    }
+    system postcodeService {
+        #TODO #EXTERNAL
+        title "Postcode Service"
+        description "Companies House via Boomi"
+    }
+    system boomi {
+        #TODO #EXTERNAL
+        title "Boomi Gateway"
+        description """
+            Certain requests may have transformed, for example to overcome rate limiting of 600 calls per minute on Companies House API.
+            In lower environments Boomi will respond (somehow) using a monthly downloaded file of all the company house data
+        """
+        api companiesHouse {
+            #EXTERNAL
+            title "Companies House API"
+            description "Provides company information"
+        }
+
+        api postcodeLookup {
+            #TODO #EXTERNAL
+            title: "Postcode lookup API"
+            description: "Search addresses by postcode (currently unknown 3rd party API)"
+        }
+    }
+}
