@@ -25,7 +25,7 @@
         <mxCell id="HayTX3crSa-V-jK6cYXI-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#1E8449;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="APIs" vertex="1">
           <mxGeometry height="48" width="80" x="192" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="HayTX3crSa-V-jK6cYXI-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;LAPS&lt;/div&gt;" vertex="1">
+        <mxCell id="HayTX3crSa-V-jK6cYXI-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;PayCal&lt;/div&gt;" vertex="1">
           <mxGeometry height="161" width="117" x="303" y="39" as="geometry" />
         </mxCell>
         <mxCell id="HayTX3crSa-V-jK6cYXI-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#1E8449;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Web app" vertex="1">
@@ -97,10 +97,10 @@
             <mxPoint x="659.5" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HayTX3crSa-V-jK6cYXI-35" edge="1" parent="1" source="HayTX3crSa-V-jK6cYXI-23" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;fillColor=#D5E8D4;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="HayTX3crSa-V-jK6cYXI-15" value="">
+        <mxCell id="HayTX3crSa-V-jK6cYXI-35" edge="1" parent="1" source="HayTX3crSa-V-jK6cYXI-15" style="shape=flexArrow;endArrow=classic;startArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;fillColor=#D5E8D4;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="HayTX3crSa-V-jK6cYXI-23" value="">
           <mxGeometry height="100" relative="1" width="100" as="geometry">
-            <mxPoint x="570" y="329" as="sourcePoint" />
-            <mxPoint x="570" y="279" as="targetPoint" />
+            <mxPoint x="550" y="304" as="sourcePoint" />
+            <mxPoint x="600" y="304" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
