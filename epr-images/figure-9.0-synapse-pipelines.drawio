@@ -1,0 +1,278 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="Page-1" id="qdFEqaI1ns8niRuZZf-L">
+    <mxGraphModel dx="2324" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-34" parent="1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" value="" vertex="1">
+          <mxGeometry height="330" width="610" x="260" y="11" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" value="" vertex="1">
+          <mxGeometry height="320" width="1020" x="-60" y="420" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Scheme administrator" c4Type="Person" c4Description="Scheme administrator." label="&lt;font style=&quot;font-size: 12px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="_4jIqLbIsBC2f54yz_5p-2">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=1;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1">
+            <mxGeometry height="110" width="140" x="973" y="736" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=light-dark(#1168BD,#5EA9F2);strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Application gateway" vertex="1">
+          <mxGeometry height="48" width="110" x="646" y="777" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Calculator front end" vertex="1">
+          <mxGeometry height="48" width="110" x="100" y="777" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Calculator back end" vertex="1">
+          <mxGeometry height="60" width="110" x="100" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="11. Service Bus&amp;nbsp;&amp;nbsp;&lt;div&gt;trigger function&lt;/div&gt;" vertex="1">
+          <mxGeometry height="48" width="110" x="100" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-8" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="48" width="48" x="400" y="778" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-9" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-2" style="endArrow=classic;html=1;rounded=0;exitX=0.014;exitY=0.591;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="500" y="520" as="sourcePoint" />
+            <mxPoint x="837" y="803" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-11" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Access via&amp;nbsp;&lt;div&gt;application gateway&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0351" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-14" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-4" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="610" y="590" as="sourcePoint" />
+            <mxPoint x="450" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-15" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="1. Authenticated using&lt;div&gt;desktop credential&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1411" y="4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-16" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-8" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="480" y="590" as="sourcePoint" />
+            <mxPoint x="530" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-17" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="2. Access the&amp;nbsp;&lt;div&gt;calculator application&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.2632" y="-1" as="geometry">
+            <mxPoint x="20" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-18" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-5" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-6" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="420" y="590" as="sourcePoint" />
+            <mxPoint x="470" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Protective Monitoring Logging Solution" vertex="1">
+          <mxGeometry height="48" width="110" x="-10" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-20" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.427;entryY=1.063;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" target="_4jIqLbIsBC2f54yz_5p-19" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="100" y="400" />
+              <mxPoint x="37" y="400" />
+            </Array>
+            <mxPoint x="100" y="400" as="sourcePoint" />
+            <mxPoint x="420" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-21" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;color: rgb(29, 53, 87); text-wrap-mode: wrap; background-color: rgb(236, 236, 236);&quot;&gt;Trigger whenever&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(29, 53, 87); text-wrap-mode: wrap; background-color: rgb(236, 236, 236);&quot;&gt;downloading result file&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1761" y="1" as="geometry">
+            <mxPoint x="4" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-22" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#DAE8FC;" value="SQL" vertex="1">
+          <mxGeometry height="90" width="60" x="996" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-23" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=60;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="211" y="428" as="sourcePoint" />
+            <mxPoint x="997" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-25" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;4. Check for&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;duplicate&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;run&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="200" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-26" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;5. Check for scheme parameter&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="300" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-27" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;6. Check for&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;LAPCAP&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;data&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="100" x="400" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-28" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;7. Create calculator run&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;ID, update run&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;status to Running&amp;nbsp;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="150" x="490" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-29" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;8. Link scheme&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;parameter and&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;LAPCAP data to run ID&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="150" x="630" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-30" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;9. Send message to&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;Service Bus with&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;calcrunid financial year&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="150" x="770" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-31" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;flipH=1;legacyAnchorPoints=0;" value="10. Return the calculator. Success - run ID. Failure - validation error" vertex="1">
+          <mxGeometry height="40" width="715" x="180" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="3. The front end&lt;div&gt;&lt;b&gt;Call/v1/calculatorRun API&lt;/b&gt; to trigger the calculator run process&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;/v1/calculatorRun API Request&lt;/b&gt;&lt;/div&gt;&lt;div&gt;: Run calculator for requested year and run name&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;/v1/calculatorRun API Response&lt;/b&gt;&lt;/div&gt;&lt;div&gt;; 202 Accepted&lt;/div&gt;&lt;div&gt;: 424 Failed dependency&lt;/div&gt;&lt;div&gt;400 Bad request&lt;/div&gt;&lt;div&gt;500 Server error&lt;/div&gt;" vertex="1">
+          <mxGeometry height="230" width="190" x="-30" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;16. /&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;v1/calculatorRuns/{financial year}&lt;/b&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;endpoint to get the calculator runs in calcuator dashboard&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;17. /v1/downloadResultFile/{calcrunid}&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;endpoint to download result file&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="240" x="180" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-35" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="12. Trigger the calculator run f&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(29, 53, 87), rgb(176, 196, 226));&quot;&gt;unction to process requested calculator run ID&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="140" x="280" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-36" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-7" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="_4jIqLbIsBC2f54yz_5p-35" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="460" as="sourcePoint" />
+            <mxPoint x="500" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-37" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-6" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-7" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="460" as="sourcePoint" />
+            <mxPoint x="500" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-38" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;Trigger Synapse pipeline to&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;load RPD data&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="118" x="452" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-39" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;API to store&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font&gt;RPD data&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;to calculator&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="110" x="570" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-40" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="&lt;font&gt;API to store data&lt;/font&gt;&lt;div&gt;&lt;font&gt;&amp;nbsp;and generate&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;result file&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="110" x="680" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-41" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Azure function processing steps&lt;/b&gt;" vertex="1">
+          <mxGeometry height="20" width="230" x="510" y="123" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-43" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="48" width="48" x="467" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-44" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-38" style="endArrow=classic;html=1;rounded=0;exitX=0.38;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-43" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="460" as="sourcePoint" />
+            <mxPoint x="500" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-45" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="48" width="48" x="1002" y="157" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-46" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-43" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="_4jIqLbIsBC2f54yz_5p-45" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="690" y="460" as="sourcePoint" />
+            <mxPoint x="740" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-47" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="13. Trigger Synapse pipeline Rest API end point to load data to PayCal DB staging tables" vertex="1">
+          <mxGeometry height="38" width="270" x="520" y="53" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-48" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Private link" vertex="1">
+          <mxGeometry height="30" width="70" x="880" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-49" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#DAE8FC;" value="(SSE)&lt;div&gt;Blob storage&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="60" x="919" y="307" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-50" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-45" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="_4jIqLbIsBC2f54yz_5p-22" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="780" y="390" as="sourcePoint" />
+            <mxPoint x="830" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-51" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="48" width="48" x="708" y="337" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-52" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-35" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-38" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="412" y="213.5" as="sourcePoint" />
+            <mxPoint x="460" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-53" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-39" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.609;entryY=-0.083;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" target="_4jIqLbIsBC2f54yz_5p-6" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="230" />
+              <mxPoint x="167" y="230" />
+            </Array>
+            <mxPoint x="490" y="400" as="sourcePoint" />
+            <mxPoint x="540" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-54" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-40" style="endArrow=classic;html=1;rounded=0;exitX=0.43;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="_4jIqLbIsBC2f54yz_5p-6" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="733" y="240" />
+              <mxPoint x="183" y="240" />
+            </Array>
+            <mxPoint x="490" y="400" as="sourcePoint" />
+            <mxPoint x="540" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-55" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="15.&lt;b&gt; /v1/loadresultData &lt;/b&gt;API end point calculate and restore required data to result tables, generate result file, store in Blob storage and update status to Unclassified" vertex="1">
+          <mxGeometry height="60" width="310" x="295" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-56" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Calculator Backend&lt;/b&gt; web app access Blob storage and PayCal DB using private end point and managed identity" vertex="1">
+          <mxGeometry height="56" width="174" x="670" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-57" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-51" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=52.5;entryPerimeter=0;" target="_4jIqLbIsBC2f54yz_5p-49" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="700" y="400" as="sourcePoint" />
+            <mxPoint x="750" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-58" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-57" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Private end point&lt;div&gt;to secure result&amp;nbsp;&lt;/div&gt;&lt;div&gt;file transfer&amp;nbsp;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.3388" as="geometry">
+            <mxPoint x="26" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-60" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="18. Generating, storing and downloading result files from Blob storage is via private end point" vertex="1">
+          <mxGeometry height="51" width="260" x="220" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-61" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="180" y="360" as="sourcePoint" />
+            <mxPoint x="620" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-70" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-61" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="https" vertex="1">
+          <mxGeometry relative="1" x="0.5636" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-62" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#d6b656;strokeWidth=2;" value="Key vault" vertex="1">
+          <mxGeometry height="48" width="48" x="622" y="336" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-67" edge="1" parent="1" source="_4jIqLbIsBC2f54yz_5p-62" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="_4jIqLbIsBC2f54yz_5p-51" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="580" y="330" as="sourcePoint" />
+            <mxPoint x="630" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-69" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=-0.017;entryY=0.422;entryDx=0;entryDy=0;entryPerimeter=0;" target="_4jIqLbIsBC2f54yz_5p-22" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="210" y="411" as="sourcePoint" />
+            <mxPoint x="995" y="408" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-71" connectable="0" parent="_4jIqLbIsBC2f54yz_5p-69" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="https" vertex="1">
+          <mxGeometry relative="1" x="-0.3656" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-68" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Private end point to secure data transfer" vertex="1">
+          <mxGeometry height="20" width="270" x="629" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-63" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#d6b656;strokeWidth=2;" value="Key vault" vertex="1">
+          <mxGeometry height="48" width="48" x="488" y="398" as="geometry" />
+        </mxCell>
+        <mxCell id="_4jIqLbIsBC2f54yz_5p-66" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="48" width="48" x="560" y="398" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
