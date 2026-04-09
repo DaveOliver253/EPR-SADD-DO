@@ -3,9 +3,9 @@
 # Solution architecture definition document (SADD)
 # EPR: RPD and PayCal
  
-**Version: 1.1**  
+**Version: 1.2**  
 **DDTS Delivery Architecture Team**  
-**Date: 23/3/2026**
+**Date: 09/04/2026**
 
 ## Contents
 1. [Introduction](#introduction)  
