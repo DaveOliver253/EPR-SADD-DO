@@ -226,7 +226,7 @@ The EPR digital service is designed to serve a diverse ecosystem of external and
 - **Packaging producers (direct and via compliance schemes):** They can register, submit placed-on-market (PoM) data, view their obligations and historic submissions and manage account details. They benefit from clearer visibility of how their packaging choices drive costs and incentives to reduce environmental impact.
 - **Compliance schemes:** Act on behalf of producers to manage submissions, payments, and regulatory adherence. Use RPD outputs to understand member obligations, support their account management and reporting.
 - **Local authorities:** Submit data and receive payments for household packaging waste collection.
-- **Reprocessors and exporters:** Gain accreditation and register PRNs/PERNs (Packaging Recovery Notes / Packaging Export Recovery Notes ) exchanged on the external market.
+- **Reprocessors and exporters:** Gain accreditation and register PRNs/PERNs (Packaging waste Recycling Notes / Packaging waste Export Recycling Notes ) exchanged on the external market.
 - **Regulators:** Environment Agency (EA), Scottish Environment Protection Agency (SEPA), National Resources Wales (NRW), The Northern Ireland Environment Agency (NIEA). These organisations use RPD regulatory views and reports to monitor compliance and enforce regulations. They also manage public registers and policy evaluation using data sourced from RPD.
 
 **Internal stakeholders**
@@ -378,7 +378,7 @@ The RPD front end is the user interface for the Report Packaging Data (RPD) serv
 - Register and submit packaging data.
 - View calculated recycling obligations.
 - Track compliance with Extended Producer Responsibility (EPR) regulations.
-- Access PRNs (Packaging Recovery Notes) and PERNs (Packaging Export Recovery Notes) for evidence of recycling.
+- Access PRNs (Packaging waste Recycling Notes) and PERNs (Packaging waste Export Recycling Notes) for evidence of recycling.
 
 #### 2. Regulator front end
 This interface is used by environmental regulators (Environment Agency, SEPA, NRW, NIEA) to:
@@ -388,7 +388,7 @@ This interface is used by environmental regulators (Environment Agency, SEPA, NR
 - Enforce regulations under the producer responsibility obligations.
 
 #### 3. PRN front end – live, PRN obligations to go live in release 13
-The PRN (Packaging Recovery Note) front end is used by:
+The PRN (Packaging waste Recycling Note) front end is used by:
 - Accredited reprocessors and exporters to issue PRNs and PERNs from RE/EX that is outside RPD.
 - Producers and compliance schemes to acquire and manage these notes as proof of recycling.
 - Regulators to track the flow and validity of issued notes.
@@ -626,7 +626,7 @@ System integrations use APIs or other interfaces:
 - **LAPCAP** (another Defra application) supplies RPD's PayCal with local authority collection and
   disposal cost rates.
 - **NPWD** (legacy) and **RE/EX** (its replacement) both receive daily producer registration
-  data from RPD, and send back Packaging Recovery Notes (PRNs/PERNs) addressed to producers.
+  data from RPD, and send back Packaging waste Recycling Notes (PRNs/PERNs) addressed to producers.
   Producers accept or reject these, and RPD sends the outcome back to both systems.
 
 
@@ -658,7 +658,7 @@ Using the same diagram from the previous section, here is how RPD and its extern
 21. Regulators can also view reports within RPD.
 22. The producer is notified of the outcome by email. If rejected, reasons are given and they can resubmit.
 23. The PayCal database periodically receives waste collection and disposal cost data from local authorities (via LAPCAP), broken down by nation and packaging material type. These are used as inputs to the fee calculation.
-24. The PRN database receives Packaging Recovery Notes (PRNs) or Packaging Export Recovery Notes (PERNs) from RE/EX (for 2026 onwards) or NPWD (for 2025-year obligations), addressed to specific producers or compliance schemes.
+24. The PRN database receives Packaging waste Recycling Notes (PRNs) or Packaging waste Export Recycling Notes (PERNs) from RE/EX (for 2026 onwards) or NPWD (for 2025-year obligations), addressed to specific producers or compliance schemes.
 25. The producer or CS accepts or rejects each PRN/PERN in RPD, and the decision is sent back to RE/EX or NPWD as appropriate.
 26. Accepted PRNs/PERNs reduce the producer’s reported packaging tonnage, lowering their fee liability.
 27. PayCal applies the relevant cost rates to the producer’s adjusted tonnage to calculate what they owe. The resulting billing file is sent periodically via APIM to the FSS system (ServiceNow).
