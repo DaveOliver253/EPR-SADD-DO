@@ -1,0 +1,597 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="Page-1" id="EPR-LDM-Fig16">
+    <mxGraphModel dx="3957" dy="1130" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="LDM-ZL1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=3;fontColor=#666666;" value="Party and identity" vertex="1">
+          <mxGeometry height="20" width="160" x="20" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-ZL2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=3;fontColor=#666666;" value="Finance" vertex="1">
+          <mxGeometry height="20" width="100" x="850" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-ZL3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=3;fontColor=#666666;" value="Document and communication" vertex="1">
+          <mxGeometry height="20" width="220" x="1240" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-ZL4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=3;fontColor=#666666;" value="Packaging and waste" vertex="1">
+          <mxGeometry height="20" width="180" x="1760" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-ZL5" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=3;fontColor=#666666;" value="Request, submission and other" vertex="1">
+          <mxGeometry height="20" width="240" x="824" y="598" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E01" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Organisation&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Reference number&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="170" x="-99.5" y="87.5" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E02" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Party&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Party ID&lt;br&gt;BK: Reference number&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="190" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E03" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Party role&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Party role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="155" x="390" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E04" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Territory&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Territory ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="150" x="565" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E05" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;External organisation&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: External org ID&lt;br&gt;BK: Reference number&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="175" x="-102" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E06" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Party in role&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Party in role ID&lt;br&gt;BK: Party ID&lt;br&gt;BK: Party role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="95" width="165" x="189" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E07" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Physical address&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Address ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="95" width="155" x="419" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E08" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Postal address&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Postal address ID&lt;br&gt;BK: Address ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="95" width="150" x="650" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E09" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Person&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Person ID&lt;br/&gt;BK: Party ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="155" x="-104" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;User&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: User ID&lt;br/&gt;BK: Person ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="140" x="121" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Obligated packaging producer&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Producer ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="195" x="-100" y="626" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Local Authority&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: LA ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="155" x="220" y="626" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Regulator&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Regulator ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="145" x="410" y="626" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Scheme administrator&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Scheme admin ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="600" y="626" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;EPR financial services supplier&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: FSS ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="200" x="73" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Waste reprocessor&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Reprocessor ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="311" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Waste exporter&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Exporter ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="490" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Packaging waste compliance scheme&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Scheme ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="135" x="650" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Finance&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Finance ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="155" x="850" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Financial transaction&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Transaction ID&lt;br&gt;BK: Finance ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="175" x="850" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Invoice&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Invoice number&lt;br&gt;BK: Transaction ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="155" x="850" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Payment&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Payment ID&lt;br/&gt;BK: Transaction ID&lt;br/&gt;BK: Account ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="150" x="1030" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Document&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Document ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="145" x="1244" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;EPR document&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: EPR doc ID&lt;br&gt;BK: Document ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="155" x="1240" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Certificate&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Certificate number&lt;br&gt;BK: Document ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="1415" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;EPR report&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Report ID&lt;br&gt;BK: EPR Doc ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="155" x="1240" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Communication&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Communication ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="155" x="1470" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Message&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Message ID&lt;br/&gt;BK: Communication ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="1251" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Email&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Email ID&lt;br/&gt;BK: Communication ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="140" x="1426" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Waste&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Waste type ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="140" x="1772.5" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Packaging waste&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Packaging waste ID&lt;br&gt;BK: Waste type ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="165" x="1760" y="278" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E33" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Packaging Recycling Note (PRN)&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: PRN number&lt;br&gt;BK: Certificate number&lt;br&gt;BK: Packaging waste ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="185" x="1760" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E34" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Packaging Export Recycling Note (PERN)&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: PERN number&lt;br&gt;BK: Certificate number&lt;br&gt;BK: Packaging waste ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="200" x="1970" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E35" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Request&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Request ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="826" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E36" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Application&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Application ID&lt;br/&gt;BK: Request ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="1029" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Activity&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Activity ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="140" x="1210" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E38" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Service&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Service ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="140" x="1373" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Calendar period&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Calendar period ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75" width="155" x="1650" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Submission&lt;/b&gt;&lt;hr style=&#39;margin:2px 0&#39;/&gt;&lt;div style=&#39;text-align:left;font-size:9px;padding:2px&#39;&gt;BI: Submission ID&lt;br/&gt;BK: Request ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="826" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;EPR enrolment application&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Enrolment ID&lt;br&gt;BK: Application ID&lt;br&gt;BK: Producer ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="205" x="850" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E42" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Waste business registration&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Registration number&lt;br&gt;BK: Submission ID&lt;br&gt;BK: Producer ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="195" x="1075" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-E43" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Placed On Market (POM) submission&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: POM Submission ID&lt;br&gt;BK: Submission ID&lt;br&gt;BK: Producer ID&lt;br&gt;BK: Calendar Period ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="210" x="1290" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGp" connectable="0" parent="1" style="group;" value="" vertex="1">
+          <mxGeometry height="110" width="200" x="2050" y="1580" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGbg" parent="LDM-LGp" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=#999999;fillColor=#F5F5F5;" value="" vertex="1">
+          <mxGeometry height="110" width="200" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGtitle" parent="LDM-LGp" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;fontStyle=1;" value="Logical data model" vertex="1">
+          <mxGeometry height="20" width="180" x="10" y="8" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGy" parent="LDM-LGp" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="24" width="15" x="10" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGb" parent="LDM-LGp" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#1168BD;" value="" vertex="1">
+          <mxGeometry height="24" width="15" x="10" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-LGtext" parent="LDM-LGp" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;" value="&lt;div&gt;Enterprise core LDM entry&lt;/div&gt;&lt;div style=&#39;margin-top:34px&#39;&gt;Solution-specific LDM entry&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="32" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A01" edge="1" parent="1" source="LDM-E01" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E02" value="has (1:*)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A02" edge="1" parent="1" source="LDM-E01" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E05" value="is (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A03" edge="1" parent="1" source="LDM-E02" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.25;entryY=0;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" target="LDM-E06" value="plays (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="200" />
+              <mxPoint x="230" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A04" edge="1" parent="1" source="LDM-E03" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.177;exitY=1.006;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E06" value="defines (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="417" y="180" />
+              <mxPoint x="260" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A05" edge="1" parent="1" source="LDM-E02" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.987;entryY=0.384;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E09" value="is (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="147" />
+              <mxPoint x="100" y="147" />
+              <mxPoint x="100" y="450" />
+            </Array>
+            <mxPoint x="115" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A06" edge="1" parent="1" source="LDM-E09" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.995;exitY=0.585;exitDx=0;exitDy=0;exitPerimeter=0;" value="has (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="74.99500000000013" y="467.18" as="sourcePoint" />
+            <mxPoint x="120" y="468" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A07" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="LDM-E11" value="has (1:0..1)">
+          <mxGeometry relative="1" x="0.2745" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="320" y="370" />
+              <mxPoint x="457" y="370" />
+            </Array>
+            <mxPoint x="320" y="329" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A08" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E07" value="has (1:*)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A09" edge="1" parent="1" source="LDM-E07" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E08" value="is (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A10" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="LDM-E12" value="specialises as (1:0..1)">
+          <mxGeometry relative="1" x="-0.1278" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="230" y="380" />
+              <mxPoint x="-120" y="380" />
+              <mxPoint x="-120" y="671" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A11" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.332;entryY=-0.02;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E13" value="specialises as (1:0..1)">
+          <mxGeometry relative="1" x="0.7911" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="272" y="620" />
+              <mxPoint x="272" y="620" />
+            </Array>
+            <mxPoint x="272" y="310" as="sourcePoint" />
+            <mxPoint x="270" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A12" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="LDM-E14" value="specialises&amp;nbsp;&lt;div&gt;as (1:0..1)&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.2497" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="400" y="300" />
+              <mxPoint x="400" y="600" />
+              <mxPoint x="446" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A13" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.815;exitY=-0.016;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E15" value="specialises as (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="324" y="210" />
+              <mxPoint x="630" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A14" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.545;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E16" value="specialises&amp;nbsp;&lt;div&gt;as (1:0..1)&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.0665" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="280" y="331" />
+              <mxPoint x="280" y="555" />
+              <mxPoint x="120" y="555" />
+            </Array>
+            <mxPoint x="300" y="330" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A15" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E17" value="specialises&amp;nbsp;&lt;div&gt;as (1:0..1)&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.0364" y="5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="290" y="555" />
+              <mxPoint x="390" y="555" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A16" edge="1" parent="1" source="LDM-E11" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.628;entryY=-0.021;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E18" value="specialises&amp;nbsp;&lt;div&gt;as (1:0..1)&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.5268" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="584" y="473" />
+            </Array>
+            <mxPoint x="590" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A17" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.697;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E19" value="specialises as (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="304" y="390" />
+              <mxPoint x="770" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A18" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.567;exitY=0.013;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E20" value="has (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="190" />
+              <mxPoint x="928" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A19" edge="1" parent="1" source="LDM-E20" style="endArrow=classic;html=1;rounded=0;fontSize=9;entryX=0.72;entryY=-0.03;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.808;exitY=1.003;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E21" value="contains (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="170" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A20" edge="1" parent="1" source="LDM-E21" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.557;entryY=0.023;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E22" value="is a (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A21" edge="1" parent="1" source="LDM-E21" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E23" value="is a (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A22" edge="1" parent="1" source="LDM-E11" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.654;exitY=1.036;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E23" value="makes (1:*)">
+          <mxGeometry relative="1" x="-0.2789" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="518" y="550" />
+              <mxPoint x="1105" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A23" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.321;entryY=-0.027;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E22" value="receives (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="360" />
+              <mxPoint x="900" y="360" />
+            </Array>
+            <mxPoint x="330" y="330" as="sourcePoint" />
+            <mxPoint x="900" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A24" edge="1" parent="1" source="LDM-E24" style="endArrow=classic;html=1;rounded=0;fontSize=9;" target="LDM-E25" value="is (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A25" edge="1" parent="1" source="LDM-E24" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E26" value="is (1:0..1)">
+          <mxGeometry relative="1" x="-0.4286" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A26" edge="1" parent="1" source="LDM-E25" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E27" value="is (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A27" edge="1" parent="1" source="LDM-E22" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" target="LDM-E25" value="generates (1:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="966" y="400" />
+              <mxPoint x="1290" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A28" edge="1" parent="1" source="LDM-E28" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" value="contains (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1509" y="530" />
+              <mxPoint x="1360" y="530" />
+              <mxPoint x="1360" y="745" />
+            </Array>
+            <mxPoint x="1360" y="745" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A29" edge="1" parent="1" source="LDM-E28" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" target="LDM-E30" value="contains (1:*)">
+          <mxGeometry relative="1" x="0.1566" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1586" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A30" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E28" value="has (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="339" y="350" />
+              <mxPoint x="1548" y="350" />
+            </Array>
+            <mxPoint x="339" y="330" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A31" edge="1" parent="1" source="LDM-E31" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="LDM-E32" value="is a (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1842" y="180" />
+              <mxPoint x="1842" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A32" edge="1" parent="1" source="LDM-E32" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.38;exitY=0.993;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.341;entryY=0.005;entryDx=0;entryDy=0;entryPerimeter=0;" target="LDM-E33" value="evidenced by (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1823" y="410" />
+            </Array>
+            <mxPoint x="1823" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A33" edge="1" parent="1" source="LDM-E32" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0.304;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="LDM-E34" value="evidenced by (1:*)">
+          <mxGeometry relative="1" x="-0.3421" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="2030" y="323" />
+              <mxPoint x="2030" y="410" />
+              <mxPoint x="2031" y="410" />
+            </Array>
+            <mxPoint x="2040" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A34" edge="1" parent="1" source="LDM-E26" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="LDM-E33" value="is a (1:0..1)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A35" edge="1" parent="1" source="LDM-E26" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E34" value="is a (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2070" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A36" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.643;exitY=-0.003;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E35" value="makes (1:*)">
+          <mxGeometry relative="1" x="-0.0336" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="295" y="200" />
+              <mxPoint x="810" y="200" />
+              <mxPoint x="810" y="665" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A37" edge="1" parent="1" source="LDM-E35" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E36" value="is a&amp;nbsp;&lt;div&gt;(1:0..1)&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LDM-A38" edge="1" parent="1" source="LDM-E35" style="endArrow=classic;html=1;rounded=0;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="LDM-E40" value="is a (1:0..1)">
+          <mxGeometry relative="1" x="-0.0741" y="8" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="892" y="695" as="sourcePoint" />
+            <mxPoint x="903" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A39" edge="1" parent="1" source="LDM-E36" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E41" value="is a (1:0..1)">
+          <mxGeometry relative="1" x="-0.7102" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1095" y="880" />
+              <mxPoint x="1030" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A40" edge="1" parent="1" source="LDM-E40" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="is a (1:0..1)">
+          <mxGeometry relative="1" x="-0.7193" y="5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1140" y="845" />
+            </Array>
+            <mxPoint x="1000" y="845.0434782608697" as="sourcePoint" />
+            <mxPoint x="1140" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A41" edge="1" parent="1" source="LDM-E40" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E43" value="is a (1:0..1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A42" edge="1" parent="1" source="LDM-E39" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="LDM-E43" value="governs (1:*)">
+          <mxGeometry relative="1" x="-0.4003" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A43" edge="1" parent="1" source="LDM-E12" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.655;exitY=0.996;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="LDM-E41" value="submits (1:*)">
+          <mxGeometry relative="1" x="-0.0486" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="28" y="750" />
+              <mxPoint x="800" y="750" />
+              <mxPoint x="800" y="1043" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A44" edge="1" parent="1" source="LDM-E12" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E42" value="has (1:*)">
+          <mxGeometry relative="1" x="-0.0497" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-2" y="580" />
+              <mxPoint x="1190" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A45" edge="1" parent="1" source="LDM-E12" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="submits (1:*)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-3" y="740" />
+              <mxPoint x="-3" y="1140" />
+              <mxPoint x="1400" y="1140" />
+              <mxPoint x="1400" y="1111" />
+            </Array>
+            <mxPoint x="-3" y="740" as="sourcePoint" />
+            <mxPoint x="1400" y="1111" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A46" edge="1" parent="1" source="LDM-E12" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.815;exitY=0.986;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E33" value="holds (*:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="59" y="730" />
+              <mxPoint x="1853" y="730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A47" edge="1" parent="1" source="LDM-E12" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.4;exitY=0.985;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E34" value="holds (*:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-22" y="1160" />
+              <mxPoint x="2070" y="1160" />
+            </Array>
+            <mxPoint x="-20" y="720" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A48" edge="1" parent="1" source="LDM-E19" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="LDM-E33" value="holds (*:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="718" y="920" />
+              <mxPoint x="1890" y="920" />
+            </Array>
+            <mxPoint x="720" y="880" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A49" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;" target="LDM-E34" value="holds (*:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="870" />
+              <mxPoint x="760" y="900" />
+              <mxPoint x="2040" y="900" />
+            </Array>
+            <mxPoint x="720" y="870" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-A50" edge="1" parent="1" source="LDM-E42" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=0.533;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;" target="LDM-E19" value="registered with (*:1)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1179" y="1120" />
+              <mxPoint x="687" y="1120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uXwyZYSVkyMSRxgbcNUR-1" edge="1" parent="1" source="LDM-E07" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="260" />
+              <mxPoint x="354" y="260" />
+            </Array>
+            <mxPoint x="354" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uXwyZYSVkyMSRxgbcNUR-2" edge="1" parent="1" source="LDM-E06" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;fontSize=9;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" target="LDM-E11" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="306" />
+              <mxPoint x="390" y="340" />
+              <mxPoint x="495" y="340" />
+            </Array>
+            <mxPoint x="380" y="283" as="sourcePoint" />
+            <mxPoint x="495" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LDM-E11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;verticalAlign=top;" value="&lt;b&gt;Account&lt;/b&gt;&lt;hr style=&quot;margin:2px 0&quot;&gt;&lt;div style=&quot;text-align:left;font-size:9px;padding:2px&quot;&gt;BI: Account ID&lt;br&gt;BK: Party in role ID&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="420" y="427.5" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-8" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="160" width="280" x="1760" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-2" parent="k04SboY_8xgLOiQQaCqn-8" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=#999999;fillColor=#F5F5F5;" value="" vertex="1">
+          <mxGeometry height="160" width="280" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-3" parent="k04SboY_8xgLOiQQaCqn-8" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;fontStyle=1;" value="Arrow captions" vertex="1">
+          <mxGeometry height="22" width="150" x="10" y="7.995555555555711" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-4" parent="k04SboY_8xgLOiQQaCqn-8" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;" value="&lt;div&gt;&lt;b&gt;(1:*)&amp;nbsp; &lt;/b&gt;One-to-many. One source instance relates to many targets e.g. one organisation has many parties.&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;b&gt;(1:0..1)&lt;/b&gt;&amp;nbsp; One-to-zero-or-one. Optional one-to-one e.g. an organisation may or may not be an External organisation.&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;(1:1)&amp;nbsp;&lt;/b&gt; Exactly one-to-one e.g. an invoice always generates exactly one EPR document.&amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;div&gt;&lt;b&gt;(*:1)&amp;nbsp;&lt;/b&gt; Many-to-one (no arrowhead on these) e.g. many producers can hold one PRN.&amp;nbsp;&lt;/div&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="250" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-9" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="160" width="360" x="40" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-13" connectable="0" parent="k04SboY_8xgLOiQQaCqn-9" style="group" value="" vertex="1">
+          <mxGeometry height="80" width="330" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-10" parent="k04SboY_8xgLOiQQaCqn-13" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=#999999;fillColor=#F5F5F5;" value="" vertex="1">
+          <mxGeometry height="80" width="330" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-11" parent="k04SboY_8xgLOiQQaCqn-13" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;fontStyle=1;" value="Descriptors" vertex="1">
+          <mxGeometry height="22" width="168.75" x="11.25" y="7.995555555555711" as="geometry" />
+        </mxCell>
+        <mxCell id="k04SboY_8xgLOiQQaCqn-12" parent="k04SboY_8xgLOiQQaCqn-13" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=10;" value="&lt;div&gt;&lt;b&gt;BI: &lt;/b&gt;business identifier - primary identifier generated within EPR.&lt;/div&gt;&lt;div&gt;&lt;b&gt;BK: &lt;/b&gt;business key - external identifier e.g. Companies House number&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="318.75" x="11.25" y="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
