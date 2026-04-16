@@ -1,0 +1,61 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="Page-1" id="aO8O3zH8df0AkIzokCYm">
+    <mxGraphModel dx="1090" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="28J6DNRKElOCBoW0CCCM-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Azure AD B2C" vertex="1">
+          <mxGeometry height="48" width="110" x="40" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#333333;fontSize=11;arcSize=10;" value="FSS" vertex="1">
+          <mxGeometry height="48" width="110" x="40" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="EPR" vertex="1">
+          <mxGeometry height="48" width="110" x="40" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#B9E0A5;" value="{&lt;div&gt;...&lt;/div&gt;&lt;div&gt;&quot;email&quot;:john.smith@acme.org,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&quot;orgids&quot;:&quot;orgid-1,orgid-2&quot;,&lt;/span&gt;&lt;/div&gt;&lt;div&gt;...&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="170" x="415" y="224" as="geometry" />
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-7" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF2CC;" value="&lt;b&gt;User&amp;nbsp;&lt;/b&gt;&lt;div&gt;&lt;b&gt;browser&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="86" x="314" y="224" as="geometry" />
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-9" edge="1" parent="1" source="28J6DNRKElOCBoW0CCCM-7" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="28J6DNRKElOCBoW0CCCM-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="430" as="sourcePoint" />
+            <mxPoint x="500" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-10" connectable="0" parent="28J6DNRKElOCBoW0CCCM-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Send ID and&amp;nbsp;&lt;div&gt;access tokens&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.4459" as="geometry">
+            <mxPoint x="26" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-11" edge="1" parent="1" source="28J6DNRKElOCBoW0CCCM-7" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="28J6DNRKElOCBoW0CCCM-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="430" as="sourcePoint" />
+            <mxPoint x="500" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-12" connectable="0" parent="28J6DNRKElOCBoW0CCCM-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Send ID and&amp;nbsp;&lt;div&gt;access tokens&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1098" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-13" edge="1" parent="1" source="28J6DNRKElOCBoW0CCCM-7" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="28J6DNRKElOCBoW0CCCM-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="430" as="sourcePoint" />
+            <mxPoint x="500" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-14" connectable="0" parent="28J6DNRKElOCBoW0CCCM-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="User login&lt;div&gt;Return ID and&amp;nbsp;&lt;div&gt;access tokens&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.3441" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28J6DNRKElOCBoW0CCCM-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="&lt;b&gt;Example ID&amp;nbsp;&lt;/b&gt;&lt;div&gt;&lt;b&gt;token snippet&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="455" y="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
