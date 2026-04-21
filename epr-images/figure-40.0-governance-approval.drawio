@@ -1,0 +1,163 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="Page-1" id="qt33RwGmKjNxZ6UT6x_U">
+    <mxGraphModel dx="1090" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WST4eoAio_zvPfz0GHzM-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#FFD966;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Start" vertex="1">
+          <mxGeometry height="48" width="110" x="50" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Add artefact(s) to the Solution Architecture Definition Document (SADD)" vertex="1">
+          <mxGeometry height="60" width="150" x="218" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Review artefact(s)" vertex="1">
+          <mxGeometry height="48" width="150" x="406" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Create initial artefact(s)" vertex="1">
+          <mxGeometry height="48" width="150" x="218" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#FFD966;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="End" vertex="1">
+          <mxGeometry height="48" width="110" x="1010" y="286" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Request SDA and / or&amp;nbsp;&lt;div&gt;peer review&lt;/div&gt;" vertex="1">
+          <mxGeometry height="48" width="150" x="970" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Revise artefact(s)" vertex="1">
+          <mxGeometry height="48" width="150" x="782" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Incorporate review&amp;nbsp;&lt;div&gt;comments&lt;/div&gt;" vertex="1">
+          <mxGeometry height="48" width="150" x="594" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-19" parent="1" style="rhombus;whiteSpace=wrap;html=1;strokeColor=#FFD966;fillColor=#FFF2CC;" value="Endorsed" vertex="1">
+          <mxGeometry height="80" width="80" x="629" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Request peer review" vertex="1">
+          <mxGeometry height="60" width="150" x="406" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1168BD;strokeWidth=2;fontColor=#1D3557;fontSize=11;arcSize=10;" value="Solution Architecture Definition Document (SADD) endorsed" vertex="1">
+          <mxGeometry height="60" width="150" x="782" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-22" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-2" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-8" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-23" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-8" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-7" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-24" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-7" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-18" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-25" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-18" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-17" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-26" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-17" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-16" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-27" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-3" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-20" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-28" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-20" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-19" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-29" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-19" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-21" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-42" connectable="0" parent="WST4eoAio_zvPfz0GHzM-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.2055" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-30" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-21" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WST4eoAio_zvPfz0GHzM-14" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-31" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-14" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.14;entryY=1.021;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;entryPerimeter=0;" target="WST4eoAio_zvPfz0GHzM-8" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="1065" y="260" />
+              <mxPoint x="239" y="260" />
+            </Array>
+            <mxPoint x="590" y="450" as="sourcePoint" />
+            <mxPoint x="640" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-35" connectable="0" parent="WST4eoAio_zvPfz0GHzM-31" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SADD not fit for purpose" vertex="1">
+          <mxGeometry relative="1" x="0.0494" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-36" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-16" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="WST4eoAio_zvPfz0GHzM-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="1045" y="230" />
+              <mxPoint x="293" y="230" />
+            </Array>
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-37" connectable="0" parent="WST4eoAio_zvPfz0GHzM-36" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Artefact(s) endorsed" vertex="1">
+          <mxGeometry relative="1" x="-0.1529" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-38" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-17" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="WST4eoAio_zvPfz0GHzM-7" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="860" y="160" />
+              <mxPoint x="860" y="100" />
+              <mxPoint x="481" y="100" />
+            </Array>
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-41" connectable="0" parent="WST4eoAio_zvPfz0GHzM-38" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Internal review (rejected)" vertex="1">
+          <mxGeometry relative="1" x="0.2231" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-39" edge="1" parent="1" source="WST4eoAio_zvPfz0GHzM-16" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="WST4eoAio_zvPfz0GHzM-18" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="1045" y="130" />
+              <mxPoint x="669" y="130" />
+            </Array>
+            <mxPoint x="640" y="450" as="sourcePoint" />
+            <mxPoint x="690" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WST4eoAio_zvPfz0GHzM-40" connectable="0" parent="WST4eoAio_zvPfz0GHzM-39" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SDA and/or peer&lt;div&gt;review (rejected)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1651" y="-3" as="geometry">
+            <mxPoint x="57" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
