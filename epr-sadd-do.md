@@ -3,9 +3,9 @@
 # Solution architecture definition document (SADD)
 # EPR: RPD and PayCal
  
-**Version: 1.2**  
+**Version: 1.4**  
 **DDTS Delivery Architecture Team**  
-**Date: 09/04/2026**
+**Date: 21/04/2026**
 
 ## Contents
 1. [Introduction](#introduction)  
@@ -148,7 +148,7 @@
 # 1. Introduction
 
 ### Purpose
-The Extended Producer Responsibility (EPR) system, implemented by the UK Department for Environment, Food & Rural Affairs (DEFRA), forms a cornerstone of sustainable waste management. It introduces a technical framework designed to transfer the costs and responsibilities of managing packaging waste across its full lifecycle – from production to disposal – directly to producers. This system aligns with the requirements of the Environment Act 2021 and seeks to streamline waste collection and recycling infrastructure while promoting accountability.
+The Extended Producer Responsibility (EPR) system, implemented by the UK Department for Environment, Food and Rural Affairs (Defra), forms a cornerstone of sustainable waste management. It introduces a technical framework designed to transfer the costs and responsibilities of managing packaging waste across its full lifecycle – from production to disposal – directly to producers. This system aligns with the requirements of the Environment Act 2021 and seeks to streamline waste collection and recycling infrastructure while promoting accountability.
 
 This architecture defines the roles and interactions of the key stakeholders:
 - Producers are the primary participants, making periodic declarations of waste tonnage used.
@@ -173,6 +173,7 @@ Please note that the SADD is a high-level document bringing together everything 
 | 1.1 | 23/03/2026 | Updates to reflect ADRs up to 143 | Dave Oliver (et al) |
 | 1.2 | 30/03/2026 | Updates to reflect ADR-141 (PRN & Waste Balance Immutability — For Review) and ADR-146 (Certificates and Statements of Compliance — In Review) | Dave Oliver |
 | 1.3 | 02/04/2026 | Updates to reflect ADR-136.1, ADR-138, ADR-139, ADR-144, ADR-145 and ADR-147 | Dave Oliver |
+| 1.4 | 21/04/2026 | Updates to diagrams, now recreated as draw.io versions with PNG images for viewing in-document | Dave Oliver |
 
 > **[v1.2 change]** Version 1.2 adds coverage of two ADRs currently under review: ADR-141 governing PRN and waste balance immutability in the RE/EX service, and ADR-146 introducing Certificates and Statements of Compliance (CSoC) as a new business function. Neither ADR has a formal signed-off decision at the time of writing — sections updated below are marked accordingly.
 
@@ -201,8 +202,8 @@ The rationale for change stems from:
 - The ambition to improve data quality, transparency and accountability across the packaging lifecycle.
 
 The programme developed into two core product-aligned workstreams:
-- **Report Packaging Data (RPD)** – The producer-facing digital service and APIs used to register producers, capture and validate POM data and provide Regulators with accurate reporting.
-- **PayCal** – The digital service used by the Scheme Administrators to calculate disposal fees for liable Producers based on POM (placed-on-market) data, LAPCAP (Local Authority Packaging Capacity)-derived local authority cost data and modulated fee parameters.
+- **Report Packaging Data (RPD)** – The producer-facing digital service and APIs used to register producers, capture and validate POM (placed-on-market) data and provide regulators with accurate reporting.
+- **PayCal** – The digital service used by the scheme administrator to calculate disposal fees for liable producers based on POM data, LAPCAP (Local Authority Packaging Cost and Performance)-derived local authority cost data and modulated fee parameters.
 
 Together, RPD and PayCal provide the core digital capability to:
 - Capture and maintain high-quality producer registration and POM data.
@@ -251,10 +252,10 @@ RPD and PayCal are comprised of a range of services and components supported by 
 | Local authorities | Manage household waste collection and submit data. | Collect packaging waste, report collection data, receive payments. | Improve local recycling rates, ensure accurate data for funding allocation. |
 | Regulators (EA, SEPA, NRW, NIEA) | Oversee registration, compliance, enforcement and public registers. | Monitor compliance, enforce regulations, maintain public registers. | Ensure legal compliance, maintain transparency and accountability. |
 | Scheme administrator (PackUK) | Manage financial flows, data validation, and operational oversight. | Validate data, manage payments, oversee scheme operations. | Ensure financial integrity, operational efficiency and data accuracy. |
-| FSS | Manage the issuing and payment of producer invoices. | Send invoices, cancel invoices, support payment queries and maintain ledger. | Ensure bills are paid. |
-| LAPCAP | Determine local authority household waste management cost. | Collate local authority household waste processing cost by material and country and provide to PayCal. | Provide accurate data. |
+| FSS <br>(Financial Services Supplier) | Manage the issuing and payment of producer invoices. | Send invoices, cancel invoices, support payment queries and maintain ledger. | Ensure bills are paid. |
+| LAPCAP<br>(Local Authority Packaging Cost and Performance) | Determine local authority household waste management cost. | Collate local authority household waste processing cost by material and country and provide to PayCal. | Provide accurate data. |
 | Defra digital delivery teams | Design, build and maintain the digital infrastructure and services. | Dvelop and maintain digital services, ensure system scalability and security. | Deliver robust digital infrastructure to support EPR operations. |
-| CCOE operations | Platform governance and compliance. | Enforce platform standards, monitor compliance, support governance. | Maintain platform integrity, ensure compliance with architectural and operational standards. |
+| CCoE operations<br>(Cloud Centre of Excellence) | Platform governance and compliance. | Enforce platform standards, monitor compliance, support governance. | Maintain platform integrity, ensure compliance with architectural and operational standards. |
 | Platform/DevOps | Infrastructure as code, pipelines. | Automate deployments, manage environments, ensure CI/CD practices. | Enable efficient, reliable and scalable infrastructure delivery. |
 | Service team | Day-to-day operation, support, and maintenance of EPR services. | Monitor services, resolve incidents, manage service performance. | Ensure high availability, reliability, and user satisfaction of EPR digital services. |
 
@@ -272,20 +273,23 @@ The Extended Producer Responsibility (EPR) system introduces a set of interdepen
 | Local authority payments | Local authorities submit data and receive payments. | Quarterly | Scheme admin interface |
 | Regulatory oversight | Regulators review submissions, manage public registers and enforce compliance. | Continuous | Regulator dashboard, public register |
 | Reporting and analytics | Dashboards and reports support transparency and policy evaluation. | Monthly / Ad hoc | Power BI, Azure Monitor |
-| CSoC submission *(pending ADR-146)* | Direct-registrant large producers and compliance schemes submit a Certificate of Compliance (producers) or Statement of Compliance (schemes) confirming whether they have met their recycling obligations for the preceding compliance year. Regulators review and accept, reject or cancel submissions. Accepted submissions are published to the public register. | Annually by 31 January | New CDP Obligations FE, new CDP Regulator FE, new CDP CSoC API (pending ADR-146 decision) |
+| CSoC submission *(pending ADR-146)* | Large producers and compliance schemes that register directly submit a Certificate of Compliance (producers) or Statement of Compliance (schemes) confirming whether they have met their recycling obligations for the previous compliance year. Regulators review and accept, reject or cancel submissions. Accepted submissions are published to the public register. | Annually by 31 January | New CDP obligations FE, new CDP regulator FE, new CDP CSoC API (pending ADR-146 decision) |
 
 > **[v1.2 change — ADR-146]** CSoC row added. This is a new business process not previously covered in the SADD. ADR-146 is currently In Review; the recommended option is to build all components on CDP. No formal decision has been signed off at the time of writing.
 | Obligation calculation | PayCal calculates disposal cost fees per producer per material including adjustments and generates result file for review. | Half-yearly for large producers and annually for small producers. | PayCal application associated with RPD. |
 | Review, classification and approval | Scheme administrator reviews result file, runs QA checks and classifies the run. Approved runs are signed off and billing file is produced for downstream system. | Half-yearly for large producers and annually for small producers. | PayCal application associated with RPD. |
 | Invoicing and NoL generation | FSS receives billing and payment files from PayCal, generates invoices and Notice of Liabilities while producers access invoice details via appropriate service and payment management is handled by FSS (details are out of scope for this SADD). | Half-yearly for large producers and annually for small producers. | FSS system is software as a service (SaaS) from ServiceNow. |
 
-
+### Overview of end-to-end RPD flow
 ![Figure 1.0 (E2E RPD flow)](./epr-sadd-images/01/figure-1.0-e2e-rpd-flow.png)
+
 Figure 1.0 E2E RPD flow - business process - [original illo file](./illos)
 
 <br>
 
-![Figure 2.0 (Calculator Journey)](./epr-sadd-images/01/figure-2.0-calculator-journey.png)
+### Overview of payment calculator (PayCal) process
+![Figure 2.0 (Calculator Journey)](./epr-sadd-images/01/figure-2.0-paycal-journey.png)
+
 Figure 2.0 PayCal - payment calculator process - [original illo file](./illos)
 
 <br>
@@ -360,7 +364,7 @@ The business rules are aligned with:
 
 # 3. Solution landscape
 ## 3.1 Solution landscape – overview
-<!-- *Rich picture “helicopter view” of the system within the wider domain landscape. E.g. in the “international trade” domain there are some 15+ systems some of which are DEFRA, some not. Some affected directly by this system, some not. It is simply the systems landscape of the functional domain in question. In ArchiMate an application cooperation view is applicable but with a wider scope than the later system context diagram.* -->
+<!-- *Rich picture “helicopter view” of the system within the wider domain landscape. E.g. in the “international trade” domain there are some 15+ systems some of which are Defra, some not. Some affected directly by this system, some not. It is simply the systems landscape of the functional domain in question. In ArchiMate an application cooperation view is applicable but with a wider scope than the later system context diagram.* -->
 
 The RPD and PayCal system is a connected set of digital tools that help companies report their packaging data and work out the fees they need to pay. It links producers’ own systems with central government systems so reporting is easier and more accurate, with APIs that allow information to move smoothly between producers, compliance schemes and regulators. Dashboards and analysis tools give clear insights to help improve performance and increase transparency. 
 
@@ -370,25 +374,26 @@ Altogether, this set-up ensures efficient implementation of EPR/RPD regulations 
 
 Figure 3.0 Application cooperation view - [original illo file](./illos)
 
+<br>
 
 The main components are:
 
-#### 1. RPD front end
-The RPD front end is the user interface for the Report Packaging Data (RPD) service. It allows producers and compliance schemes to:
+#### 1. RPD frontend
+The RPD frontend is the user interface for the Report Packaging Data (RPD) service. It allows producers and compliance schemes to:
 - Register and submit packaging data.
 - View calculated recycling obligations.
 - Track compliance with Extended Producer Responsibility (EPR) regulations.
-- Access PRNs (Packaging waste Recycling Notes) and PERNs (Packaging waste Export Recycling Notes) for evidence of recycling.
+- Access PRNs (Packaging waste Recycling Notes) and PERNs (Packaging waste Export Recycling  Notes) for evidence of recycling.
 
-#### 2. Regulator front end
+#### 2. Regulator frontend
 This interface is used by environmental regulators (Environment Agency, SEPA, NRW, NIEA) to:
 - Monitor producer compliance.
 - Review submitted data and evidence.
 - Manage accreditations for reprocessors and exporters.
 - Enforce regulations under the producer responsibility obligations.
 
-#### 3. PRN front end – live, PRN obligations to go live in release 13
-The PRN (Packaging waste Recycling Note) front end is used by:
+#### 3. PRN frontend – live, PRN obligations to go live in release 13
+The PRN (Packaging waste Recycling  Note) frontend is used by:
 - Accredited reprocessors and exporters to issue PRNs and PERNs from RE/EX that is outside RPD.
 - Producers and compliance schemes to acquire and manage these notes as proof of recycling.
 - Regulators to track the flow and validity of issued notes.
@@ -406,7 +411,10 @@ NPWD still holds all PRNs and PERNs issued up to 31 January 2026 (the 2025 compl
 Key architectural features of RE/EX:
 - **Organisation API:** A CDP-hosted REST API that returns producer and compliance-scheme organisation data (Example: `GET /organisations?registrations=LARGE-PRODUCER,COMPLIANCE-SCHEME`). It's secured via CDP API Gateway using AWS Cognito with client-credentials authentication.
 - **PRN/PERN API:** RE/EX provides APIs for querying newly-issued PRNs/PERNs and for receiving accept/reject status updates from RPD.
-- **Three new Azure functions** (timer-triggered, based on existing NPWD function patterns): (1) Organisation sync: RPD → RE/EX; (2) PRN/PERN retrieval: RE/EX → RPD PRN database; (3) Accept/reject status updates: RPD PRN database → RE/EX.
+- **Three new Azure functions** (timer-triggered, based on existing NPWD function patterns):
+  - (1) Organisation sync: RPD → RE/EX.
+  - (2) PRN/PERN retrieval: RE/EX → RPD PRN database.
+  - (3) Accept/reject status updates: RPD PRN database → RE/EX.
 
 #### 5a. NPWD (national packaging waste database – outside RPD and PayCal) - legacy
 - Registered producers and compliance schemes.
@@ -414,7 +422,7 @@ Key architectural features of RE/EX:
 - Issued and tracked PRNs and PERNs.
 - Managed accreditations for reprocessors and exporters.
 
-#### 6. FSS (financial services supplier – outside RPD and PayCal) – to go live in a future release
+#### 6. FSS (Financial Services Supplier – outside RPD and PayCal) – to go live in a future release
 - Handles financial transactions related to PRNs, PERNs, and registration fees.
 - Supports reconciliation and auditing of payments.
 - Ensures accurate settlement between producers, schemes, and regulators.
@@ -426,11 +434,11 @@ Additional information:
  
  
 #### Data flow and interaction
-- Producers register and submit packaging data via the RPD front end.
+- Producers register and submit packaging data via the RPD frontend.
 - Data is validated and stored in the central Azure-hosted system.
-- Regulators access this data through their dedicated front end to monitor compliance.
-- PRNs/PERNs are fetched by RE/EX API and accepted/rejected by direct registrants (producers) and compliance schemes through the PRN front end.
-- Notifications and reports are sent via Gov.Notify email.
+- Regulators access this data through their dedicated frontend to monitor compliance.
+- PRNs/PERNs are fetched by RE/EX API and accepted/rejected by direct registrants (producers) and compliance schemes through the PRN frontend.
+- Notifications and reports are sent via GOV.UK Notify email.
 - Power BI dashboards provide insights for regulators.
 - External services like Companies House are used to verify identities and legal status.
 
@@ -444,6 +452,7 @@ This diagram shows RPD and PayCal from an application viewpoint, with the underl
 <br>
 
 ![Figure 4.0 RPD and PayCal applications](./epr-sadd-images/01/figure-4.0-rpd-and-paycal-applications.png)
+
 Figure 4.0 RPD and PayCal applications - [original illo file](./illos)
 
 <br>
@@ -454,8 +463,8 @@ The diagram shows how producers, regulators, compliance schemes and the scheme a
 
 **Producer**
 - **Check obligation:** Anonymously. If obligated, then:
-- **Enroll organisation:** Initiates registration via the RPD front end.
-- **Upload submission data:** Periodically submits registration and packaging data through the RPD front end, which also connects to the regulator front end.
+- **Enroll organisation:** Initiates registration via the RPD frontend.
+- **Upload submission data:** Periodically submits registration and packaging data through the RPD frontend, which also connects to the regulator frontend.
 - **Compliance scheme:** Producer works with a specialist third party that aggregates obligations.
 - **Regulator:** Verifies submitted data and interacts for compliance and fee payment.
 
@@ -463,16 +472,16 @@ The diagram shows how producers, regulators, compliance schemes and the scheme a
 - Works with both the producer and FSS. Accepts or rejects PRNs/PERNs on the producer's behalf.
 
 **Regulator**
-- **Approve/reject submission:** Reviews data via the regulator front end and visualises outcomes as data via Power BI.
-- **Pay fee:** Manages payments by producer through the payment front end.
+- **Approve/reject submission:** Reviews data via the regulator frontend and visualises outcomes as data via Power BI.
+- **Pay fee:** Manages payments by producer through the payment frontend.
 - **Upload submission data:** Receives data submitted by producer.
 
 **Front-end systems**
-- **RPD front end:** Used by producers to enrol and submit data.
-- **Regulator front end:** Used by regulators to review and manage submissions.
+- **RPD frontend:** Used by producers to enrol and submit data.
+- **Regulator frontend:** Used by regulators to review and manage submissions.
 - **Power BI:** Used for data visualisation (e.g. graphs) and decision support.
-- **Payment front end:** Handles fee transactions.
-- **PRN front end:** Lets producers and compliance schemes accept or reject PRNs that have been sent from RE/EX (outside RPD) where they were created.
+- **Payment frontend:** Handles fee transactions.
+- **PRN frontend:** Lets producers and compliance schemes accept or reject PRNs that have been sent from RE/EX (outside RPD) where they were created.
 
 ## 3.3 Solution landscape – information system to technology
 <!-- *Rich picture/diagram, narrated, that illustrates the technology services used and how they support the information system view. In ArchiMate is the technology usage viewpoint.* -->
@@ -481,20 +490,20 @@ This diagram shows RPD and PayCal from a technology viewpoint, with the applicat
 
 <br>
 
-![Figure 4.1 RPD and PayCal technology](./epr-sadd-images/01/figure-4.1-rpd-and-paycal-technology.png)
+![Figure 4.1 RPD and PayCal technology](./epr-sadd-images/01/figure-4.1-rpd-and-paycal-applications.png)
 Figure 4.1 RPD and PayCal technology - [original illo file](./illos)
 
 <br>
 
 The information system (blue boxes in the diagram) is supported by the technology (green boxes), like this:
 
-- RPD front end for producers and compliance schemes is supported by the **Accounts database** during enrolment.
+- RPD frontend for producers and compliance schemes is supported by the **Accounts database** during enrolment.
 - The **Anti-virus** service verifies submissions that, if successful, then go on to the **Blob Storage**. Metadata in those submission files changes their status from uploaded, to submitted, to approved/rejected etc and is also recorded on the **Cosmos NoSQL** database.
-- Fee payables and payments are captured in the **Fee Payments** database.
-- Finally, the RPD front end gives the window to direct registrant producers and compliance schemes to receive and accept or reject PRNs/PERNs via the **PRN database**. 
+- Fee payables and payments are captured in the **Fee payments** database.
+- Finally, the RPD frontend gives the window to direct registrant producers and compliance schemes to receive and accept or reject PRNs/PERNs via the **PRN database**. 
 
-- **Regulator front end** is also supported by the **Accounts database**, where regulators approve or reject a producer enrolment. Again, it is supported by **Cosmos NoSQL** database for status updates made on submissions of producers. Finally, the **Synapse data warehouse** approves or rejects producer submissions.
-- **Reporting front end** is again supported by **Synapse** for data analytics purposes.
+- **Regulator frontend** is also supported by the **Accounts database**, where regulators approve or reject a producer enrolment. Again, it is supported by **Cosmos NoSQL** database for status updates made on submissions of producers. Finally, the **Synapse data warehouse** approves or rejects producer submissions.
+- **Reporting frontend** is again supported by **Synapse** for data analytics purposes.
 - **PayCal** is supported by its own database technology service.
 
 <br>
@@ -505,17 +514,17 @@ The information system (blue boxes in the diagram) is supported by the technolog
 <!-- *Should also identify key requirements for IT process changes (e.g. service/support impacts), to allow service design/transition planning.* -->
 
 These are changes that affect supporting IT services and processes rather than the core system. They include:
-- Service desk operations and escalation paths
-- Environment provisioning and migration
-- Data platform integration with third-party services
-- Release management and sprint planning
-- Stakeholder communication and governance
+- Service desk operations and escalation paths.
+- Environment provisioning and migration.
+- Data platform integration with third-party services.
+- Release management and sprint planning.
+- Stakeholder communication and governance.
 
 ### Key requirements for IT process changes
 
 #### 4.1.1. Environment readiness and migration
 EPR environment readiness includes:
-- A tracker for each dev environment (e.g. PRN, PayPal) with a goal of achieving “dark green” status, indicating full service readiness.
+- A tracker for each dev environment (e.g. PRN, PayCal) with a goal of achieving “dark green” status, indicating full service readiness.
 - A standardised environment migration tracker reviewed every two sprints.
 - Non-functional testing (e.g. accessibility) and automated regression testing to ensure stability.
 
@@ -596,7 +605,8 @@ This section lists the technology and platform changes — covering platform-as-
 <br>
 
 ![Figure 5.0 System context](./epr-sadd-images/01/figure-5.0-system-context.png)
-Figure 5.0 System context
+
+Figure 5.0 System context - [original illo file](./illos)
 
 <br>
 
@@ -612,7 +622,7 @@ People access RPD through the EPR web front-end:
 - **Regulators** review, approve, or reject producer and CS submissions, and view data reports.
 - **Defra Core users** access England-specific RPD data for policy purposes.
 - **The general public** can download the public list of producers via the web front-end.
-- **Scheme Administrators (PackUK) and Financial Service Supplier (FSS) staff** are authenticated
+- **Scheme administrator (PackUK) and Financial Service Supplier (FSS) staff** are authenticated
   through the web front-end and then directed to the FSS application. Producers are similarly
   redirected to FSS to pay fees against their invoices.
 
@@ -675,11 +685,11 @@ The internal structure of the pEPR application is straightforward. It provides a
 <br>
 
 ![Figure 6.0 Internal structure PEPR](./epr-sadd-images/01/figure-6.0-internal-structure-pepr.png)
-Figure 6.0 Internal structure PEPR
+
+Figure 6.0 Internal structure pEPR - [original illo file](./illos)
 
 <br>
 
-Payments
 
 ## 5.4 Application architecture – internal behavioural view
 <!-- Illustrates the different triggers for system activity and any chaining/fundamental logic that is required (e.g. if a user creates an account, this triggers x and y, then if successful z). Ideally is a view for each use case variant/scenario/event type – of the journey a request takes through the components of the system, and allows an understanding of how a systems components co-operate to deliver a service, process a request etc. C4 Model L4 diagram or UML sequence may be appropriate for this (or potential BPMN using system service tasks as this conveys timing and events also). -->
@@ -691,7 +701,7 @@ This diagram shows a high-level view of the EPR system together with the associa
 
 ![Figure 7.0 Context diagram](./epr-sadd-images/01/figure-7.0-context-diagram.png)
 
-Figure 7.0 Context diagram
+Figure 7.0 Context diagram - [original illo file](./illos)
 
 <br>
 
@@ -701,7 +711,7 @@ Figure 7.0 Context diagram
 <br>
 
 ![Figure 8.0 Container diagram](./epr-sadd-images/01/figure-8.0-container-diagram.png)
-Figure 8.0 Container diagram
+Figure 8.0 Container diagram - [original illo file](./illos)
 
 <br>
 
@@ -712,7 +722,8 @@ Two Synapse pipelines retrieve POM and organisation data from the Synapse analyt
 <br>
 
 ![Figure 9.0 Synapse pipelines](./epr-sadd-images/01/figure-9.0-synapse-pipelines.png)
-Figure 9.0 Synapse pipelines
+
+Figure 9.0 Synapse pipelines - [original illo file](./illos)
 
 <br>
 
@@ -727,7 +738,7 @@ The two main functional areas in RPD are account management and registration/POM
 <br>
 
 ![Figure 10.0 RPD Azure deployment](./epr-sadd-images/01/figure-10.0-rpd-azure-deployment.png)
-Figure 10.0 RPD Azure deployment
+Figure 10.0 RPD Azure deployment - [original illo file](./illos)
 
 <br>
 
@@ -738,7 +749,8 @@ User authentication and authorisation approach is summarised in [ADR-039: Authen
 <br>
 
 ![Figure 11.0 RPD user authentication](./epr-sadd-images/01/figure-11.0-rpd-user-authentication.png)
-Figure 11.0 RPD user authentication
+
+Figure 11.0 RPD user authentication - [original illo file](./illos)
 
 <br>
 
@@ -747,7 +759,8 @@ Figure 11.0 RPD user authentication
 <br>
 
 ![Figure 12.0 File upload detail](./epr-sadd-images/01/figure-12.0-file-upload-detail.png)
-Figure 12.0 File upload detail
+
+Figure 12.0 File upload detail - [original illo file](./illos)
 
 <br>
 
@@ -767,7 +780,7 @@ Figure 12.0 File upload detail
 ## 5.7 Application architecture – cloud native design approach
 <!-- Identifies the elements of the overall solution design, and the implementation of individual subcomponents, or the patterns of cooperation with other components of the System, which align to “cloud first” reliability principles in how they handle errors gracefully, scale predictably etc. (see also Software Architecture exception handling patterns). -->
 
-All RPD and PayCal components are hosted in the UK South region of the DEFRA Azure estate. Web apps and APIs are deployed across at least two availability zones. All data services are geo-resilient, with UK South as the primary region and UK West as the secondary. Infrastructure is provisioned using CCoE standard templates via Azure DevOps pipelines. The result is a solution that can survive the loss of one availability zone, with container-based services able to scale horizontally as needed.
+All RPD and PayCal components are hosted in the UK South region of the Defra Azure estate. Web apps and APIs are deployed across at least two availability zones. All data services are geo-resilient, with UK South as the primary region and UK West as the secondary. Infrastructure is provisioned using CCoE standard templates via Azure DevOps pipelines. The result is a solution that can survive the loss of one availability zone, with container-based services able to scale horizontally as needed.
 
 The diagrams in sections 5.4 and 5.5 show how the Microsoft Azure cloud is used at the function and component level.
 
@@ -794,7 +807,8 @@ This is illustrated by the below system context data diagram (SCDD):
 <br>
 
 ![Figure 13.0 System context data](./epr-sadd-images/01/figure-13.0-system-context-data.png)
-Figure 13.0 System context data
+
+Figure 13.0 System context data - [original illo file](./illos)
 
 <br>
 
@@ -841,7 +855,7 @@ As in Section 9.2.3 further down this document
 - **Azure Synapse Analytics:** Used for large-scale reporting and data analysis. Feeds Power BI dashboards and acts as the repository for enrolment, registration and packaging data.
 
 ### Integration
-Data flows from the front end into the data warehouse, then out to reports and downstream systems:
+Data flows from the frontend into the data warehouse, then out to reports and downstream systems:
 - Front-end data is loaded into Azure Synapse using Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse.
 - Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
 - Tables are first copied into the bronze layer of the Medallion architecture, prefixed with `app` (short for the originating front-end application).
@@ -852,7 +866,7 @@ Data flows from the front end into the data warehouse, then out to reports and d
   - FSS for billing data via PayCal.
   - Power BI for regulator reports.
   - External services via APIs, including Companies House, postcode validation and GOV.UK Pay.
-  - The Common Data API for the RPD front ends.
+  - The Common Data API for the RPD frontends.
 - Data-sharing agreements with other departments are captured in the business context data diagram (BCDD) in the data models section.
 
 ### Data architecture concepts
@@ -896,7 +910,8 @@ The business context data diagram (BCDD) shows the organisations involved in EPR
 <br>
 
 ![Figure 14.0 Group differences](./epr-sadd-images/01/figure-14.0-group-differences.png)
-Figure 14.0 Group differences
+
+Figure 14.0 Group differences - [original illo file](./illos)
 
 <br>
 
@@ -908,7 +923,8 @@ This diagram shows the EPR application components, data components and the infor
 <br>
 
 ![Figure 13.0 System context data](./epr-sadd-images/01/figure-13.0-system-context-data.png)
-Figure 13.0 System context data
+
+Figure 13.0 System context data - [original illo file](./illos)
 
 <br>
 
@@ -920,7 +936,7 @@ The conceptual data model (CDM) shows the key data entities and the relationship
 <br>
 
 ![Figure 15.0 Conceptual data model](./epr-sadd-images/01/figure-15.0-conceptual-data-model.png)
-Figure 15.0 Conceptual data model
+Figure 15.0 Conceptual data model - [original illo file](./illos)
 
 <br>
 
@@ -930,7 +946,7 @@ The logical data model (LDM) bridges the conceptual and physical models. It is i
 <br>
 
 ![Figure 16.0 Logical data model](./epr-sadd-images/01/figure-16.0-logical-data-model.png)
-Figure 16.0 Logical data model
+Figure 16.0 Logical data model - [original illo file](./illos)
 
 <br>
 
@@ -940,12 +956,13 @@ We have identified in the context of the logical data model (LDM) the PII entiti
 Please note that this list done by a data architect is not as definitive as one done by a Defra data steward.
 
 ### Subject area model
-The subject area model groups data entities into areas of related activity for each organisation (e.g. Defra Core, Rural Payments Agency, Environment Agency). Each group has a manageable scope that can be worked on independently but in a coordinated way. Like the CDM, the subject areas cover Packaging Waste, Party & Identity and Finance.
+The subject area model groups data entities into areas of related activity for each organisation (e.g. Defra Core, Rural Payments Agency, Environment Agency). Each group has a manageable scope that can be worked on independently but in a coordinated way. Like the CDM, the subject areas cover Packaging Waste, Party and Identity and Finance.
 
 <br>
 
 ![Figure 17.0 Subject area model](./epr-sadd-images/01/figure-17.0-subject-area-model.png)
-Figure 17.0 Subject area model
+
+Figure 17.0 Subject area model - [original illo file](./illos)
 
 <br>
 
@@ -973,16 +990,16 @@ The table below lists all entities in the EPR conceptual data model (CDM) and sh
 | Document | | | X | X | X |
 | Email | | | X | X | X |
 | EPR Document | | | X | X | X |
-| EPR Enrolment Application | X | | X | X | X |
+| EPR enrolment application | X | | X | X | X |
 | EPR Financial Services Supplier | | X | | X | X |
 | EPR Report | | | X | X | X |
-| External Organisation | | X | | X | X |
+| External organisation | | X | | X | X |
 | Finance | X | | X | X | X |
-| Financial Transaction | X | | X | X | X |
+| Financial transaction | X | | X | X | X |
 | Invoice | X | | X | X | X |
 | Local Authority | | X | | X | X |
 | Message | | | X | X | X |
-| Obligated Packaging Producer | | X | | X | X |
+| Obligated packaging producer | | X | | X | X |
 | Organisation | | X | | X | X |
 | Packaging Export Recycling Note | | | X | X | X |
 | Packaging Recycling Note | | | X | X | X |
@@ -994,19 +1011,19 @@ The table below lists all entities in the EPR conceptual data model (CDM) and sh
 | Payment | X | | X | X | X |
 | Person | | | X | X | X |
 | Physical Address | | | X | X | X |
-| Placed on the Market Submission | | | X | X | X |
-| Postal Address | | | X | X | X |
+| Placed-on-market (POM) submission | | | X | X | X |
+| Postal address | | | X | X | X |
 | Regulator | | X | | X | X |
 | Request | | | X | X | X |
-| Scheme Administrator | | X | | X | X |
+| Scheme administrator | | X | | X | X |
 | Service | | | X | X | X |
 | Submission | X | | X | X | X |
 | Territory | | X | | X | X |
 | User | | | | X | X |
 | Waste | X | | | X | X |
-| Waste Business Registration | X | | X | X | X |
-| Waste Exporter | | X | | X | X |
-| Waste Reprocessor | | X | | X | X |
+| Waste business registration | X | | X | X | X |
+| Waste exporter | | X | | X | X |
+| Waste reprocessor | | X | | X | X |
 
 ## 6.5 Data architecture – data dependency referential integrity view
 <!-- A sub-form of data dictionary that identifies “binding” data attributes that form intersystem keys (eg a transaction id, or a customer reference, or a classification code) and attributes that are key to creating facts and dimensional views that would be required by any MI/analytics capabilities, as well as maintaining cross system data integrity. -->
@@ -1067,7 +1084,7 @@ Enrolment data is held in the Accounts database. Registration and packaging file
 Enrolment data includes organisation details, compliance scheme relationships and authorised user details. This is stored in the Accounts database. Registration submissions update organisation data (company name, trading name, address and company officer details); legally, registration supersedes enrolment. Producers submit this as `organisation_details_table.csv`, stored in Azure Blob Storage. Packaging data is also submitted as CSV files stored in Azure Blob Storage — the most recent submission for a period replaces earlier ones. Submission event data and metadata are stored in the Cosmos NoSQL database.
 
 ### Integration
-Data flows from the front end into the data warehouse and then out to reports and downstream systems. Front-end data is loaded into Azure Synapse via Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse. Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
+Data flows from the frontend into the data warehouse and then out to reports and downstream systems. Front-end data is loaded into Azure Synapse via Apache PySpark (an Azure Data Factory implementation). Accounts database tables keep the same names in Synapse. Registration data is referred to as Company Details; packaging data is referred to as POM (placed on market).
 
 - Tables are first copied into the bronze layer of the Medallion architecture, prefixed with `app`.
 - They are then copied into the silver layer, prefixed with `rpd`.
@@ -1083,7 +1100,8 @@ Full details of each integration are in the Integration architecture section. AD
 <br>
 
 ![Figure 18.0 Data flows and integrations](./epr-sadd-images/01/figure-18.0-data-flows-and-integrations.png)
-Figure 18.0 Data flows and integrations
+
+Figure 18.0 Data flows and integrations - [original illo file](./illos)
 
 <br>
 
@@ -1103,7 +1121,7 @@ When PayCal is triggered to run, it pulls the latest producer master data and cu
 
 A separate daily after-hours run sends a delta (changes only, not the full dataset) of organisation details from Synapse via PayCal to FSS. This keeps contact centre staff up to date with producer details when handling account queries.
 
-There is also a need to keep parent-subsidiary relationships in sync across systems. When a subsidiary is sold from one parent to another mid-year, the change is immediately recorded in the Accounts database via the Organisation Relationships table. However, the Producer master in the `rpd.CompanyDetails` table can only be updated manually, within a few weeks of the transaction — regulation requires both parent organisations to submit revised registration files. If they do not do so promptly, the update does not happen until their half-yearly return. This creates a small data quality (DQ) risk: downstream systems that transfer obligations or calculate liability — such as PRN obligation (based on POM files) or PayCal invoices (based on registration files) — may be working from an out-of-date parent-subsidiary relationship.
+There is also a need to keep parent-subsidiary relationships in sync across systems. When a subsidiary is sold from one parent to another mid-year, the change is immediately recorded in the Accounts database via the Organisation Relationships table. However, the producer master in the `rpd.CompanyDetails` table can only be updated manually, within a few weeks of the transaction — regulation requires both parent organisations to submit revised registration files. If they do not do so promptly, the update does not happen until their half-yearly return. This creates a small data quality (DQ) risk: downstream systems that transfer obligations or calculate liability — such as PRN obligation (based on POM files) or PayCal invoices (based on registration files) — may be working from an out-of-date parent-subsidiary relationship.
 
 ## 6.9 Data architecture – data resilience and recovery
 <!-- Explains how data is protected from loss whether by system failure or otherwise, and how data can be restored (and with what impacts) in the event of actual data loss. -->
@@ -1189,7 +1207,8 @@ The data platform ADRs identified the Medallion pattern as the basis for data pr
 <br>
 
 ![Figure 19.0 Medallion pattern](./epr-sadd-images/01/figure-19.0-medallion-pattern.png)
-Figure 19.0 Medallion pattern
+
+Figure 19.0 Medallion pattern - [original illo file](./illos)
 
 <br>
 
@@ -1225,11 +1244,11 @@ The silver layer holds conformed, cleansed data sourced from the bronze layer. D
 - *ETL processes use T-SQL rather than Spark SQL pool.*
 
 ### Gold layer — business-aggregated data
-The gold layer contains the most refined data, enriched and aggregated from the silver layer for direct use in business analytics, ad-hoc reporting and dashboards. Data is processed using T-SQL and nested views. Final curated data is stored in `dbo.t_*` tables (used primarily by Power BI) and the `apps` schema (used by the regulatory front end and other consumers).
+The gold layer contains the most refined data, enriched and aggregated from the silver layer for direct use in business analytics, ad-hoc reporting and dashboards. Data is processed using T-SQL and nested views. Final curated data is stored in `dbo.t_*` tables (used primarily by Power BI) and the `apps` schema (used by the regulatory frontend and other consumers).
 
 ***Gaps in current architecture:***
 - `dbo.t_*` *tables are fully refreshed every hour, which is resource-intensive and costly.*
-- *Cache tables have been introduced as an interim measure to reduce front-end load. The longer-term solution should include properly pre-curated silver layer tables with CDC enabled and an event-based or streaming platform to support real-time use cases such as the regulatory front end.*
+- *Cache tables have been introduced as an interim measure to reduce front-end load. The longer-term solution should include properly pre-curated silver layer tables with CDC enabled and an event-based or streaming platform to support real-time use cases such as the regulatory frontend.*
 
 > **[v1.3 change — ADR-145 For Review]** ADR-145 (Analytics Strategic Direction) has identified significant architectural anti-patterns in the current Synapse-based analytics pipeline that impair reliability, cost-efficiency and maintainability. Key issues include: front-end services reaching into an eventually-consistent analytics pipeline at query time; nested SQL views up to 9 layers deep; daily full-history processing (no CDC); Dedicated SQL Pool stored procedures several thousand rows long; no dimensional model in the gold layer; and insufficient monitoring and alerting. The assessment concluded that fixing the existing pipeline in place (estimated at multiple sprints per major issue) would be less cost-effective than rebuilding alongside the existing solution. The proposed direction is a new analytics pipeline retaining the Azure platform. ADR-145 is **For Review** — no formal decision has been signed off at the time of writing. See [ADR-145](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6458802247) on Confluence.
 
@@ -1262,7 +1281,8 @@ To ensure data flows accurately between RE/EX and RPD, the integration must meet
 <br>
 
 ![Figure 20.0 Component diagram](./epr-sadd-images/01/figure-20.0-component-diagram.png)
-Figure 20.0 Component diagram
+
+Figure 20.0 Component diagram - [original illo file](./illos)
 
 <br>
 
@@ -1295,7 +1315,7 @@ A Defra scheme administrator (SA) triggers the calculator run. PayCal executes u
 <br>
 
 ![Figure 21.0 High-level overview](./epr-sadd-images/01/figure-21.0-high-level-overview.png)
-Figure 21.0 High-level overview
+Figure 21.0 High-level overview - [original illo file](./illos)
 
 <br>
 
@@ -1304,7 +1324,8 @@ Figure 21.0 High-level overview
 <br>
 
 ![Figure 22.0 Component diagram](./epr-sadd-images/01/figure-22.0-component-diagram.png)
-Figure 22.0 Component diagram
+
+Figure 22.0 Component diagram - [original illo file](./illos)
 
 <br>
 
@@ -1324,7 +1345,8 @@ Azure B2C SSO acts as the central authentication layer across RPD, FSS and the r
 <br>
 
 ![Figure 23.0 Component diagram - RPD users](./epr-sadd-images/01/figure-23.0-component-diagram-rpd-users.png)
-Figure 23.0 Component diagram - RPD users
+
+Figure 23.0 Component diagram - RPD users - [original illo file](./illos)
 
 <br>
 
@@ -1333,16 +1355,18 @@ Figure 23.0 Component diagram - RPD users
 <br>
 
 ![Figure 24.0 Component diagram - FSS](./epr-sadd-images/01/figure-24.0-component-diagram-fss.png)
-Figure 24.0 Component diagram - FSS
+
+Figure 24.0 Component diagram - FSS - [original illo file](./illos)
 
 <br>
 
-- Regulator Enrolment
+- Regulator enrolment
 
 <br>
 
 ![Figure 25.0 Component diagram - regulator enrolment](./epr-sadd-images/01/figure-25.0-component-diagram-regulator-enrolment.png)
-Figure 25.0 Component diagram - regulator enrolment
+
+Figure 25.0 Component diagram - regulator enrolment - [original illo file](./illos)
 
 <br>
 
@@ -1368,22 +1392,24 @@ After registering, CS and DP users can submit registration details, upload POM f
 
 <br>
 
-![Figure 26.0 Component diagram](./epr-sadd-images/01/figure-26.0-component-diagram.png)
-Figure 26.0 Component diagram
+![Figure 20.0 Component diagram](./epr-sadd-images/01/figure-20.0-component-diagram.png)
+
+Figure 20.0 Component diagram - [original illo file](./illos)
 
 <br>
 
 Azure SSO handles authentication across all platforms. The objective is secure portal access and accurate PRN data kept in sync between POM files, RE/EX and the PRN SQL database. Users register and submit POM files through RPD. CS and DP users manage their obligations through the portal. PRN data from POM files and RE/EX is processed and stored in the PRN SQL database for compliance reporting.
 
 ### Fees and payments
-The Fees and Payments service calls GOV.UK Pay via the payment façade. GOV.UK Pay creates a payment session and returns a redirect URL to the front end. The Fees and Payments service then retrieves payment status updates and writes them back to the Fees and Payments database.
+The Fees and Payments service calls GOV.UK Pay via the payment façade. GOV.UK Pay creates a payment session and returns a redirect URL to the frontend. The Fees and Payments service then retrieves payment status updates and writes them back to the Fees and Payments database.
 
 **Component Diagram**
 
 <br>
 
 ![Figure 27.0 Component diagram](./epr-sadd-images/01/figure-27.0-component-diagram.png)
-Figure 27.0 Component diagram
+
+Figure 27.0 Component diagram - [original illo file](./illos)
 
 <br>
 
@@ -1400,7 +1426,7 @@ The data contracts detail the schema of the data exchange. The Method name in th
 
 | Process | Direction | Frequency | Description |
 | :--- | :--- | :--- | :--- |
-| DR and CS full loads & delta updates (Upsert Producer) | RPD PRN database → RE/EX (and NPWD for 2025-year) | Daily around midnight. | Handles Upsert Producer functionality for Direct Registrant and Compliance Scheme data. |
+| DR and CS full loads and delta updates (Upsert Producer) | RPD PRN database → RE/EX (and NPWD for 2025-year) | Daily around midnight. | Handles Upsert Producer functionality for Direct Registrant and Compliance Scheme data. |
 | Newly created PRN/PERN document interface (GET PRNs) | RE/EX (and NPWD for 2025-year) → RPD PRN database | Daily around midnight. | Transfers newly created PRN/PERN documents to the RPD PRN database. |
 | Accepted or rejected PRN/PERN document interface (PRN Update) | RPD PRN database → RE/EX (and NPWD for 2025-year) | Returned in real time. | Sends accept/reject status updates for PRN/PERN documents back to RE/EX. |
 | Reconciliation emails (PRN received/sent) | RE/EX ↔ RPD PRN database | Periodically. | Email notifications for reconciliation of PRN documents between RE/EX and the RPD PRN database. |
@@ -1548,7 +1574,7 @@ The interfaces must be run in the correct sequence, as described below. As a pre
 - After the DR or CS accepts or rejects a PRN/PERN, the decision is sent back to RE/EX (or NPWD for 2025-year) in real time.
 
 ## 7.4 Reliability / recovery view
-<!-- Explains any “cross system” referential integrity approaches, in support of understanding approaches to recovery if there is a system-to-system dependency at the data tier. [Cannot assume every interface is RESTful/stateless, cannot assume system to system interfaces are all within DEFRA etc.]  Explores options for recovery if systems need to be brought “back in sync”. -->
+<!-- Explains any “cross system” referential integrity approaches, in support of understanding approaches to recovery if there is a system-to-system dependency at the data tier. [Cannot assume every interface is RESTful/stateless, cannot assume system to system interfaces are all within Defra etc.]  Explores options for recovery if systems need to be brought “back in sync”. -->
 
 Both RE/EX and FSS use REST-based APIs to exchange data with RPD and PayCal respectively. The two endpoints provided for FSS are simple fetch ‘GET’ calls from FSS to PayCal, in the event of any recovery or re-synchronisation, FSS may call either endpoint (for billing data or organisational data) at any time.
 
@@ -1590,7 +1616,8 @@ The RPD software architecture is essentially simple, following a 3-tier architec
 <br>
 
 ![Figure 28.0 Component micro designs](./epr-sadd-images/01/figure-28.0-component-micro-designs.png)
-Figure 28.0 Component micro designs
+
+Figure 28.0 Component micro designs - [original illo file](./illos)
 
 <br>
 
@@ -1715,13 +1742,13 @@ The EPR system is composed of a number of logical layers:
 - **Data Types:** Packaging materials, organisational registrations.
 - **Mechanisms:** Manual entry interfaces and file uploads.
 
-### 9.1.2. Data processing & integration layer
+### 9.1.2. Data processing and integration layer
 - **Functions:** 
     - Standardizes and validates incoming data.
     - Integrates data from multiple sources into a unified format.
     - Prepares data for compliance evaluation and reporting.
 
-### 9.1.3. Reporting & analytics layer
+### 9.1.3. Reporting and analytics layer
 - **Dashboards:** Visualize compliance status, material usage, and environmental impact.
 - **Reports:** Generate submission-ready reports for national authorities and producer responsibility organizations.
 
@@ -1733,12 +1760,13 @@ The EPR system is composed of a number of logical layers:
 
 ### 9.1.5. Supporting capabilities
 - **Cloud Infrastructure:** Scalable and secure hosting environment.
-- **Security & Compliance:** Data encryption, access control, audit trails, and compliance with data protection laws.
+- **Security and Compliance:** Data encryption, access control, audit trails, and compliance with data protection laws.
 
 <br>
 
 ![Figure 29.0 Supporting capabilities](./epr-sadd-images/01/figure-29.0-supporting-capabilities.png)
-Figure 29.0 Supporting capabilities
+
+Figure 29.0 Supporting capabilities - [original illo file](./illos)
 
 <br>
 
@@ -1754,25 +1782,18 @@ The logical data platform is a high-level view of the EPR data assets, independe
 <br>
 
 ![Figure 30.0 Logical data platform](./epr-sadd-images/01/figure-30.0-logical-data-platform.png)
-Figure 30.0 Logical data platform
+
+Figure 30.0 Logical data platform - [original illo file](./illos)
 
 <br>
 
-<Current env landscape, replace w ArchiMate model mapping app to infra>
-
-<br>
-
-![Figure 31.0 Logical data platform - archimate](./epr-sadd-images/01/figure-31.0-logical-data-platform-archimate.png)
-Figure 31.0 Logical data platform - archimate
-
-<br>
 
 ## 9.2 Physical platform architecture
 Physical Platform Architecture
 <!-- One per environment as this reflects “what must be provisioned”.	Develops the logical platform architecture to show how physically the application and data architecture components are distributed onto the physical architecture (in this context a PaaS service represents a logical and physical concept, and the physical view should be used to reflect specific configurations e.g.   to show that a PaaS service is distributed across multiple AZs, and how much “capacity” or “reliability” has been specified for the PaaS service and whether it is replicated and with what latency etc.). For non-cloud aspects or IaaS then the physical views will reflect a more traditional network-oriented diagram. For PaaS, SaaS or *potentially IaaS, any known constraints of the platform should be noted as such and considered as potential debt. For example, if the use of Azure SQL means a certain approach to replication could not be employed this should be noted. -->
 
 ### Core design principles
-At the centre of the architecture is Network Segmentation & Security Layers, which include:
+At the centre of the architecture is Network Segmentation and Security Layers, which include:
 - **Azure Virtual Networks (VNets)**
 - **Network Security Groups (NSGs)**
 - **Azure Firewall / Application Gateway** These components ensure secure communication between services and enforce access control policies.
@@ -1807,12 +1828,13 @@ At the centre of the architecture is Network Segmentation & Security Layers, whi
 - **TST Pool:** Decommissioned. The TST Dedicated SQL Pool (previously DWU1000) was switched off after analysis showed near-zero activity. Test workloads are now served from the Synapse Serverless SQL pool.
 - **Lower Environments (DEV, PRE):** Scheduled automated downsizing to DWU200 on weekend nights, restoring to working-week levels on Monday mornings. This reduces idle costs in environments that have no weekend workloads.
 
-The RPD Data Platform technical architecture below describes how data from EPR source systems is ingested, transformed and made available to downstream applications such as Power BI dashboards and the regulatory front end.
+The RPD Data Platform technical architecture below describes how data from EPR source systems is ingested, transformed and made available to downstream applications such as Power BI dashboards and the regulatory frontend.
 
 <br>
 
 ![Figure 32.0 RPD technical architecture](./epr-sadd-images/01/figure-32.0-rpd-technical-architecture.png)
-Figure 32.0 RPD technical architecture
+
+Figure 32.0 RPD technical architecture - [original illo file](./illos)
 
 <br>
 
@@ -1926,7 +1948,8 @@ Runs every hour between 09:00 and 17:00 on weekdays and Saturdays.
 <br>
 
 ![Figure 33.0 Data flow and integration](./epr-sadd-images/01/figure-33.0-data-flow-and-integration.png)
-Figure 33.0 Data flow and integration
+
+Figure 33.0 Data flow and integration - [original illo file](./illos)
 
 <br>
 
@@ -2004,18 +2027,49 @@ Azure SQL supports online schema changes, read replicas, and geo-replication, al
 # 10. Security architecture
 
 ## 10.1 Security view
-The EPR service is hosted in a Defra Azure tenant. It uses existing security controls from CCOE and other platform services, including the Defra Trade anti-virus solution, and follows established patterns for API gateway management and APIM.
+The EPR service is hosted in a Defra Azure tenant. It uses existing security controls from CCoE and other platform services, including the Defra Trade anti-virus solution, and follows established patterns for API gateway management and APIM.
 
 The diagram below gives an overview of the layered security approach built into the EPR solution design.
 
 <br>
 
 ![Figure 34.0 Solution security overview](./epr-sadd-images/01/figure-34.0-solution-security-overview.png)
-Figure 34.0 Solution security overview
+Figure 34.0 Solution security overview - [original illo file](./illos)
 
 <br>
 
-For ease of viewing the above diagram and descriptions, the following embedded html view has also been included:
+**1.** User connects to the service via their browser over encrypted comms using HTTPS.
+
+Authentication mechanism is via Azure B2C and any unauthenticated requests are redirected to the Azure B2C frontend. Azure B2C returns an ID token, an access token and a refresh token. The frontend application validates the token then it's passed it to the facade layer granting access to the service. More detail in [ADR-039: Authentication and Authorization consolidation](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4415455473/ADR-039+Authentication+and+Authorization+consolidation)
+
+Secure headers ensure limitations of attack surface e.g. cross-site scripting. Secure transport protocols are also defined here and aligned to OWASP recommendations. More detail in [ADR-008: Security Headers](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4197351701/ADR-008+Security+Headers)
+
+**2.** Azure Firewall protecting Azure tenant. 
+
+**3.** External traffic is via an application gateway managed by CCoE with WAF (Web Application Firewall)-enabled (OWASP - Open Web Application Security Project - rules). Inbound access is allowed to trusted locations and devices.  By default, Posit Products accepts connections post-443 for HTTPS, the TLS standard for the solution is 1.2.
+
+**4.** Microsoft Defender solution is enabled to monitor and alert on security issues.
+
+**5.** The Redis Cache is transitory and non-persistent and primarily for user-session data. All persistent portal data services are configured to be geo-resilient - primary region is UK South, secondary region is UK West.
+
+**6.** Network Security Groups (NSGs) act as virtual firewalls, filtering and controlling network traffic to and from resources within an Azure virtual network. 
+
+**7.** Use of the existing Trade anti-virus solution for file uploads into EPR. More detail in [ADR-023: Anti-Virus Service](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4318167185/ADR-023+Anti-Virus+Service)
+
+**8.** API Manager (APIM) is a CCoE (Cloud Centre of Excellence)-patterned deployment providing additional protection for APIs. More details in: 
+* AZR Cloud Patterns APIM - Overview
+* APIM - 10.9 Authentication_Authorisation Model - Human Actors - Defra Trade - Confluence
+* [AZR Cloud Patterns APIM (Option 1)](https://eaflood.atlassian.net/wiki/spaces/MPA/pages/3972137106/AZR+Cloud+Patterns+APIM+Option+1) - Major Projects Architecture - Confluence
+
+**9.** Protective monitoring for the EPR service is in place by default and logs ingested into Defra's SIEM (Security Information and Event Management) using Azure Sentinel. App-level monitoring is via App Insights. More detail in [ADR-028: Protective Monitoring Logging](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4334060015/ADR-028+Protective+Monitoring+Logging)
+
+**10.** Power BI reports for regulators. 
+* [Power BI Reporting](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4858151208/Power+BI+Reporting) - Collections and Packaging Reforms - Confluence
+* [EPR Regulator reporting](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/5684985857/EPR+Regulator+reporting+-+Power+BI+reports) - Power BI reports - Collections and Packaging Reforms - Confluence
+
+**11.** For DBs, data at rest is encrypted in place using FIPS 140-2-compliant standards using CryptoMod to generate AES-256 encryption keys.
+
+<br>
 
 ## 10.2 Security roles and responsibilities view
 Security roles and responsibilities from project through to live are defined in the Secure by Design RACI matrix below, based on the HMG Secure by Design roles and responsibilities framework.
@@ -2023,14 +2077,15 @@ Security roles and responsibilities from project through to live are defined in 
 <br>
 
 ![Figure 35.0 Secure by design RACI](./epr-sadd-images/01/figure-35.0-secure-by-design-raci.png)
-Figure 35.0 EPR RACI Matrix
+
+Figure 35.0 EPR RACI Matrix - [original illo file](./illos)
 
 <br>
 
 For ease of viewing the above table and descriptions, the following embedded excel spreadsheet view has also been included:
 
 ## 10.3 Information handling / classification view
-Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **[2024_Data Sharing Agreement](https://defra.sharepoint.com/:f:/r/teams/Team1478/Digital/EPR Digital 2022/Sharing with Regulators (External)/Data Sharing_Processing Agreement Working folder/2024_Data Sharing Agreement?csf=1&web=1&e=0VAtGh)**.
+Data is classified as OFFICIAL with handling instructions up to OFFICIAL-SENSITIVE. Further detail on data types is in the Data Privacy Impact Assessment (DPIA) and the Data Sharing Agreement (DSA), documented in **[2024_Data Sharing Agreement](https://defra.sharepoint.com/teams/Team1478/Digital/Forms/AllItems.aspx?csf=1&web=1&e=0VAtGh&CID=8cbdb578-a144-4498-998a-94b48ec58db0&startedResponseCatch=true&FolderCTID=0x012000B01FA3F25909244F852CC227917C8F78&id=%2Fteams%2FTeam1478%2FDigital%2FEPR+Digital+2022%2FSharing+with+Regulators+%28External%29%2FData+Sharing_Processing+Agreement+Working+folder%2F2024_Data+Sharing+Agreement)
 
 ## 10.4 Role, actor and function matrix
 The current role-based access control (RBAC) view is shown in the table below. Further detail on the account management process is in [Account Management theme](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4298506325/Account+Management+theme#Role-permissions).
@@ -2060,15 +2115,15 @@ The current role-based access control (RBAC) view is shown in the table below. F
 
 
 ## 10.5 Leveraged security components
-Azure Firewall is deployed across Defra Azure tenants as part of the standard CCOE architectural pattern. The design follows the core design principles in section 9.2, including network segmentation and security layers.
+Azure Firewall is deployed across Defra Azure tenants as part of the standard CCoE architectural pattern. The design follows the core design principles in section 9.2, including network segmentation and security layers.
 
 ### 10.5.1 Web application firewall
 A WAF is deployed as part of the application gateway, which sits behind the Azure tenant firewall. This is shown in section 10.1 (item 3).
 
-> **[v1.3 change — ADR-138 DRAFT]** ADR-138 proposes migrating the pEPR WAF from Silverline F5 to Azure Front Door WAF, in line with a CCoE programme-wide migration away from Silverline F5 licences. During testing, a B2C compatibility issue was identified: the Azure Front Door configuration passes hostname (rather than domain name) in the B2C Return URI, which fails validation because the hostname is not registered in the B2C application config. This behaviour differs from the existing Application Gateway + Silverline F5 chain, which correctly resolves the domain URL. Resolving this for pEPR is complex because the service has multiple frontends, making a simple domain-force workaround insufficient. ADR-138 remains in **DRAFT** status pending a resolution. See [ADR-138](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6009651288) on Confluence.
+> **[v1.3 change — ADR-138 DRAFT]** ADR-138 proposes migrating the pEPR WAF from Silverline F5 to Azure Front Door WAF, in line with a CCoE programme-wide migration away from Silverline F5 licences. During testing, a B2C compatibility issue was identified: the Azure Front Door configuration passes hostname (rather than domain name) in the B2C Return URI, which fails validation because the hostname is not registered in the B2C application config. This behaviour differs from the existing Application Gateway + Silverline F5 chain, which correctly resolves the domain URL. Resolving this for pEPR is complex because the service has multiple frontends, making a simple domain-force workaround insufficient. ADR-138 remains in **DRAFT** status pending a resolution. See [ADR-138: pEPR Silverline F5 Web Application Firewall replacement](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6009651288) on Confluence.
 
 ### 10.5.2 Protective monitoring
-Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). Further detail is in [ADR-028: Protective Monitoring Logging(https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4334060015/ADR-028+Protective+Monitoring+Logging) on Confluence.
+Protective monitoring is in place. Defra’s SOC monitoring team receives logs into the central SIEM tool (Sentinel). More detail in [ADR-028: Protective Monitoring Logging](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4334060015/ADR-028+Protective+Monitoring+Logging) on Confluence.
 
 ## 10.6 Bespoke security components
 Security headers follow OWASP best practice to limit cross-site scripting attacks, as described in [ADR-008: Security Headers](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4197351701/ADR-008+Security+Headers) on Confluence.
@@ -2077,7 +2132,7 @@ Security headers follow OWASP best practice to limit cross-site scripting attack
 All keys are stored in Azure Key Vault (see section 14.4).
 
 ## 10.8 Malware detection / prevention
-All files uploaded to the EPR service are anti-virus scanned to prevent infected files from being stored and potentially downloaded. EPR uses the existing Defra Trade anti-virus solution. Further detail is in [ADR-023: Anti-Virus Service](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4318167185/ADR-023+Anti-Virus+Service) on Confluence.
+All files uploaded to the EPR service are anti-virus scanned to prevent infected files from being stored and potentially downloaded. EPR uses the existing Defra Trade anti-virus solution. More detail in [ADR-023: Anti-Virus Service](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/4318167185/ADR-023+Anti-Virus+Service) on Confluence.
 
 ## 10.9 Authentication / authorisation model – human actors
 Users authenticate via Azure AD B2C. On first access, they are redirected to Azure AD B2C using OpenID Connect. After successful authentication they are redirected back to the application with an authorisation code, which is exchanged for ID, access and refresh tokens using the standard OpenID Connect authorisation code flow.
@@ -2107,7 +2162,7 @@ Details on GitHub account setup and security authentication (including 2FA) are 
 <!-- Repos and repo management; Tooling; Version control; Branching; CD/CI method/guide; Pipeline flow/execute and config guide; s/w tech stack per service/component (frameworks, widgets, JVM etc.); Runbooks (deployment scripts); Coding standards. -->
 
 ### Repositories
-Code is synchronised from developer workstations or Azure development environments to GitHub [Defra repositories](https://github.com/orgs/DEFRA/repositories?q=epr&type=all&language=&sort=). Repositories were maintained in Azure DevOps (ADO) until the end of 2023, then migrated to GitHub in early 2024. The EPR-Data repository was not migrated because migration requires a period with no active changes across any branch — a window that has not been available given the pace of activity in 2024–2025. All code is publicly readable, following GDS guidelines.
+Code is synchronised from developer workstations or Azure development environments to GitHub [Defra repositories](https://github.com/orgs/Defra/repositories?q=epr&type=all&language=&sort=). Repositories were maintained in Azure DevOps (ADO) until the end of 2023, then migrated to GitHub in early 2024. The EPR-Data repository was not migrated because migration requires a period with no active changes across any branch — a window that has not been available given the pace of activity in 2024–2025. All code is publicly readable, following GDS guidelines.
 
 ### Tooling
 This is the tooling set for RPD:
@@ -2164,7 +2219,8 @@ Test data is currently created manually by running prerequisite processes — fo
 <br>
 
 ![Figure 36.0 Testing](./epr-sadd-images/01/figure-36.0-testing.png)
-Figure 36.0 Testing
+
+Figure 36.0 Testing - [original illo file](./illos)
 
 <br>
 
@@ -2191,8 +2247,9 @@ On successful PRE testing, code is promoted to **PRD** with the accompanying go-
 
 <br>
 
-![Figure 31.0 Logical data platform - archimate](./epr-sadd-images/01/figure-31.0-logical-data-platform-archimate.png)
-Figure 31.0 Logical data platform - archimate
+![Figure 31.0 Logical data platform](./epr-sadd-images/01/figure-31.0-logical-data-platform.png)
+
+Figure 31.0 Logical data platform - [original illo file](./illos)
 
 <br>
 
@@ -2348,7 +2405,7 @@ Recurring operational activities that must be scheduled and coordinated to maint
 ### Key cyclic activities
 | Activity | Frequency | Description | Coordination Required |
 | :--- | :--- | :--- | :--- |
-| Cryptographic Key Rotation | Annually | All encryption keys stored in Azure Key Vault must be rotated annually in line with DEFRA security policy. | Yes – with third-party data providers and internal security teams. |
+| Cryptographic Key Rotation | Annually | All encryption keys stored in Azure Key Vault must be rotated annually in line with Defra security policy. | Yes – with third-party data providers and internal security teams. |
 | Certificate Renewal | 90 days (Let’s Encrypt) or Annually (CA-issued) | SSL/TLS certificates for public-facing APIs and internal services must be renewed before expiry. | Yes – especially for services integrated with GOV.UK Notify, FSS, and LAPS. |
 | RBAC and Access Review | Quarterly | Role-based access control (RBAC) assignments are reviewed to ensure least-privilege access. | Yes – with platform owners and security operations. |
 | Backup and Restore Testing | Biannually | DR playbooks and backup integrity are tested to validate recovery objectives. | Yes – with Live Service and platform teams. |
@@ -2414,7 +2471,7 @@ Block/table 5 on the [List of components in RPD](https://eaflood.atlassian.net/w
 All keys are stored in Azure Key Vault. The CCoE pattern requires all secrets to have expiry dates and be rotated regularly. Key Vault is also currently used to store some application configuration settings that are not secrets — ideally these should be stored elsewhere.
 
 ## 14.5 Built software components
-All built software components are held in the [Defra GitHub repositories](https://github.com/orgs/DEFRA/repositories?q=epr&type=all&language=&sort=). One additional repository, EPR-Data, remains in Azure DevOps.
+All built software components are held in the [Defra GitHub repositories](https://github.com/orgs/Defra/repositories?q=epr&type=all&language=&sort=). One additional repository, EPR-Data, remains in Azure DevOps.
 
 ## 14.6 Non-built software / COTS
 The closest thing to COTS in RPD and PayCal is Power BI, used for reports and data visualisation. COTS used in FSS — such as ServiceNow, Stripe, Amazon Connect and Sequence Shift — are outside the scope of RPD and PayCal.
@@ -2526,8 +2583,8 @@ Risks – e.g. “lack of xxx means that yyy”; Assumptions - ensure sensitivit
 
 > **[v1.2 change — ADR-141]** ADR-141 entry added.
 
-- **ADR-139:** RE/EX RREPW Initial Data Load. Approved at SDA 16 December 2025. Covers the solution to populate the RREPW operational data store ahead of service launch. Contingency form data (submitted via Defra Forms / Gov.Notify during the pre-launch period) was transformed programmatically into the RREPW operational data model and loaded via a JSON editor in the Admin UI, under controls including dual-control editing, mandatory change logging, full audit trails and daily reconciliation reports. 380 organisations across four regulatory agencies were in scope. See [ADR-139](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6215729153) on Confluence.
-- **ADR-144:** RE/EX RREPW Admin UI JSON Editor — Extended Access for Post-Launch Data Fixes. **In Progress.** Extends the tactical JSON editor (established under ADR-139) beyond the initial data correction window to cover ongoing manual corrections to Organisation and Registration data until a strategic Regulator Portal self-service solution is available. Expected decommission: end of July–September 2026 (high-volume Regulator self-service Q2; low-volume self-service Q3), depending on roadmap prioritisation. See [ADR-144](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6451921655) on Confluence.
+- **ADR-139:** RE/EX RREPW Initial Data Load. Approved at SDA 16 December 2025. Covers the solution to populate the RREPW operational data store ahead of service launch. Contingency form data (submitted via Defra Forms / GOV.UK Notify during the pre-launch period) was transformed programmatically into the RREPW operational data model and loaded via a JSON editor in the Admin UI, under controls including dual-control editing, mandatory change logging, full audit trails and daily reconciliation reports. 380 organisations across four regulatory agencies were in scope. See [ADR-139](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6215729153) on Confluence.
+- **ADR-144:** RE/EX RREPW Admin UI JSON Editor — Extended Access for Post-Launch Data Fixes. **In Progress.** Extends the tactical JSON editor (established under ADR-139) beyond the initial data correction window to cover ongoing manual corrections to Organisation and Registration data until a strategic regulator portal self-service solution is available. Expected decommission: end of July–September 2026 (high-volume regulator self-service Q2; low-volume self-service Q3), depending on roadmap prioritisation. See [ADR-144](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6451921655) on Confluence.
 
 > **[v1.3 change]** ADR-139 and ADR-144 entries added.
 
@@ -2567,13 +2624,13 @@ Risks – e.g. “lack of xxx means that yyy”; Assumptions - ensure sensitivit
 
 ### Obligations / CSoC
 
-- **ADR-146:** Certificates and Statements of Compliance (CSoC). **In Review — no formal decision at time of writing.** Recommended decision: Option 3 (CDP) — build all components on the Core Delivery Platform. This introduces two new frontend applications (an Obligations frontend for producers and compliance schemes, and a Regulator frontend) and a new CSoC API, all on CDP. Authentication continues via Azure B2C, with users redirected between the existing Azure portal and the new CDP components. New CSoC data is stored in the CDP API; a new Synapse pipeline extracts it to the Data Lake to support the public register. Concerns raised at the 26 March 2026 Architect Roundtable include: absence of formal Service Owner sign-off on CDP as the 3R analysis outcome; lack of objective cost/complexity comparison between Option 1 (Azure-only, quickest) and Option 3; and the risk that building in CDP now may not align with the staged migration pattern proposed by the 3R workstream.
+- **ADR-146:** Certificates and Statements of Compliance (CSoC). **In Review — no formal decision at time of writing.** Recommended decision: Option 3 (CDP) — build all components on the Core Delivery Platform. This introduces two new frontend applications (an Obligations frontend for producers and compliance schemes, and a regulator frontend) and a new CSoC API, all on CDP. Authentication continues via Azure B2C, with users redirected between the existing Azure portal and the new CDP components. New CSoC data is stored in the CDP API; a new Synapse pipeline extracts it to the Data Lake to support the public register. Concerns raised at the 26 March 2026 Architect Roundtable include: absence of formal Service Owner sign-off on CDP as the 3R analysis outcome; lack of objective cost/complexity comparison between Option 1 (Azure-only, quickest) and Option 3; and the risk that building in CDP now may not align with the staged migration pattern proposed by the 3R workstream.
 
 > **[v1.2 change — ADR-146]** New Obligations/CSoC subsection added.
 
 ### LAPs (Local Authority Packaging Service)
 
-- **ADR-136.1:** LAPs MI & Reporting — Adjustment. Accepted, 18 March 2026. Adjusts the FSS data ingestion approach for LAPs MI reporting: FSS/ServiceNow sends automated weekly emails (6 CSV files) to a shared mailbox; a Scheme Administrator manually uploads these to a SharePoint location; Power BI connects to SharePoint via native connector and refreshes daily. A visual indicator of the FSS file update date is included in the report. This is an intermediate solution pending strategic FSS integration with GIO. See [ADR-136.1](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6465651966) on Confluence.
+- **ADR-136.1:** LAPs MI & Reporting — Adjustment. Accepted, 18 March 2026. Adjusts the FSS data ingestion approach for LAPs MI reporting: FSS/ServiceNow sends automated weekly emails (6 CSV files) to a shared mailbox; a Scheme administrator manually uploads these to a SharePoint location; Power BI connects to SharePoint via native connector and refreshes daily. A visual indicator of the FSS file update date is included in the report. This is an intermediate solution pending strategic FSS integration with GIO. See [ADR-136.1](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6465651966) on Confluence.
 - **ADR-147:** LAPs GDS Reporting. Accepted, due 1 April 2026. Covers the technical approach for meeting the four mandatory GDS KPIs (Completion Rate, Cost per Transaction, Digital Uptake, Customer Satisfaction). LAPs audit log data (covering completion rate, digital uptake and cost per transaction) is ingested via GIO in line with ADR-136.1. Customer satisfaction and cost data are collected via Defra Forms, published to CDP queues, consumed by LAPs backend listeners and incorporated into the audit log flow before passing to GIO and Power BI. See [ADR-147](https://eaflood.atlassian.net/wiki/spaces/MWR/pages/6466699373) on Confluence.
 - **ADR-TBD (Cost Data Storage for LAPs):** In Progress. Proposes centralised storage of LAPs cost data from multiple heterogeneous sources (cloud infrastructure costs, vendor/supplier reports, internal finance systems) into a single authoritative location to support Power BI reporting, mirroring the FSS data ingestion pattern. Decision pending.
 - **ADR-TBD (Feedback Collection Platform & Data Ingestion):** In Progress. Evaluates four options for LAPs user feedback collection: Qualtrics, GOV.UK standard feedback page, GOV.UK Forms and Defra Forms. Decision pending.
@@ -2598,7 +2655,7 @@ Reviewed and endorsed by key stakeholders and/or the Solution Design Authority -
 <br>
 
 ![Figure 40.0 Governance approval](./epr-sadd-images/01/figure-40.0-governance-approval.png)
-Figure 40.0 Governance approval
+Figure 40.0 Governance approval - [original illo file](./illos)
 
 <br>
 
